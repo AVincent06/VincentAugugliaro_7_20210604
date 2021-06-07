@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 /* components */
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SigninComponent } from './layout/signin/signin.component';
 import { SignupComponent } from './layout/signup/signup.component';
@@ -18,6 +17,10 @@ import { SubmitComponent } from './layout/submit/submit.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { HeaderNavComponent } from './layout/header-nav/header-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent },
@@ -33,13 +36,13 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     FooterComponent,
     SigninComponent,
     SignupComponent,
     NewsComponent,
     ContactsComponent,
-    SubmitComponent
+    SubmitComponent,
+    HeaderNavComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -47,7 +50,10 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
