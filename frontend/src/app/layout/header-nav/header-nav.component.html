@@ -4,27 +4,31 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="false"
       position="end">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar><mat-icon>menu</mat-icon>&nbsp;Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="news">Actualités</a>
-      <a mat-list-item routerLink="submit">Poster un message</a>
-      <a mat-list-item routerLink="contacts">Contacts</a>
+      <a mat-list-item routerLink="news"><mat-icon color="accent">home</mat-icon>Accueil</a>
+      <a mat-list-item routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
+      <a mat-list-item routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
+      <a mat-list-item routerLink="submit"><mat-icon color="accent">post_add</mat-icon>Publier</a>
+      <a mat-list-item routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <span>Groupomania</span>
+    <mat-toolbar>
+      <h1 class="brand">Groupomania</h1>
       <span class="spacer"></span>
       <span *ngIf="!(isHandset$ | async)">
-        <a routerLink="news">Actualités</a>
-        <a routerLink="submit">Poster un message</a>
-        <a routerLink="contacts">Contacts</a>
-      </span>
+        <a routerLink="news"><mat-icon color="accent">home</mat-icon>Accueil</a>
+        <a routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
+        <a routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
+        <a routerLink="submit"><mat-icon color="accent">post_add</mat-icon>Publier</a>
+        <a routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
+      </span><!--sur les boutons : [routerLink]="['/news']" routerLinkActive="mat-accent"-->
       <button
         type="button"
         aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
+        mat-mini-fab
+        (click)="drawer.toggle()" 
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
