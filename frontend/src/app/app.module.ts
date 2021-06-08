@@ -12,6 +12,8 @@ import { SignupComponent } from './layout/signup/signup.component';
 import { NewsComponent } from './layout/news/news.component';
 import { ContactsComponent } from './layout/contacts/contacts.component';
 import { SubmitComponent } from './layout/submit/submit.component';
+import { ProfileComponent } from './layout/profile/profile.component';
+import { NotifComponent } from './layout/notif/notif.component';
 
 /* material */
 import {MatButtonModule} from '@angular/material/button';
@@ -25,6 +27,8 @@ import { MatListModule } from '@angular/material/list';
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'news', component: NewsComponent },
+  { path: 'notif', component: NotifComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'submit', component: SubmitComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
@@ -42,7 +46,9 @@ const appRoutes: Routes = [
     NewsComponent,
     ContactsComponent,
     SubmitComponent,
-    HeaderNavComponent
+    HeaderNavComponent,
+    ProfileComponent,
+    NotifComponent
   ],
   imports: [
     BrowserAnimationsModule,
