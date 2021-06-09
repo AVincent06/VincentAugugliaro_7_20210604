@@ -5,7 +5,7 @@
       [opened]="false"
       position="end">
     <mat-toolbar><mat-icon>menu</mat-icon>&nbsp;Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list (click)="drawer.close()">
       <a mat-list-item routerLink="news"><mat-icon color="accent">home</mat-icon>Accueil</a>
       <a mat-list-item routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
       <a mat-list-item routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
@@ -14,16 +14,35 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar>
-      <h1 class="brand">Groupomania</h1>
+    <mat-toolbar><!--sur les boutons : routerLinkActive="mat-accent"-->
+      <a routerLink="news" class="brand"><span>Groupomania</span></a>
       <span class="spacer"></span>
       <span *ngIf="!(isHandset$ | async)">
-        <a routerLink="news"><mat-icon color="accent">home</mat-icon>Accueil</a>
-        <a routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
-        <a routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
-        <a routerLink="submit"><mat-icon color="accent">post_add</mat-icon>Publier</a>
-        <a routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
-      </span><!--sur les boutons : [routerLink]="['/news']" routerLinkActive="mat-accent"-->
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/notif']">
+          <mat-icon>notifications</mat-icon>&nbsp;Notifications
+        </button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/submit']">
+          <mat-icon>post_add</mat-icon>&nbsp;Publier
+        </button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/contacts']">
+          <mat-icon>people</mat-icon>&nbsp;Contacts
+        </button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/profile']">
+          <mat-icon>face</mat-icon>&nbsp;Profil
+        </button>
+      </span>
       <button
         type="button"
         aria-label="Toggle sidenav"

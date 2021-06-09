@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-header-nav',
   templateUrl: './header-nav.component.html',
@@ -17,5 +18,4 @@ export class HeaderNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
-
 }

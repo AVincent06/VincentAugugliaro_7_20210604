@@ -8,13 +8,23 @@
 }
 /* ---------------------------------------------------------------------------- */
 .brand { 
-  font-family: 'nevisbold', Arial, sans-serif;
-  font-size: 2rem; 
+  color: unset;
+  text-decoration: none;
+  & span {
+    font-family: 'nevisbold', Arial, sans-serif;
+    font-size: 2rem;
+  }
 }
 
 mat-nav-list {
   & mat-icon {
     margin-right: 10px;
+  }
+}
+
+mat-toolbar {
+  & button {
+    margin-left: 10px;
   }
 }
 
