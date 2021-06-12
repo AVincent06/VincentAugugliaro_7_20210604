@@ -15,6 +15,7 @@ export class SignupComponent implements OnInit {
     password : new FormControl('')
   });
   errorMessage: string = '';
+  hide: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
