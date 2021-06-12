@@ -1,13 +1,41 @@
-<h1>Créer un compte</h1>
-<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email">
-    </div>
-    <div>
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" formControlName="password">
-    </div>
-    <button type="submit" [disabled]="signUpForm.invalid">Créer mon compte</button>
-</form>
-<p color="warn">{{ errorMessage }}</p>
+<div class="in-the-middle">
+    <mat-card class="sign-card">
+        <mat-card-header>
+            <mat-card-title>Créer un compte</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+                <p>
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="email" placeholder="Ex. mon-adresse@exemple.fr">
+                        <mat-error *ngIf="signUpForm.get('email')!.hasError('email') && !signUpForm.get('email')!.hasError('required')">
+                        Veuillez saisir une adresse email valide!
+                        </mat-error>
+                        <mat-error *ngIf="signUpForm.get('email')!.hasError('required')">
+                        l'email est requis!
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <mat-label>Mot de passe</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                        <button 
+                            mat-icon-button 
+                            matSuffix 
+                            (click)="hide = !hide" 
+                            [attr.aria-label]="'Hide password'" 
+                            [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <button mat-raised-button type="submit" [disabled]="signUpForm.invalid" color="accent">Créer mon compte</button>
+                </p>
+            </form>
+            <p color="warn">{{ errorMessage }}</p>    
+        </mat-card-content>
+    </mat-card>
+</div>
