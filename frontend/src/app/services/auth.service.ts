@@ -8,6 +8,7 @@ export class AuthService {
   constructor() { }
 
   createNewUser(email: string, password: string): boolean {
+    console.log('email: '+email+' , password: '+password);
     return true;
   }
 

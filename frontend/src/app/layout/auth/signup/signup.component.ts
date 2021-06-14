@@ -12,10 +12,12 @@ export class SignupComponent implements OnInit {
 
   signUpForm = new FormGroup({  
     email : new FormControl(''),
-    password : new FormControl('')
+    password : new FormControl(''),
+    passwordcheck : new FormControl('')
   });
   errorMessage: string = '';
   hide: boolean = true;
+  hide2: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -28,7 +30,8 @@ export class SignupComponent implements OnInit {
   initForm(): void {
     this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]{12,}')]]
+      password: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]{12,}')]],
+      passwordcheck: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]{12,}')]]
     })
   }
 
