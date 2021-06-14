@@ -9,6 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ContactsComponent } from './layout/contacts/contacts.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { ForgotComponent } from './layout/auth/forgot/forgot.component';
 import { HeaderNavComponent } from './layout/header-nav/header-nav.component';
 import { NewsComponent } from './layout/news/news.component';
 import { NotifComponent } from './layout/notif/notif.component';
@@ -35,6 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent },
+  { path: 'forgot', component: ForgotComponent },
   { path: 'news', component: NewsComponent },
   { path: 'notif', component: NotifComponent },
   { path: 'profile', component: ProfileComponent },
@@ -49,15 +51,16 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    ContactsComponent,
     FooterComponent,
+    ForgotComponent,
+    HeaderNavComponent,
+    NewsComponent,
+    NotifComponent,
+    ProfileComponent,
     SigninComponent,
     SignupComponent,
-    NewsComponent,
-    ContactsComponent,
-    SubmitComponent,
-    HeaderNavComponent,
-    ProfileComponent,
-    NotifComponent
+    SubmitComponent
   ],
   imports: [
     BrowserAnimationsModule,
