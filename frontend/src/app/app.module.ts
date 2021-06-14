@@ -17,6 +17,8 @@ import { SigninComponent } from './layout/auth/signin/signin.component';
 import { SignupComponent } from './layout/auth/signup/signup.component';
 import { SubmitComponent } from './layout/submit/submit.component';
 
+/* directives */
+
 /* services */
 import { AuthService } from './services/auth.service';
 
