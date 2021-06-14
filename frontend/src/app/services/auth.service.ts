@@ -13,10 +13,12 @@ export class AuthService {
   }
 
   signInUser(email: string, password: string): boolean {
+    console.log('email: '+email+' , password: '+password);
     return true;
   }
 
   signOutUser(): boolean {
+    console.log('Logout');
     return true;
   }
 
