@@ -33,6 +33,7 @@ import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/mat
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FourOhFourComponent } from './layout/four-oh-four/four-oh-four.component';
 
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent },
@@ -44,8 +45,8 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'submit', component: SubmitComponent },
   { path: '', component: NewsComponent },
-  //{ path: 'not-found', component: FourOhFourComponent },
-  //{ path: '**', redirectTo: '/not-found' }
+  { path: 'not-found', component: FourOhFourComponent },
+  { path: '**', redirectTo: '/not-found' }
 ];
 
 @NgModule({
@@ -60,7 +61,8 @@ const appRoutes: Routes = [
     ProfileComponent,
     SigninComponent,
     SignupComponent,
-    SubmitComponent
+    SubmitComponent,
+    FourOhFourComponent
   ],
   imports: [
     BrowserAnimationsModule,
