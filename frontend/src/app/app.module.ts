@@ -10,17 +10,20 @@ import { AppComponent } from './app.component';
 import { ContactsComponent } from './layout/contacts/contacts.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { ForgotComponent } from './layout/auth/forgot/forgot.component';
+import { FourOhFourComponent } from './layout/four-oh-four/four-oh-four.component';
 import { HeaderNavComponent } from './layout/header-nav/header-nav.component';
 import { NewsComponent } from './layout/news/news.component';
 import { NotifComponent } from './layout/notif/notif.component';
 import { ProfileComponent } from './layout/profile/profile.component';
 import { SigninComponent } from './layout/auth/signin/signin.component';
+import { SignoutComponent } from './layout/auth/signout/signout.component';
 import { SignupComponent } from './layout/auth/signup/signup.component';
 import { SubmitComponent } from './layout/submit/submit.component';
 
 /* directives */
 
 /* services */
+import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 
 /* material */
@@ -33,18 +36,18 @@ import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/mat
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FourOhFourComponent } from './layout/four-oh-four/four-oh-four.component';
 
 const appRoutes: Routes = [
-  { path: 'contacts', component: ContactsComponent },
+  { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuardService] },
   { path: 'forgot', component: ForgotComponent },
-  { path: 'news', component: NewsComponent },
-  { path: 'notif', component: NotifComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'news', component: NewsComponent, canActivate: [AuthGuardService] },
+  { path: 'notif', component: NotifComponent, canActivate: [AuthGuardService] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'signin', component: SigninComponent },
+  { path: 'signout', component: SignoutComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'submit', component: SubmitComponent },
-  { path: '', component: NewsComponent },
+  { path: 'submit', component: SubmitComponent, canActivate: [AuthGuardService] },
+  { path: '', component: NewsComponent, canActivate: [AuthGuardService] },
   { path: 'not-found', component: FourOhFourComponent },
   { path: '**', redirectTo: '/not-found' }
 ];
@@ -55,14 +58,15 @@ const appRoutes: Routes = [
     ContactsComponent,
     FooterComponent,
     ForgotComponent,
+    FourOhFourComponent,
     HeaderNavComponent,
     NewsComponent,
     NotifComponent,
     ProfileComponent,
     SigninComponent,
+    SignoutComponent,
     SignupComponent,
-    SubmitComponent,
-    FourOhFourComponent
+    SubmitComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -81,6 +85,7 @@ const appRoutes: Routes = [
     FormsModule
   ],
   providers: [
+    AuthGuardService,
     AuthService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'}}
   ],
