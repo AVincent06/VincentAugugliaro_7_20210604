@@ -11,6 +11,7 @@
       <a mat-list-item routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
       <a mat-list-item routerLink="submit"><mat-icon color="accent">post_add</mat-icon>Publier</a>
       <a mat-list-item routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
+      <a mat-list-item routerLink="" (click)="signout()"><mat-icon color="accent">logout</mat-icon>Quitter</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -18,6 +19,13 @@
       <a routerLink="news" class="brand"><span>Groupomania</span></a>
       <span class="spacer"></span>
       <span *ngIf="!(isHandset$ | async)">
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]=""
+          (click)="signout()">
+          <mat-icon>logout</mat-icon>&nbsp;Quitter
+        </button>
         <button 
           mat-raised-button 
           color="accent" 

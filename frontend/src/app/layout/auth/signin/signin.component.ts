@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 
 export class SigninComponent implements OnInit {
+
   signInForm = new FormGroup({  
     email : new FormControl(''),
     password : new FormControl('')
@@ -36,11 +37,14 @@ export class SigninComponent implements OnInit {
     const email = this.signInForm.get('email')!.value;
     const password = this.signInForm.get('password')!.value;
     
-    if(this.authService.signInUser(email, password)) {
-      this.router.navigate(['/news']);
-    } else {
-      this.errorMessage = "Erreur";
-    }
+    this.authService.signInUser(email, password).subscribe(data =>{
+      if(data) {
+        this.router.navigate(['news']);
+      } else {
+        this.router.navigate(['signin']);
+        this.errorMessage = "Erreur";
+      }
+    });
   }
 
 }
