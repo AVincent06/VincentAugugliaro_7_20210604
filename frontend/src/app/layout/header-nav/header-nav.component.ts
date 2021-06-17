@@ -18,6 +18,7 @@ export class HeaderNavComponent {
       map(result => result.matches),
       shareReplay()
     );
+  isLoggedIn: boolean= this.authService.isUserLoggedIn();
 
   constructor(private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
