@@ -18,11 +18,13 @@ export class HeaderNavComponent {
       map(result => result.matches),
       shareReplay()
     );
-  isLoggedIn: boolean= this.authService.isUserLoggedIn();
+
+  isLoggedIn: boolean = false; 
 
   constructor(private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
               private router: Router) {
+    this.authService.isUserLoggedIn().subscribe((isLog: boolean) => this.isLoggedIn = isLog); // code pour l'observable de la session
   }
 
   signout() {
