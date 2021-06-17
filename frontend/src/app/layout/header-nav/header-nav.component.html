@@ -5,7 +5,9 @@
       [opened]="false"
       position="end">
     <mat-toolbar><mat-icon>menu</mat-icon>&nbsp;Menu</mat-toolbar>
-    <mat-nav-list (click)="drawer.close()">
+
+    <!-- Menu SignIn -->
+    <mat-nav-list *ngIf="isLoggedIn" (click)="drawer.close()">
       <a mat-list-item routerLink="news"><mat-icon color="accent">home</mat-icon>Accueil</a>
       <a mat-list-item routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
       <a mat-list-item routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
@@ -13,12 +15,21 @@
       <a mat-list-item routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
       <a mat-list-item routerLink="" (click)="signout()"><mat-icon color="accent">logout</mat-icon>Quitter</a>
     </mat-nav-list>
+
+    <!-- Menu SignOut -->
+    <mat-nav-list *ngIf="!isLoggedIn" (click)="drawer.close()">
+      <a mat-list-item routerLink="signin"><mat-icon color="accent">login</mat-icon>Se connecter</a>
+      <a mat-list-item routerLink="signup"><mat-icon color="accent">history_edu</mat-icon>S'inscrire</a>
+    </mat-nav-list>
+
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar><!--sur les boutons : routerLinkActive="mat-accent"-->
       <a routerLink="news" class="brand"><span>Groupomania</span></a>
       <span class="spacer"></span>
-      <span *ngIf="!(isHandset$ | async)">
+
+      <!-- Menu SignIn -->
+      <span *ngIf="!(isHandset$ | async) &&  isLoggedIn">
         <button 
           mat-raised-button 
           color="accent" 
@@ -51,6 +62,23 @@
           <mat-icon>face</mat-icon>&nbsp;Profil
         </button>
       </span>
+      
+      <!-- Menu SignOut -->
+      <span *ngIf="!(isHandset$ | async) &&  !isLoggedIn">
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/signup']">
+          <mat-icon>history_edu</mat-icon>&nbsp;S'inscrire
+        </button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          [routerLink]="['/signin']">
+          <mat-icon>login</mat-icon>&nbsp;Se connecter
+        </button>
+      </span>
+      
       <button
         type="button"
         aria-label="Toggle sidenav"
