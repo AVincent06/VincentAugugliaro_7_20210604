@@ -7,12 +7,16 @@ import { AuthService } from './auth.service';
 })
 export class AuthGuardService implements CanActivate {
 
-  constructor(private router: Router, private authService: AuthService) { }
+  isLoggedIn: boolean = false;
+
+  constructor(private router: Router, private authService: AuthService) {
+    this.authService.isUserLoggedIn().subscribe((isLog: boolean) => this.isLoggedIn = isLog); // code pour l'observable de la session
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     
     // Controle de l'acces
-    if(!this.authService.isUserLoggedIn()) {
+    if(!this.isLoggedIn) {
       console.log('accès non autorisé !')
       this.router.navigate(['signin']);
       return false;

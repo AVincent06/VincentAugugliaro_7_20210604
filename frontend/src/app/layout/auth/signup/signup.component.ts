@@ -39,11 +39,13 @@ export class SignupComponent implements OnInit {
     const email = this.signUpForm.get('email')!.value;
     const password = this.signUpForm.get('password')!.value;
     
-    if(this.authService.createNewUser(email, password)) {
-      this.router.navigate(['/news']);
-    } else {
-      this.errorMessage = "Erreur";
-    }
+    this.authService.createNewUser(email, password).subscribe(data =>{
+      if(data) {
+        this.router.navigate(['news']);
+      } else {
+        this.router.navigate(['signin']);
+        this.errorMessage = "Erreur";
+      }
+    });
   }
-
 }
