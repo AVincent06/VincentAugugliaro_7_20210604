@@ -14,10 +14,14 @@ export class AuthService {
     this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
   }
 
-  createNewUser(email: string, password: string): boolean {
-    console.log('email: '+email+' , password: '+password);  // TEST
+  createNewUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
+    console.log('signup+login');  // TEST
 
-    return true;
+    if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
+      this.isLoggedIn = true;
+      this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
+      return of(this.isLoggedIn);
+    }
   }
 
   signInUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
