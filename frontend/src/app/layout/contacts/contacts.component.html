@@ -1,1 +1,7 @@
-<p>contacts works!</p>
+<h2>Vos contacts</h2>
+<div *ngFor="let profile of profiles; let i = index" (click)="onViewProfile(i)">
+    <span>Email : {{ profile.email }}</span> <br>
+    Nom : {{ profile.nom }}, Prenom: {{ profile.prenom }} <br>
+    Bio : {{ profile.bio }}
+    <hr>
+</div>
