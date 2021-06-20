@@ -25,6 +25,7 @@ import { SubmitComponent } from './layout/submit/submit.component';
 /* services */
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
+import { ProfileService } from './services/profile.service';
 
 /* material */
 import { LayoutModule } from '@angular/cdk/layout';
@@ -87,6 +88,7 @@ const appRoutes: Routes = [
   providers: [
     AuthGuardService,
     AuthService,
+    ProfileService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'}}
   ],
   bootstrap: [AppComponent]
