@@ -26,7 +26,7 @@ export class ProfileService {
       {
         email: 'test@test.com',
         password : 'test',
-        photo : 'maphoto.jpg',
+        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille',
         prenom: 'toto',
         bio: 'toute ma vie en quelques lignes'
@@ -34,7 +34,7 @@ export class ProfileService {
       {
         email: 'test1@test.com',
         password : 'test1',
-        photo : 'maphoto1.jpg',
+        photo : '../../assets/images/profile.png',
         nom: 'defamille1',
         prenom: 'toto1',
         bio: 'toute ma vie en quelques lignes1'
@@ -42,7 +42,7 @@ export class ProfileService {
       {
         email: 'test2@test.com',
         password : 'test2',
-        photo : 'maphoto2.jpg',
+        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille2',
         prenom: 'toto2',
         bio: 'toute ma vie en quelques lignes2'
