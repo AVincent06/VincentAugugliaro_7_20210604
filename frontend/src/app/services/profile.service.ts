@@ -24,6 +24,7 @@ export class ProfileService {
     // chargement des données dans this.profiles via l'API
     this.profiles = [
       {
+        id: 1,
         email: 'test@test.com',
         password : 'test',
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
@@ -32,6 +33,7 @@ export class ProfileService {
         bio: 'toute ma vie en quelques lignes'
       },
       {
+        id: 2,
         email: 'test1@test.com',
         password : 'test1',
         photo : '../../assets/images/profile.png',
@@ -40,6 +42,7 @@ export class ProfileService {
         bio: 'toute ma vie en quelques lignes1'
       },
       {
+        id: 3,
         email: 'test2@test.com',
         password : 'test2',
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
@@ -56,6 +59,7 @@ export class ProfileService {
     // chargement des données du profile ciblé via l'API
     this.profiles = [
       {
+        id: 1,
         email: 'test@test.com',
         password : 'test',
         photo : 'maphoto.jpg',
@@ -64,6 +68,7 @@ export class ProfileService {
         bio: 'toute ma vie en quelques lignes'
       },
       {
+        id: 2,
         email: 'test1@test.com',
         password : 'test1',
         photo : 'maphoto1.jpg',
@@ -72,6 +77,7 @@ export class ProfileService {
         bio: 'toute ma vie en quelques lignes1'
       },
       {
+        id: 3,
         email: 'test2@test.com',
         password : 'test2',
         photo : 'maphoto2.jpg',
