@@ -1,1 +1,28 @@
-<p>news works!</p>
+<div class="in-the-middle">
+    <h2>Dernières actualitées</h2>
+    <div *ngFor="let message of messages; let i = index" (click)="onViewMessage(i)">
+        <mat-card class="card">
+            <mat-card-header>
+                <div 
+                    mat-card-avatar 
+                    [ngStyle]="{
+                        'background-image': 'url(https://material.angular.io/assets/img/examples/shiba1.jpg)',
+                        'background-size': 'cover'
+                    }">
+                </div>
+              <mat-card-title>Shiba Inu</mat-card-title>
+              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image [src]="message.picture"/>
+            <mat-card-content>
+              <p>
+                {{message.text}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button type="button">LIKE</button>
+              <button mat-button type="button">SHARE</button>
+            </mat-card-actions>
+          </mat-card>
+    </div>
+</div>
