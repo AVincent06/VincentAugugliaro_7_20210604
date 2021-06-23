@@ -62,7 +62,7 @@ export class ProfileService {
         id: 1,
         email: 'test@test.com',
         password : 'test',
-        photo : 'maphoto.jpg',
+        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille',
         prenom: 'toto',
         bio: 'toute ma vie en quelques lignes'
@@ -71,7 +71,7 @@ export class ProfileService {
         id: 2,
         email: 'test1@test.com',
         password : 'test1',
-        photo : 'maphoto1.jpg',
+        photo : '../../assets/images/profile.png',
         nom: 'defamille1',
         prenom: 'toto1',
         bio: 'toute ma vie en quelques lignes1'
@@ -80,7 +80,7 @@ export class ProfileService {
         id: 3,
         email: 'test2@test.com',
         password : 'test2',
-        photo : 'maphoto2.jpg',
+        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille2',
         prenom: 'toto2',
         bio: 'toute ma vie en quelques lignes2'

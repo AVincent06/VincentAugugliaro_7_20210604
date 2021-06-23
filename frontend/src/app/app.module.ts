@@ -29,6 +29,7 @@ import { ProfileService } from './services/profile.service';
 
 /* material */
 import { LayoutModule } from '@angular/cdk/layout';
+import {MatBadgeModule} from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
