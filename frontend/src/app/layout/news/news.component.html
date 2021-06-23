@@ -6,12 +6,12 @@
                 <div 
                     mat-card-avatar 
                     [ngStyle]="{
-                        'background-image': 'url(https://material.angular.io/assets/img/examples/shiba1.jpg)',
+                        'background-image': 'url(' + message.profile_photo + ')',
                         'background-size': 'cover'
                     }">
                 </div>
-              <mat-card-title>Shiba Inu</mat-card-title>
-              <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+              <mat-card-title>{{ message.profile_prenom }} {{ message.profile_nom }}</mat-card-title>
+              <mat-card-subtitle>{{ message.create }}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image [src]="message.picture"/>
             <mat-card-content>
@@ -19,9 +19,12 @@
                 {{message.text}}
               </p>
             </mat-card-content>
-            <mat-card-actions>
-              <button mat-button type="button">LIKE</button>
-              <button mat-button type="button">SHARE</button>
+            <mat-card-actions class="spacer">
+              <button mat-icon-button type="button">{{ message.comments }}<mat-icon color="primary">chat_bubble_outline</mat-icon></button>
+              <span>
+                <button mat-icon-button type="button">{{ message.likes }}<mat-icon color="primary">thumb_up_off_alt</mat-icon></button>
+                <button mat-icon-button type="button"><mat-icon color="primary">thumb_down_off_alt</mat-icon>{{ message.dislikes }}</button>
+              </span>
             </mat-card-actions>
           </mat-card>
     </div>
