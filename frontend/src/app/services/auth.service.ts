@@ -8,8 +8,10 @@ export class AuthService {
 
   private isLoggedIn: boolean;
   isLog$: Subject<boolean> = new Subject<boolean>();  // code pour l'observable de la session
+  private profileId: number;
 
   constructor() {
+    this.profileId = -1;
     this.isLoggedIn = false;
     this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
   }
@@ -24,11 +26,16 @@ export class AuthService {
     }
   }
 
+  getProfileId(): number {
+    return this.profileId;
+  }
+
   signInUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
     console.log('login');  // TEST
 
     if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
       this.isLoggedIn = true;
+      this.profileId = 2; // POUR TEST EN ATTENDANT LA REPONSE SERVEUR
       this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
       return of(this.isLoggedIn);
     }
@@ -40,6 +47,7 @@ export class AuthService {
 
   signOutUser(): void {
     console.log('Logout');  // TEST
+    this.profileId = -1;  // en attendant de trouver mieux
     this.isLoggedIn = false;
     this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
   }
