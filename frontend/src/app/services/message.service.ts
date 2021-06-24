@@ -20,6 +20,10 @@ export class MessageService {
     // sauvegarde de this.Messages dans la BDD via l'API
   }
 
+  saveSingleMessage(messageId: number): void {
+    // sauvegarde de this.messages[messageId] dans la BDD via l'API
+  }
+
   getMessages(): void {
     // chargement des données dans this.messages via l'API
     // SELECT Message.*, Profile.prenom, Profile.nom, Profile.photo 
@@ -63,10 +67,10 @@ export class MessageService {
         profile_id: 3,
         picture: 'https://media.giphy.com/media/WTQcLBrPZt2sLvgIsk/giphy.gif',
         text: '',
-        usersLiked: [1,2,3],
-        usersDisliked: [],
-        likes: 3,
-        dislikes: 0,
+        usersLiked: [1,3],
+        usersDisliked: [2],
+        likes: 2,
+        dislikes: 1,
         comments: 0,
         create: '21-06-2021',
         update: '',
@@ -119,10 +123,10 @@ export class MessageService {
         profile_id: 3,
         picture: 'https://media.giphy.com/media/WTQcLBrPZt2sLvgIsk/giphy.gif',
         text: '',
-        usersLiked: [1,2,3],
-        usersDisliked: [],
-        likes: 3,
-        dislikes: 0,
+        usersLiked: [1,3],
+        usersDisliked: [2],
+        likes: 2,
+        dislikes: 1,
         comments: 0,
         create: '21-06-2021',
         update: '',

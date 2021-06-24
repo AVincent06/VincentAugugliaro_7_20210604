@@ -33,6 +33,36 @@ export class NewsComponent implements OnInit {
     this.messagesService.emitMessages();
   }
 
+  /* utiliser comme isLikedBy ou isDislikedBy */
+  isOneOfThem(list?: number[]): boolean {
+    if( list?.find(id => id === this.profileId) ) return true;
+    return false;
+  }
+
+  onLike(index: number) {
+    if( this.isOneOfThem(this.messages[index].usersLiked) ) {
+      this.messages[index].usersLiked?.splice(index, 1);                  // Si le like est déjà coché, on le décoche
+    } else {
+      this.messages[index].usersLiked?.push(this.profileId);              // Si le like n'est pas coché, on le coche
+    }
+    this.messages[index].likes = this.messages[index].usersLiked?.length; // Correction du total des likes
+
+    this.messagesService.saveSingleMessage(this.messages[index].id);
+    this.messagesService.emitMessages();
+  }
+
+  onDislike(index: number) {
+    if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
+      this.messages[index].usersDisliked?.splice(index, 1);                  // Si le dislike est déjà coché, on le décoche
+    } else {
+      this.messages[index].usersDisliked?.push(this.profileId);              // Si le dislike n'est pas coché, on le coche
+    }
+    this.messages[index].dislikes = this.messages[index].usersDisliked?.length; // Correction du total des likes
+
+    this.messagesService.saveSingleMessage(this.messages[index].id);
+    this.messagesService.emitMessages();
+  }
+
   onViewMessage(id: number) {
     // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
   }

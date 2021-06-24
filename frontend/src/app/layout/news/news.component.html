@@ -22,8 +22,28 @@
             <mat-card-actions class="spacer">
               <button mat-icon-button type="button">{{ message.comments }}<mat-icon color="primary">chat_bubble_outline</mat-icon></button>
               <span>
-                <button mat-icon-button type="button">{{ message.likes }}<mat-icon color="primary">thumb_up_off_alt</mat-icon></button>
-                <button mat-icon-button type="button"><mat-icon color="primary">thumb_down_off_alt</mat-icon>{{ message.dislikes }}</button>
+                <button mat-icon-button type="button" (click)="onLike(i)">
+                  {{ message.likes }}
+                  <mat-icon *ngIf="isOneOfThem(message.usersLiked)" color="primary">thumb_up_alt</mat-icon>
+                  <mat-icon *ngIf="!isOneOfThem(message.usersLiked)" color="primary">thumb_up_off_alt</mat-icon>
+                </button>
+                <button mat-icon-button type="button" (click)="onDislike(i)">
+                  <mat-icon *ngIf="isOneOfThem(message.usersDisliked)" color="primary">thumb_down_alt</mat-icon>
+                  <mat-icon *ngIf="!isOneOfThem(message.usersDisliked)" color="primary">thumb_down_off_alt</mat-icon>
+                  {{ message.dislikes }}
+                </button>
+                <!-- <button mat-icon-button type="button">
+                  {{ message.likes }}
+                  <mat-icon  color="primary">
+                    {{isOneOfThem(message.usersLiked) ? 'thumb_up_alt' : 'thumb_up_off_alt'}}
+                  </mat-icon>
+                </button>
+                <button mat-icon-button type="button">
+                  <mat-icon *ngIf="isOneOfThem(message.usersDisliked) as disliked" color="primary">
+                    {{disliked ? 'thumb_down_alt' : 'thumb_down_off_alt'}}
+                  </mat-icon>
+                  {{ message.dislikes }}
+                </button> -->
               </span>
             </mat-card-actions>
           </mat-card>

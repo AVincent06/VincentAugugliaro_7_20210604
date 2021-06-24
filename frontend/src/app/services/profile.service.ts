@@ -13,7 +13,7 @@ export class ProfileService {
   constructor() { }
 
   emitProfiles(): void {
-    this.profilesSubject.next(this.profiles);
+    this.profilesSubject.next(this.profiles); // en attendant le back avec le retour de l api
   }
 
   saveProfiles(): void {
