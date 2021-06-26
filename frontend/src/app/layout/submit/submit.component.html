@@ -1,1 +1,14 @@
-<p>submit works!</p>
+<form [formGroup]="editorForm" (ngSubmit)="onSubmit()">
+    <p>
+        <mat-label>Publier</mat-label>
+        <quill-editor formControlName="editor" placeholder="Taper votre message ici..."></quill-editor>
+    </p>
+    <p>
+        <button 
+            mat-raised-button 
+            type="submit" 
+            color="primary">
+            Publiez
+        </button>
+    </p>
+</form>

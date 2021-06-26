@@ -130,17 +130,34 @@ export class MessageService {
         comments: 0,
         create: '21-06-2021',
         update: '',
-        profile_photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        profile_nom: 'defamille2',
-        profile_prenom: 'toto2'
+        profile_photo : '../../assets/images/profile.png',
+        profile_nom: 'defamille1',
+        profile_prenom: 'toto1'
       }
     ];
 
     return of(this.messages[id]);
   }
 
-  createNewMessage(newMessage: Message) {
-    this.messages.push(newMessage);
+  createNewMessage(mySubmit: string) {
+    this.messages.push( // POUR TESTER
+      {
+        id: 3, 
+        profile_id: 2,
+        picture: '',
+        text: mySubmit,
+        usersLiked: [],
+        usersDisliked: [],
+        likes: 0,
+        dislikes: 0,
+        comments: 0,
+        create: '26-06-2021',
+        update: '',
+        profile_photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
+        profile_nom: 'defamille2',
+        profile_prenom: 'toto2'
+      }
+    );
     this.saveMessages();
     this.emitMessages();
   }
