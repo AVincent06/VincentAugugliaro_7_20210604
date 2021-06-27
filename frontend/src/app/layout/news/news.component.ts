@@ -63,6 +63,15 @@ export class NewsComponent implements OnInit {
     this.messagesService.emitMessages();
   }
 
+  onShow(index: number) {
+    let myElement = document.getElementById("comments-" + index);
+    if(myElement!.style.display === "none") {
+      myElement!.style.display = "block";
+    } else {
+      myElement!.style.display = "none";
+    }
+  }
+
   onViewMessage(id: number) {
     // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
   }
