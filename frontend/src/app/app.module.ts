@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 /* components */
 import { AppComponent } from './app.component';
+import { CommentComponent } from './layout/comment/comment.component';
 import { ContactsComponent } from './layout/contacts/contacts.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { ForgotComponent } from './layout/auth/forgot/forgot.component';
@@ -26,13 +27,15 @@ import { SubmitComponent } from './layout/submit/submit.component';
 /* services */
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
+import { CommentService } from './services/comment.service';
 import { ProfileService } from './services/profile.service';
 
 /* material */
 import { LayoutModule } from '@angular/cdk/layout';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -58,6 +61,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    CommentComponent,
     ContactsComponent,
     FooterComponent,
     ForgotComponent,
@@ -69,7 +73,7 @@ const appRoutes: Routes = [
     SigninComponent,
     SignoutComponent,
     SignupComponent,
-    SubmitComponent
+    SubmitComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -77,6 +81,7 @@ const appRoutes: Routes = [
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
@@ -92,6 +97,7 @@ const appRoutes: Routes = [
   providers: [
     AuthGuardService,
     AuthService,
+    CommentService,
     ProfileService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'}}
   ],
