@@ -1,2 +1,36 @@
-<mat-divider></mat-divider>
-<p>Voici les commentaires du message n°{{messageId}}</p>
+<!-- formulaire de saisie d'un nouveau commentaire -->
+<hr>
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <mat-label>Laissez un commentaire</mat-label>
+        <input matInput #input formControlName="comment" maxlength="255" placeholder="Mon commentaire ici...">
+        <mat-hint align="end">{{input.value?.length || 0}}/255</mat-hint>
+    </mat-form-field>
+    <button 
+        [disabled]="input.value.length === 0"
+        mat-raised-button 
+        type="submit" 
+        color="primary">
+        Commentez
+    </button>
+</form>
+
+<!-- Liste des commentaires existants -->
+<hr>
+<div *ngFor="let comment of comments">
+    <div class="comment">
+        <!-- {{comment.profile_id}} -->
+        <div 
+            mat-card-avatar 
+            [ngStyle]="{
+                'background-image': 'url(' + comment.profile_photo + ')',
+                'background-size': 'cover'
+            }">
+        </div>
+        <p>
+            <span class="user">{{comment.profile_firstname}} {{comment.profile_name}}</span>
+            <span class="date">&nbsp;-&nbsp;{{comment.date | date:'dd-MM-yy HH:mm'}}</span><br>
+            <span class="text">{{comment.text}}</span>
+        </p>
+    </div>
+</div>

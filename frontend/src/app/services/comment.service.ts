@@ -33,15 +33,13 @@ export class CommentService {
     // sauvegarde de this.Comments dans la BDD via l'API
   }
 
-  saveSingleComment(commentId: number): void {
+  saveSingleComment(messageId: number): void {
     // sauvegarde de this.comments[commentId] dans la BDD via l'API
   }
 
-  getComments(): void {
-    // chargement des données dans this.messages via l'API
-    // SELECT Message.*, Profile.prenom, Profile.nom, Profile.photo 
-    // FROM Message INNER JOIN Profile ON Message.profile_id = Profile.id
-    // WHERE Message.create IN(dans les 10 derniers);
+  getComments(messageId: number): void {
+    // GET à l'API avec messageId en paramètre
+    // SELECT * FROM Comments WHERE Comments.message = message_id;
     this.emitComments();
   }
 

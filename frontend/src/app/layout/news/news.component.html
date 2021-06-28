@@ -45,7 +45,13 @@
                   </button>
                 </span>
             </div>
-            <app-comment id="comments-{{i}}" [messageId]="message.id"></app-comment>
+            
+            <app-comment 
+              id="comments-{{i}}" 
+              [messageId]="message.id"
+              (updateNbComments)="updateMessageComments($event)">
+            </app-comment>
+
             </mat-card-actions>
           </mat-card>
     </div>
