@@ -21,7 +21,7 @@ export class MessageService {
         usersDisliked: [3],
         likes: 2,
         dislikes: 1,
-        comments: 0,
+        comments: 1,
         create: '19-06-2021',
         update: '',
         profile_photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
