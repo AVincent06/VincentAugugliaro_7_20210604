@@ -12,7 +12,7 @@
       <a mat-list-item routerLink="profile"><mat-icon color="accent">face</mat-icon>Profil</a>
       <a mat-list-item routerLink="contacts"><mat-icon color="accent">people</mat-icon>Contacts</a>
       <a mat-list-item routerLink="submit"><mat-icon color="accent">post_add</mat-icon>Publier</a>
-      <a mat-list-item routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a>
+      <!-- <a mat-list-item routerLink="notif"><mat-icon color="accent">notifications</mat-icon>Notifications</a> -->
       <a mat-list-item routerLink="" (click)="signout()"><mat-icon color="accent">logout</mat-icon>Quitter</a>
     </mat-nav-list>
 
@@ -37,12 +37,12 @@
           (click)="signout()">
           <mat-icon>logout</mat-icon>&nbsp;Quitter
         </button>
-        <button 
+        <!-- <button 
           mat-raised-button 
           color="accent" 
           [routerLink]="['/notif']">
           <mat-icon>notifications</mat-icon>&nbsp;Notifications
-        </button>
+        </button> -->
         <button 
           mat-raised-button 
           color="accent" 
