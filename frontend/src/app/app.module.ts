@@ -28,6 +28,7 @@ import { SubmitComponent } from './layout/submit/submit.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CommentService } from './services/comment.service';
+import { NotifService } from './services/notif.service';
 import { ProfileService } from './services/profile.service';
 
 /* material */
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
     AuthGuardService,
     AuthService,
     CommentService,
+    NotifService,
     ProfileService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'}}
   ],
