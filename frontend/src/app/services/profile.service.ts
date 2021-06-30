@@ -10,10 +10,17 @@ export class ProfileService {
   profiles: Profile[] = [];
   profilesSubject = new Subject<Profile[]>();
 
+  profile!: Profile;
+  profileSubject = new Subject<Profile>();
+
   constructor() { }
 
   emitProfiles(): void {
     this.profilesSubject.next(this.profiles); // en attendant le back avec le retour de l api
+  }
+
+  emitSingleProfile(): void {
+    this.profileSubject.next(this.profile); // en attendant le back avec le retour de l api
   }
 
   saveProfiles(): void {
@@ -57,16 +64,7 @@ export class ProfileService {
 
   getSingleProfile(id: number): Observable<Profile> {
     // chargement des données du profile ciblé via l'API
-    this.profiles = [
-      {
-        id: 1,
-        email: 'test@test.com',
-        password : 'test',
-        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        nom: 'defamille',
-        prenom: 'toto',
-        bio: 'toute ma vie en quelques lignes'
-      },
+    this.profile = 
       {
         id: 2,
         email: 'test1@test.com',
@@ -75,19 +73,9 @@ export class ProfileService {
         nom: 'defamille1',
         prenom: 'toto1',
         bio: 'toute ma vie en quelques lignes1'
-      },
-      {
-        id: 3,
-        email: 'test2@test.com',
-        password : 'test2',
-        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        nom: 'defamille2',
-        prenom: 'toto2',
-        bio: 'toute ma vie en quelques lignes2'
-      }
-    ];
+      };
 
-    return of(this.profiles[id]);
+    return of(this.profile);
   }
 
   createNewProfile(newProfile: Profile) {
