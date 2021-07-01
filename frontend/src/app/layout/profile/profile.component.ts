@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   });
   profile!: Profile;
   profileSubscription = new Subscription();
+  selectedFile: File | any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,14 +40,27 @@ export class ProfileComponent implements OnInit {
 
   initForm(): void {
     this.profileForm = this.formBuilder.group({
+      photo: [this.profile.photo],
       prenom: [this.profile.prenom, [Validators.pattern('^[a-zA-Z]+$')]],
       nom: [this.profile.nom, [Validators.pattern('^[a-zA-Z]+$')]],
       email: [this.profile.email, [Validators.required, Validators.email]],
       bio: [this.profile.bio]
     })
+    this.selectedFile = this.profile.photo;
+  }
+
+  onChange(event: any) {
+    var reader = new FileReader();
+    
+    this.selectedFile = <File>event.target.files[0];
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = (_event) => { 
+      this.selectedFile = reader.result; 
+    }
   }
 
   onSubmit() {
+    const photo = this.profileForm.get('photo')!.value;
     const prenom = this.profileForm.get('prenom')!.value;
     const nom = this.profileForm.get('nom')!.value;
     const email = this.profileForm.get('email')!.value;
