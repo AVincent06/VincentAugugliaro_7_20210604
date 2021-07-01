@@ -1,3 +1,9 @@
+.aside {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .card {
     margin: 10px;
     max-width: 800px;
@@ -9,6 +15,18 @@
     max-width: 800px;
 }
 
+input[type="file"] {
+    display: none;
+}
+
 mat-divider {
     margin: 10px;
-  }
+}
+
+.submit {
+    display: flex;
+    justify-content: flex-end;
+    & button {
+        margin: 5px;
+    }
+}

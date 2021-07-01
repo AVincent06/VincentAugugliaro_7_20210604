@@ -1,18 +1,25 @@
 <div class="center">
     <mat-card class="card">
         <mat-card-header>
-            <mat-card-title>Votre profil</mat-card-title>
+            <mat-card-title>Mon profil</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-                <div 
-                    mat-card-avatar 
-                    [ngStyle]="{
-                        'background-image': 'url('+ profile.photo +')',
-                        'background-size': 'cover',
-                        'height': '100px',
-                        'width': '100px'
-                    }">
+                <div class="aside">
+                    <div
+                        *ngIf="this.selectedFile"
+                        mat-card-avatar 
+                        [ngStyle]="{
+                            'background-image': 'url('+ this.selectedFile +')',
+                            'background-size': 'cover',
+                            'height': '100px',
+                            'width': '100px'
+                        }">
+                    </div>
+                    <div>
+                        <input type="file" accept="image/*" #photoFile formControlName="photo" (change)="onChange($event)">
+                        <button mat-stroked-button color="primary" (click)="photoFile.click()">Modifier ma photo</button>
+                    </div>
                 </div>
                 <p>
                     <mat-form-field>
@@ -39,8 +46,22 @@
                         <input type="text" matInput formControlName="bio">
                     </mat-form-field>
                 </p>
-                <button mat-button>R.A.Z.</button>
-                <button mat-button>Enregistrer</button>
+                <div class="submit">
+                    <button 
+                        mat-stroked-button 
+                        type="button"
+                        (click)="initForm()"
+                        color="primary">
+                        Réinitialisez
+                    </button>
+                    <button 
+                        mat-raised-button 
+                        type="submit" 
+                        [disabled]="profileForm.invalid"
+                        color="primary">
+                        Mettre à jour
+                    </button>
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
