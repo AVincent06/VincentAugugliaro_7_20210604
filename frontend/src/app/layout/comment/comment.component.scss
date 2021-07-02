@@ -1,9 +1,16 @@
 .comment {
     display: flex;
+    position: relative;
 }
 
 .date {
     font-weight: lighter;
+}
+
+.option {
+    position: absolute;
+    right: 0px;
+    top: 0px;
 }
 
 .text {
