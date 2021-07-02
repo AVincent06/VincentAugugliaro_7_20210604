@@ -9,9 +9,11 @@ export class AuthService {
   private isLoggedIn: boolean;
   isLog$: Subject<boolean> = new Subject<boolean>();  // code pour l'observable de la session
   private profileId: number;
+  private isAdmin: boolean;
 
   constructor() {
     this.profileId = -1;
+    this.isAdmin = false;
     this.isLoggedIn = false;
     this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
   }
@@ -26,6 +28,10 @@ export class AuthService {
     }
   }
 
+  getIsAdmin(): boolean {
+    return this.isAdmin;
+  }
+
   getProfileId(): number {
     return this.profileId;
   }
@@ -36,6 +42,7 @@ export class AuthService {
     if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
       this.isLoggedIn = true;
       this.profileId = 2; // POUR TEST EN ATTENDANT LA REPONSE SERVEUR
+      this.isAdmin = true;// POUR TEST EN ATTENDANT LA REPONSE SERVEUR
       this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
       return of(this.isLoggedIn);
     }

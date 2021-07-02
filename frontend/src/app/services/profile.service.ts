@@ -37,7 +37,8 @@ export class ProfileService {
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille',
         prenom: 'toto',
-        bio: 'toute ma vie en quelques lignes'
+        bio: 'toute ma vie en quelques lignes',
+        is_admin: false
       },
       {
         id: 2,
@@ -46,7 +47,8 @@ export class ProfileService {
         photo : '../../assets/images/profile.png',
         nom: 'defamille1',
         prenom: 'toto1',
-        bio: 'toute ma vie en quelques lignes1'
+        bio: 'toute ma vie en quelques lignes1',
+        is_admin: true
       },
       {
         id: 3,
@@ -55,7 +57,8 @@ export class ProfileService {
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
         nom: 'defamille2',
         prenom: 'toto2',
-        bio: 'toute ma vie en quelques lignes2'
+        bio: 'toute ma vie en quelques lignes2',
+        is_admin: false
       }
     ];
 
@@ -72,7 +75,8 @@ export class ProfileService {
         photo : '../../assets/images/profile.png',
         nom: 'defamille1',
         prenom: 'toto1',
-        bio: 'toute ma vie en quelques lignes1'
+        bio: 'toute ma vie en quelques lignes1',
+        is_admin: true
       };
 
     return of(this.profile);

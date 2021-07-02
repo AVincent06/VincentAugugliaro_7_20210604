@@ -2,14 +2,31 @@
     <h2>Dernières actualitées</h2>
     <div *ngFor="let message of messages; let i = index" (click)="onViewMessage(i)">
         <mat-card class="card">
+
+            <div class="option">
+              <button 
+                *ngIf="(message.profile_id === profileId) || isAdmin"
+                mat-icon-button 
+                [matMenuTriggerFor]="option" 
+                aria-label="Options">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #option="matMenu">
+                <button mat-menu-item (click)="onDelete(message.id)">
+                  <mat-icon>delete</mat-icon>
+                  <span>effacer</span>
+                </button>
+              </mat-menu>
+            </div>
+
             <mat-card-header>
-                <div 
-                    mat-card-avatar 
-                    [ngStyle]="{
-                        'background-image': 'url(' + message.profile_photo + ')',
-                        'background-size': 'cover'
-                    }">
-                </div>
+              <div 
+                  mat-card-avatar 
+                  [ngStyle]="{
+                      'background-image': 'url(' + message.profile_photo + ')',
+                      'background-size': 'cover'
+                  }">
+              </div>
               <mat-card-title>{{ message.profile_prenom }} {{ message.profile_nom }}</mat-card-title>
               <mat-card-subtitle>{{ message.create }}</mat-card-subtitle>
             </mat-card-header>

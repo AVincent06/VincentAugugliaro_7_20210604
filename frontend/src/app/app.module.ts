@@ -41,6 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -86,6 +87,7 @@ const appRoutes: Routes = [
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatMenuModule,
     MatToolbarModule,
     RouterModule.forRoot(appRoutes),
     LayoutModule,

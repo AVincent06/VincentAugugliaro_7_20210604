@@ -19,7 +19,23 @@
 <hr>
 <div *ngFor="let comment of comments">
     <div class="comment">
-        <!-- {{comment.profile_id}} -->
+
+        <div class="option">
+            <button 
+                *ngIf="(comment.profile_id === profileId) || isAdmin" 
+                mat-icon-button 
+                [matMenuTriggerFor]="option" 
+                aria-label="Options">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #option="matMenu">
+                <button mat-menu-item (click)="onDelete(comment.id)">
+                    <mat-icon>delete</mat-icon>
+                    <span>effacer</span>
+                </button>
+            </mat-menu>
+        </div>
+
         <div 
             mat-card-avatar 
             [ngStyle]="{

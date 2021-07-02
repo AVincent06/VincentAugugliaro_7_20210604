@@ -13,6 +13,7 @@ import { MessageService } from 'src/app/services/message.service';
 export class NewsComponent implements OnInit {
 
   profileId!: number;
+  isAdmin!: boolean;
   messages: Message[] = [];
   messagesSubscription = new Subscription();
 
@@ -24,6 +25,7 @@ export class NewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileId = this.authService.getProfileId();
+    this.isAdmin = this.authService.getIsAdmin();
     this.messagesSubscription = this.messagesService.messagesSubject.subscribe(
       (messages: Message[]) => {
         this.messages = messages;
@@ -39,18 +41,10 @@ export class NewsComponent implements OnInit {
     return false;
   }
 
-  onLike(index: number) {
-    if( this.isOneOfThem(this.messages[index].usersLiked) ) {
-      this.messages[index].usersLiked?.splice(index, 1);                  // Si le like est déjà coché, on le décoche
-    } else {
-      this.messages[index].usersLiked?.push(this.profileId);              // Si le like n'est pas coché, on le coche
-    }
-    this.messages[index].likes = this.messages[index].usersLiked?.length; // Correction du total des likes
-
-    this.messagesService.saveSingleMessage(this.messages[index].id);
-    this.messagesService.emitMessages();
+  onDelete(id: number): void {
+    this.messagesService.removeMessage(this.messages[id]);
   }
-
+  
   onDislike(index: number) {
     if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
       this.messages[index].usersDisliked?.splice(index, 1);                  // Si le dislike est déjà coché, on le décoche
@@ -58,6 +52,18 @@ export class NewsComponent implements OnInit {
       this.messages[index].usersDisliked?.push(this.profileId);              // Si le dislike n'est pas coché, on le coche
     }
     this.messages[index].dislikes = this.messages[index].usersDisliked?.length; // Correction du total des likes
+    
+    this.messagesService.saveSingleMessage(this.messages[index].id);
+    this.messagesService.emitMessages();
+  }
+  
+  onLike(index: number) {
+    if( this.isOneOfThem(this.messages[index].usersLiked) ) {
+      this.messages[index].usersLiked?.splice(index, 1);                  // Si le like est déjà coché, on le décoche
+    } else {
+      this.messages[index].usersLiked?.push(this.profileId);              // Si le like n'est pas coché, on le coche
+    }
+    this.messages[index].likes = this.messages[index].usersLiked?.length; // Correction du total des likes
 
     this.messagesService.saveSingleMessage(this.messages[index].id);
     this.messagesService.emitMessages();
@@ -77,7 +83,7 @@ export class NewsComponent implements OnInit {
   }
 
   updateMessageComments(index: number) {
-    this.messages[index].comments!++;
+    this.messages[index].comments!++; // POUR TEST, FAUX POUR LES SUPPRESSIONS, RENVOI UN NOMBRE VERIFIE EN BDD
   }
 
 }

@@ -15,6 +15,7 @@ export class CommentComponent implements OnInit {
   @Input() messageId!: number;
   @Output() updateNbComments = new EventEmitter<number>();
   profileId!: number;
+  isAdmin!: boolean;
   comments: CommentRes[] = [];
   commentsSubscription = new Subscription();
   commentForm = new FormGroup({  
@@ -29,6 +30,7 @@ export class CommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileId = this.authService.getProfileId();
+    this.isAdmin = this.authService.getIsAdmin();
     this.commentsSubscription = this.commentService.commentsSubject.subscribe(
       (comments: CommentRes[]) => {
         this.comments = comments;
@@ -44,6 +46,11 @@ export class CommentComponent implements OnInit {
     this.commentForm = this.formBuilder.group({
       comment: ['']
     })
+  }
+
+  onDelete(id: number): void {
+    this.commentService.removeComment(this.comments[id]);
+    this.updateNbComments.emit(this.messageId);
   }
 
   onSubmit() {
