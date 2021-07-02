@@ -15,11 +15,15 @@ export class ProfileComponent implements OnInit {
     prenom : new FormControl(''),
     nom : new FormControl(''),
     email : new FormControl(''),
+    password: new FormControl(''),
+    passwordcheck: new FormControl(''),
     bio : new FormControl('')
   });
   profile!: Profile;
   profileSubscription = new Subscription();
   selectedFile: File | any;
+  hide: boolean = true;
+  hide2: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,10 +44,12 @@ export class ProfileComponent implements OnInit {
 
   initForm(): void {
     this.profileForm = this.formBuilder.group({
-      photo: [this.profile.photo],
+      photo: [],
       prenom: [this.profile.prenom, [Validators.pattern('^[a-zA-Z]+$')]],
       nom: [this.profile.nom, [Validators.pattern('^[a-zA-Z]+$')]],
       email: [this.profile.email, [Validators.required, Validators.email]],
+      password: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
+      passwordcheck: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
       bio: [this.profile.bio]
     })
     this.selectedFile = this.profile.photo;
@@ -64,6 +70,7 @@ export class ProfileComponent implements OnInit {
     const prenom = this.profileForm.get('prenom')!.value;
     const nom = this.profileForm.get('nom')!.value;
     const email = this.profileForm.get('email')!.value;
+    const password = this.profileForm.get('password')!.value;
     const bio = this.profileForm.get('bio')!.value;
     
     // this.authService.createNewUser(email, password).subscribe(data =>{
