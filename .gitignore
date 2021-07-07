@@ -1,5 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+### FRONTEND ###
+
 # compiled output
 /frontend/dist
 /frontend/tmp
@@ -43,3 +45,52 @@
 # System Files
 /frontend/.DS_Store
 /frontend/Thumbs.db
+
+### BACKEND ###
+
+# compiled output
+/backend/dist
+/backend/tmp
+/backend/out-tsc
+# Only exists if Bazel was run
+/backend/bazel-out
+
+# dependencies
+/backend/node_modules
+
+# profiling files
+/backend/chrome-profiler-events*.json
+
+# IDEs and editors
+/backend/.idea
+/backend/.project
+/backend/.classpath
+/backend/.c9/
+/backend/*.launch
+/backend/.settings/
+/backend/*.sublime-workspace
+
+# IDE - VSCode
+/backend/.vscode/*
+/backend/!.vscode/settings.json
+/backend/!.vscode/tasks.json
+/backend/!.vscode/launch.json
+/backend/!.vscode/extensions.json
+/backend/.history/*
+
+# misc
+/backend/.sass-cache
+/backend/connect.lock
+/backend/coverage
+/backend/libpeerconnection.log
+/backend/npm-debug.log
+/backend/yarn-error.log
+/backend/testem.log
+/backend/typings
+
+# System Files
+/backend/.DS_Store
+/backend/Thumbs.db
+
+# Users images
+/backend/app/images
