@@ -17,6 +17,11 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = require("./user.model.js")(sequelize, Sequelize);
+db.categories = require("./category.model.js")(sequelize, Sequelize);
+db.messages = require("./message.model.js")(sequelize, Sequelize);
+db.comments = require("./comment.model.js")(sequelize, Sequelize);
+db.feelings = require("./feeling.model.js")(sequelize, Sequelize);
+
 //APRES CA ON DECLARE LES FOREIGN KEY
 
 module.exports = db;
