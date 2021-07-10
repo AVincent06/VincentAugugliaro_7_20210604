@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Message = sequelize.define("Message", {
-        id_messages: {
+        id: {
             type: Sequelize.INTEGER.UNSIGNED,
             allowNull: false,
             autoIncrement: true,

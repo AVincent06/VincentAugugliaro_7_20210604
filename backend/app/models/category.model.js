@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Category = sequelize.define("Category", {
-        id_categories: {
+        id: {
             type: Sequelize.INTEGER.UNSIGNED,
             allowNull: false,
             autoIncrement: true,
