@@ -26,7 +26,12 @@ db.sequelize.sync({ force: true }).then(() => { // {force: true} juste pour le d
     });
 });
 
+/* Déclaration des routes */
 require("./app/routes/user.routes")(app);
+require("./app/routes/message.routes")(app);
+require("./app/routes/comment.routes")(app);
+require("./app/routes/feeling.routes")(app);
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Le serveur tourne sur le port ${PORT}`);
