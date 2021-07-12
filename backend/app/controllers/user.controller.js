@@ -33,20 +33,78 @@ exports.create = (req, res) => {
 
 // récupérer tous les utilisateurs
 exports.findAll = (req, res) => {
-
+    User.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "erreur pendant la récupération des utilisateurs!"
+            });
+        });
 };
 
 // récupérer un utilisateur par id
 exports.findOne = (req, res) => {
+    const id = req.params.id;
 
+    User.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `erreur pendant la récupération de l'utilisateur n° ${id}`
+            });
+        });
 };
 
 // mettre à jour un utilisateur par id
 exports.update = (req, res) => {
+    const id = req.params.id;
 
+    User.update(req.body, {
+        where: {id: id}
+    })
+        .then( isUpdated => {
+            if(isUpdated) {
+                res.send({
+                    message: `L'utilisateur n°${id} a été mise à jour!`
+                });
+            } else {
+                res.send({
+                    message: `L'utilisateur n°${id} n'a pas pu être mise à jour!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `erreur pendant la mise à jour de l'utilisateur n° ${id}`
+            });
+        });
 };
 
 // effacer un utilisateur par id
 exports.delete = (req, res) => {
+    const id = req.params.id;
 
+    User.destroy({
+        where: {id: id }
+    })
+        .then( isDeleted => {
+            if(isDeleted) {
+                res.send({
+                    message: `L'utilisateur n°${id} a été effacé!`
+                });
+            } else {
+                res.send({
+                    message: `L'utilisateur n°${id} n'a pas pu être effacé!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `erreur pendant la suppression de l'utilisateur n° ${id}`
+            });
+        });
 };
