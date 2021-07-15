@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
 const corsOptions = {
-    origin: "http://localhost:8080"
+    origin: `http://localhost:${process.env.APP_PORT}`
 };
 
 app.use(cors(corsOptions));
@@ -32,7 +34,7 @@ require("./app/routes/message.routes")(app);
 require("./app/routes/comment.routes")(app);
 require("./app/routes/feeling.routes")(app);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || process.env.APP_PORT;
 app.listen(PORT, () => {
     console.log(`Le serveur tourne sur le port ${PORT}`);
 });
