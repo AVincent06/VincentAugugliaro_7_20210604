@@ -94,4 +94,4 @@
 
 # Confidential
 /backend/app/images
-/backend/app/config/db.config.js
+/backend/.env
