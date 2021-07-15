@@ -5,6 +5,9 @@ module.exports = app => {
     // créer un nouvel utilisateur
     router.post("/", users.create);
 
+    // identifier un utilisateur existant
+    router.get("/identify", users.identify);
+
     // récupérer tous les utilisateurs
     router.get("/", users.findAll);
 
