@@ -1,6 +1,7 @@
 module.exports = app => {
     const users = require("../controllers/user.controller");
     const router = require("express").Router();
+    const auth = require("../middleware/auth");
 
     // créer un nouvel utilisateur
     router.post("/", users.create);
@@ -9,16 +10,16 @@ module.exports = app => {
     router.get("/identify", users.identify);
 
     // récupérer tous les utilisateurs
-    router.get("/", users.findAll);
+    router.get("/", auth, users.findAll);
 
     // récupérer un utilisateur par id
-    router.get("/:id", users.findOne);
+    router.get("/:id", auth, users.findOne);
 
     // mettre à jour un utilisateur par id
-    router.put("/:id", users.update);
+    router.put("/:id", auth, users.update);
 
     // effacer un utilisateur par id
-    router.delete("/:id", users.delete);
+    router.delete("/:id", auth, users.delete);
 
-    app.use("/api/users", router);
+    app.use("/api/users", router); 
 };
