@@ -4,12 +4,13 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const helmet = require('helmet');   //A7:2017 OWASP
 const path = require('path');
-// const cors = require("cors");
 const app = express();
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());    // extracts the JSON object from the request
+app.use('/app/images', express.static(path.join(__dirname, 'images')));
 
 /* Connexion à la base de données */
 const db = require("./app/models");
@@ -25,11 +26,6 @@ db.sequelize.sync({ force: true }).then(() => { // {force: true} juste pour le d
     });
 });
 
-// const corsOptions = {
-//     origin: `http://localhost:${process.env.APP_PORT}`
-// };
-// app.use(cors(corsOptions));
-
 /* Cross Origin Resource Sharing (CORS) */
 app.use((req, res, next) => {   //applies to all roads
     res.setHeader('Access-Control-Allow-Origin', `http://${process.env.APP_HOST}:${process.env.APP_PORT}`);  //origin of access
@@ -38,16 +34,19 @@ app.use((req, res, next) => {   //applies to all roads
     next();
 });
 
-app.use(bodyParser.json());    // extracts the JSON object from the request
-app.use('/app/images', express.static(path.join(__dirname, 'images')));
-
 /* Déclaration des routes */
 require("./app/routes/user.routes")(app);
 require("./app/routes/message.routes")(app);
 require("./app/routes/comment.routes")(app);
 require("./app/routes/feeling.routes")(app);
 
-const PORT = process.env.PORT || process.env.APP_PORT;
+const normalizePort = (val) => {    // returns a valid port
+    const port = parseInt(val, 10);
+    if(isNaN(port)) return val;
+    if(port >= 0) return port;
+    return false;
+};
+const PORT = normalizePort(process.env.PORT || process.env.APP_PORT);
 app.listen(PORT, () => {
     console.log(`Le serveur tourne sur le port ${PORT}`);
 });
