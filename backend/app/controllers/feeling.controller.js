@@ -8,45 +8,36 @@ const DISLIKE = 2;
 exports.addLike = (req, res) => {
     const id = req.params.id;
 
-    // Est ce qu'il y a déjà un like de cet utilisateur pour ce message?
-    Feeling.count({
+    Feeling.findOrCreate({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
                 { UserId: req.body.user_id },
                 { CategoryId: LIKE }
             ]
+        },
+        defaults: {
+            MessageId: id,
+            UserId: req.body.user_id,
+            CategoryId: LIKE
         }
     })
-        .then((isLiked) => {
-            if(isLiked) { // Oui, like déjà ajouté
+        .then(([feeling, created]) => {
+            if(created) { // Ajout du Like
+                res.status(201).send({ 
+                    message: "Un Like a été ajouté pour ce  message par cet utilisateur!" 
+                });
+                return;
+            } else {
                 res.status(403).send({ 
                     message: "Un seul Like autorisé par message pour un utilisateur!" 
                 });
                 return;
-            } else { // Non, pas encore de like ajouté
-                // Création du like
-                const feeling = {
-                    MessageId: id,
-                    UserId: req.body.user_id,
-                    CategoryId: LIKE
-                }
-
-                // Sauvegarde du like dans la BDD
-                Feeling.create(feeling)
-                    .then(data => {
-                        res.send(data);
-                    })
-                    .catch(err => {
-                        res.status(500).send({
-                            message: err.message || "erreur pendant la sauvegarde du like!"
-                        });
-                    });
             }
         })
         .catch(() => {
             res.status(500).send({
-                message: "erreur pendant la vérification de l'existence du like!"
+                message: "erreur pendant la recherche ou l'ajout du like!"
             });
         });
 };
@@ -55,45 +46,36 @@ exports.addLike = (req, res) => {
 exports.addDislike = (req, res) => {
     const id = req.params.id;
 
-    // Est ce qu'il y a déjà un dislike de cet utilisateur pour ce message?
-    Feeling.count({
+    Feeling.findOrCreate({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
                 { UserId: req.body.user_id },
                 { CategoryId: DISLIKE }
             ]
+        },
+        defaults: {
+            MessageId: id,
+            UserId: req.body.user_id,
+            CategoryId: DISLIKE
         }
     })
-        .then((isDisliked) => {
-            if(isDisliked) { // Oui, dislike déjà ajouté
+        .then(([feeling, created]) => {
+            if(created) { // Ajout du Dislike
+                res.status(201).send({ 
+                    message: "Un Dislike a été ajouté pour ce  message par cet utilisateur!" 
+                });
+                return;
+            } else {
                 res.status(403).send({ 
                     message: "Un seul Dislike autorisé par message pour un utilisateur!" 
                 });
                 return;
-            } else { // Non, pas encore de dislike ajouté
-                // Création du dislike
-                const feeling = {
-                    MessageId: id,
-                    UserId: req.body.user_id,
-                    CategoryId: DISLIKE
-                }
-
-                // Sauvegarde du dislike dans la BDD
-                Feeling.create(feeling)
-                    .then(data => {
-                        res.send(data);
-                    })
-                    .catch(err => {
-                        res.status(500).send({
-                            message: err.message || "erreur pendant la sauvegarde du dislike!"
-                        });
-                    });
             }
         })
         .catch(() => {
             res.status(500).send({
-                message: "erreur pendant la vérification de l'existence du dislike!"
+                message: "erreur pendant la recherche ou l'ajout du dislike!"
             });
         });
 };
