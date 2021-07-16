@@ -9,18 +9,17 @@ const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
-// Création d'un schéma pour le mot de passe
-const schema = new passwordValidator();
-schema
-    .is().min(12)
-    .is().max(64)
-    .has().uppercase()
-    .has().lowercase()
-    .has().digits()
-    .has().not().spaces();
-
 // créer un nouvel utilisateur
 exports.create = (req, res) => {
+    // Création d'un schéma pour le mot de passe
+    const schema = new passwordValidator();
+    schema
+        .is().min(12)
+        .is().max(64)
+        .has().uppercase()
+        .has().lowercase()
+        .has().digits()
+        .has().not().spaces();
     const emailValidated = emailValidator.validate(req.body.email);
     const passwordValidated = schema.validate(req.body.password);
     
@@ -32,22 +31,22 @@ exports.create = (req, res) => {
     if(emailValidated && passwordValidated) { 
         bcrypt.hash(req.body.password, 10)
             .then((hash) => {
-            // Création d'un utilisateur
-            const user = {
-                email: req.body.email,
-                password: hash,
-                is_admin: req.body.is_admin ? req.body.is_admin : false
-            }
-            // Sauvegarde de l'utilisateur dans la BDD
-            User.create(user)
-                .then(data => {
-                    res.send(data);
-                })
-                .catch(err => {
-                    res.status(500).send({
-                        message: err.message || "erreur pendant la création de l'utilisateur!"
+                // Création d'un utilisateur
+                const user = {
+                    email: req.body.email,
+                    password: hash,
+                    is_admin: req.body.is_admin ? req.body.is_admin : false
+                }
+                // Sauvegarde de l'utilisateur dans la BDD
+                User.create(user)
+                    .then(data => {
+                        res.send(data);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: err.message || "erreur pendant la création de l'utilisateur!"
+                        });
                     });
-                });
             })
             .catch((error) => res.status(500).json({ error }));
     }else{
@@ -57,32 +56,25 @@ exports.create = (req, res) => {
 
 // identifier un utilisateur existant
 exports.identify = (req, res) => {
-    User.count({
+    User.findOne({
         where: {email : req.body.email}
     })
-        .then((isExisted) => {
-            if(!isExisted) return res.status(401).json({ error : 'utilisateur non trouvé !'});
-            User.findOne({ // IL FAUT TOUT CORRIGER ICI
-                where: {email : req.body.email}
-            })
-                .then((data) => {   //console.log(data);
-                    bcrypt.compare(req.body.password, data.password)    //data.User.dataValues.password
-                        .then((valid) => {
-                            if(!valid) return res.status(401).json({ error : 'mot de passe incorrect !'});
-                            res.status(200).json({
-                                userId : data.id,
-                                token : jwt.sign(
-                                    { userId : data.id },
-                                    process.env.TOKEN_KEY,
-                                    { expiresIn : process.env.TOKEN_DURATION }
-                                )
-                            });
-                        })
-                        .catch((error) => res.status(500).json({ error: 'erreur pendant le bcrypt' }));
+        .then((data) => {
+            bcrypt.compare(req.body.password, data.password)
+                .then((valid) => {
+                    if(!valid) return res.status(401).json({ error : 'mot de passe incorrect !'});
+                    res.status(200).json({
+                        userId : data.id,
+                        token : jwt.sign(
+                            { userId : data.id },
+                            process.env.TOKEN_KEY,
+                            { expiresIn : process.env.TOKEN_DURATION }
+                        )
+                    });
                 })
-                .catch((error) => res.status(500).json({ error: 'erreur pendant le findAll' }));
+                .catch((error) => res.status(500).json({ error: 'erreur de vérification du mot de passe' }));
         })
-        .catch((error) => res.status(500).json({ error: 'erreur pendant le count' }));
+        .catch((error) => res.status(401).json({ error : 'utilisateur non trouvé !'}));   
 };
 
 // récupérer tous les utilisateurs
