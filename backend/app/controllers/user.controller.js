@@ -108,17 +108,21 @@ exports.findOne = (req, res) => {
 // mettre à jour un utilisateur par id
 exports.update = (req, res) => {
     const id = req.params.id;
+    const user = {
+        email: req.body.email,
+        photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo
+    }
 
-    User.update(req.body, {
+    User.update(user, {
         where: {id: id}
     })
         .then( isUpdated => {
             if(isUpdated) {
-                res.send({
-                    message: `L'utilisateur n°${id} a été mise à jour!`
+                res.status(200).send({
+                    message: `L'utilisateur n°${id} a été mise à jour`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `L'utilisateur n°${id} n'a pas pu être mise à jour!`
                 });
             }
