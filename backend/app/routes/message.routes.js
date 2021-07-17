@@ -2,6 +2,7 @@ module.exports = app => {
     const messages = require("../controllers/message.controller");
     const router = require("express").Router();
     const auth = require("../middleware/auth");
+    const multer = require("../middleware/multer-config");
 
     // créer un nouveau message
     router.post("/", auth, messages.create);

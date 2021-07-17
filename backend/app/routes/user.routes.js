@@ -2,6 +2,7 @@ module.exports = app => {
     const users = require("../controllers/user.controller");
     const router = require("express").Router();
     const auth = require("../middleware/auth");
+    const multer = require("../middleware/multer-config");
 
     // créer un nouvel utilisateur
     router.post("/", users.create);
@@ -16,7 +17,7 @@ module.exports = app => {
     router.get("/:id", auth, users.findOne);
 
     // mettre à jour un utilisateur par id
-    router.put("/:id", auth, users.update);
+    router.put("/:id", auth, multer, users.update);
 
     // effacer un utilisateur par id
     router.delete("/:id", auth, users.delete);
