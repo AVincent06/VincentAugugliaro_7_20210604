@@ -22,7 +22,7 @@ exports.create = (req, res) => {
     // Sauvegarde du commentaire dans la BDD
     Comment.create(comment)
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -43,7 +43,7 @@ exports.findAllByMessage = (req, res) => {
         }
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -58,7 +58,7 @@ exports.findOne = (req, res) => {
 
     Comment.findByPk(id)
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -76,11 +76,11 @@ exports.update = (req, res) => {
     })
         .then( isUpdated => {
             if(isUpdated) {
-                res.send({
+                res.status(200).send({
                     message: `Le commentaire n°${id} a été mise à jour!`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `Le commentaire n°${id} n'a pas pu être mise à jour!`
                 });
             }
@@ -101,11 +101,11 @@ exports.delete = (req, res) => {
     })
         .then( isDeleted => {
             if(isDeleted) {
-                res.send({
+                res.status(200).send({
                     message: `Le commentaire n°${id} a été effacé!`
                 });
             } else {
-                res.send({
+                res.status(403).send({
                     message: `Le commentaire n°${id} n'a pas pu être effacé!`
                 });
             }

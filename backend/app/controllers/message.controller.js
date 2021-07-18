@@ -42,7 +42,7 @@ exports.findAllByAmount = (req, res) => {
         limit: nb
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -63,7 +63,7 @@ exports.findAllByDate = (req, res) => {
         }
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -84,7 +84,7 @@ exports.findAllByUser = (req, res) => {
         }
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -99,7 +99,7 @@ exports.findOne = (req, res) => {
 
     Message.findByPk(id)
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -149,17 +149,39 @@ exports.update = (req, res) => {
 // effacer un message par id
 exports.delete = (req, res) => {
     const id = req.params.id;
+    let fileToDelete;
+
+    // Processus de recherche de l'image du message pour la suppression ultérieur
+    Message.findByPk(id)
+        .then(data => {
+            fileToDelete = data.picture;
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `erreur pendant la recherche du message n° ${id}`
+            });
+        });
 
     Message.destroy({
         where: {id: id }
     })
         .then( isDeleted => {
             if(isDeleted) {
-                res.send({
-                    message: `Le message n°${id} a été effacé!`
+                // Suppression de la photo de cet utilisateur
+                let info = '';
+                if( fileToDelete !== 'aucune' && fileToDelete !== null) {
+                    const filename = fileToDelete.split('/images/')[1];
+                    fs.unlink(`app/images/${filename}`, (error) => {
+                        if (error) res.status(400).json({ error });
+                            else info = ", ainsi que l'image du message.";
+                    });
+                }
+
+                res.status(200).send({
+                    message: `Le message n°${id} a été effacé${info}`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `Le message n°${id} n'a pas pu être effacé!`
                 });
             }
