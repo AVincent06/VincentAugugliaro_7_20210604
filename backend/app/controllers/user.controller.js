@@ -4,6 +4,7 @@ const passwordValidator = require('password-validator');//A2:2017 OWASP
 const bcrypt = require('bcrypt');                       //A2:2017 OWASP
 const emailValidator = require("email-validator");
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const db = require("../models");
 const User = db.users;
@@ -40,7 +41,7 @@ exports.create = (req, res) => {
                 // Sauvegarde de l'utilisateur dans la BDD
                 User.create(user)
                     .then(data => {
-                        res.send(data);
+                        res.status(201).send(data);
                     })
                     .catch(err => {
                         res.status(500).send({
@@ -81,7 +82,7 @@ exports.identify = (req, res) => {
 exports.findAll = (req, res) => {
     User.findAll()
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -96,7 +97,7 @@ exports.findOne = (req, res) => {
 
     User.findByPk(id)
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -112,6 +113,15 @@ exports.update = (req, res) => {
         email: req.body.email,
         photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo
     }
+    
+    let info = '';
+    if( req.file && (req.body.photo !== 'aucune') ) {   // on gère l'effacement du fichier précedent avant de perdre sa trace
+        const filename = req.body.photo.split('/images/')[1];
+        fs.unlink(`app/images/${filename}`, (error) => {
+            if (error) res.status(400).json({ error });
+                else info = " et l'ancienne image a été supprimée";
+        });
+    }
 
     User.update(user, {
         where: {id: id}
@@ -119,7 +129,7 @@ exports.update = (req, res) => {
         .then( isUpdated => {
             if(isUpdated) {
                 res.status(200).send({
-                    message: `L'utilisateur n°${id} a été mise à jour`
+                    message: `L'utilisateur n°${id} a été mise à jour${info}`
                 });
             } else {
                 res.status(400).send({
@@ -143,11 +153,11 @@ exports.delete = (req, res) => {
     })
         .then( isDeleted => {
             if(isDeleted) {
-                res.send({
+                res.status(200).send({
                     message: `L'utilisateur n°${id} a été effacé!`
                 });
             } else {
-                res.send({
+                res.status(403).send({
                     message: `L'utilisateur n°${id} n'a pas pu être effacé!`
                 });
             }

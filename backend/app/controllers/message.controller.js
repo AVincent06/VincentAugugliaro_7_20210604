@@ -2,6 +2,7 @@ const db = require("../models");
 const Message = db.messages;
 const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
+const fs = require('fs');
 
 // créer un nouveau message
 exports.create = (req, res) => {
@@ -15,7 +16,7 @@ exports.create = (req, res) => {
 
     // Création d'un message
     const message = {
-        picture: req.body.picture,
+        picture: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : 'aucune',
         article: req.body.article,
         UserId: req.body.user_id
     }
@@ -23,7 +24,7 @@ exports.create = (req, res) => {
     // Sauvegarde du message dans la BDD
     Message.create(message)
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -110,17 +111,30 @@ exports.findOne = (req, res) => {
 // mettre à jour un message par id
 exports.update = (req, res) => {
     const id = req.params.id;
+    const message = {
+        picture: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.picture,
+        article: req.body.article
+    }
 
-    Message.update(req.body, {
+    let info = '';
+    if( req.file && (req.body.picture !== 'aucune') ) {   // on gère l'effacement du fichier précedent avant de perdre sa trace
+        const filename = req.body.picture.split('/images/')[1];
+        fs.unlink(`app/images/${filename}`, (error) => {
+            if (error) res.status(400).json({ error });
+                else info = " et l'ancienne image a été supprimée";
+        });
+    }
+
+    Message.update(message, {
         where: {id: id}
     })
         .then( isUpdated => {
             if(isUpdated) {
-                res.send({
-                    message: `Le message n°${id} a été mise à jour!`
+                res.status(200).send({
+                    message: `Le message n°${id} a été mise à jour${info}`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `Le message n°${id} n'a pas pu être mise à jour!`
                 });
             }
