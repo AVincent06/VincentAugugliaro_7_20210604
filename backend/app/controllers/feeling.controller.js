@@ -93,7 +93,7 @@ exports.findAllLike = (req, res) => {
         }
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -115,7 +115,7 @@ exports.findAllDislike = (req, res) => {
         }
     })
         .then(data => {
-            res.send(data);
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -139,11 +139,11 @@ exports.delLike = (req, res) => {
     })
         .then( isDeleted => {
             if(isDeleted) {
-                res.send({
+                res.status(200).send({
                     message: `Le like de l'utilisateur n°${req.body.user_id} a été retiré!`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `Le like de l'utilisateur n°${req.body.user_id} n'a pas été retiré!`
                 });
             }
@@ -170,11 +170,11 @@ exports.delDislike = (req, res) => {
     })
         .then( isDeleted => {
             if(isDeleted) {
-                res.send({
+                res.status(200).send({
                     message: `Le dislike de l'utilisateur n°${req.body.user_id} a été retiré!`
                 });
             } else {
-                res.send({
+                res.status(400).send({
                     message: `Le dislike de l'utilisateur n°${req.body.user_id} n'a pas été retiré!`
                 });
             }

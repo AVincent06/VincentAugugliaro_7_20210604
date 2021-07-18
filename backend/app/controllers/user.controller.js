@@ -82,7 +82,7 @@ exports.identify = (req, res) => {
 exports.findAll = (req, res) => {
     User.findAll()
         .then(data => {
-            res.status(200).send(data);
+            res.status(200).send(data);     //CHERCHER UN MOYEN DE NE PAS ENVOYER LES PASSWORDS
         })
         .catch(err => {
             res.status(500).send({
@@ -97,7 +97,7 @@ exports.findOne = (req, res) => {
 
     User.findByPk(id)
         .then(data => {
-            res.status(200).send(data);
+            res.status(200).send(data); //CHERCHER UN MOYEN DE NE PAS ENVOYER LE PASSWORD
         })
         .catch(err => {
             res.status(500).send({
@@ -110,8 +110,13 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
     const user = {
-        email: req.body.email,
-        photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo
+        firstname: req.body.firstname,
+        name: req.body.name,
+        //email: req.body.email,
+        //password: req.body.password,
+        photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo,
+        bio: req.body.bio,
+        //is_admin: req.body.is_admin
     }
     
     let info = '';
@@ -147,14 +152,36 @@ exports.update = (req, res) => {
 // effacer un utilisateur par id
 exports.delete = (req, res) => {
     const id = req.params.id;
+    let fileToDelete;
+
+    // Processus de recherche de l'image de profil pour la suppression ultérieur
+    User.findByPk(id)
+        .then(data => {
+            fileToDelete = data.photo; 
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `erreur pendant la recherche de l'utilisateur n° ${id}`
+            });
+        });
 
     User.destroy({
         where: {id: id }
     })
         .then( isDeleted => {
             if(isDeleted) {
+                // Suppression de la photo de cet utilisateur
+                let info = '';
+                if( fileToDelete !== 'aucune' && fileToDelete !== null) {
+                    const filename = fileToDelete.split('/images/')[1];
+                    fs.unlink(`app/images/${filename}`, (error) => {
+                        if (error) res.status(400).json({ error });
+                            else info = ", ainsi que sa photo de profil.";
+                    });
+                }
+
                 res.status(200).send({
-                    message: `L'utilisateur n°${id} a été effacé!`
+                    message: `L'utilisateur n°${id} a été effacé${info}`
                 });
             } else {
                 res.status(403).send({
