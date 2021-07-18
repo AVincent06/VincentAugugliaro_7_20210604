@@ -5,7 +5,7 @@ module.exports = app => {
     const multer = require("../middleware/multer-config");
 
     // créer un nouveau message
-    router.post("/", auth, messages.create);
+    router.post("/", auth, multer, messages.create);
 
     // récupérer les nb derniers messages
     router.get("/amount/:nb", auth, messages.findAllByAmount);
@@ -20,7 +20,7 @@ module.exports = app => {
     router.get("/:id", auth, messages.findOne);
 
     // mettre à jour un message par id
-    router.put("/:id", auth, messages.update);
+    router.put("/:id", auth, multer, messages.update);
 
     // effacer un message par id
     router.delete("/:id", auth, messages.delete);
