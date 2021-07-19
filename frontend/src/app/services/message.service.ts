@@ -77,7 +77,7 @@ export class MessageService {
 
   getMessages(): void {
     // chargement des données dans this.messages via l'API
-    // SELECT Message.*, Profile.prenom, Profile.nom, Profile.photo 
+    // SELECT Message.*, Profile.firstname, Profile.name, Profile.photo 
     // FROM Message INNER JOIN Profile ON Message.profile_id = Profile.id
     // WHERE Message.create IN(dans les 10 derniers);
     this.emitMessages();

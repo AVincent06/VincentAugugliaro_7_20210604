@@ -53,7 +53,7 @@ exports.create = (req, res) => {
     }else{
         res.status(500).json({ error : feedback1+feedback2 });
     }
-};
+}; 
 
 // identifier un utilisateur existant
 exports.identify = (req, res) => {
