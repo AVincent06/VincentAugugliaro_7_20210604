@@ -35,8 +35,8 @@ export class ProfileService {
         email: 'test@test.com',
         password : 'test',
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        nom: 'defamille',
-        prenom: 'toto',
+        name: 'defamille',
+        firstname: 'toto',
         bio: 'toute ma vie en quelques lignes',
         is_admin: false
       },
@@ -45,8 +45,8 @@ export class ProfileService {
         email: 'test1@test.com',
         password : 'test1',
         photo : '../../assets/images/profile.png',
-        nom: 'defamille1',
-        prenom: 'toto1',
+        name: 'defamille1',
+        firstname: 'toto1',
         bio: 'toute ma vie en quelques lignes1',
         is_admin: true
       },
@@ -55,8 +55,8 @@ export class ProfileService {
         email: 'test2@test.com',
         password : 'test2',
         photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        nom: 'defamille2',
-        prenom: 'toto2',
+        name: 'defamille2',
+        firstname: 'toto2',
         bio: 'toute ma vie en quelques lignes2',
         is_admin: false
       }
@@ -73,8 +73,8 @@ export class ProfileService {
         email: 'test1@test.com',
         password : 'test1',
         photo : '../../assets/images/profile.png',
-        nom: 'defamille1',
-        prenom: 'toto1',
+        name: 'defamille1',
+        firstname: 'toto1',
         bio: 'toute ma vie en quelques lignes1',
         is_admin: true
       };

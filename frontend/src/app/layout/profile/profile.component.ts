@@ -12,8 +12,8 @@ import { ProfileService } from 'src/app/services/profile.service';
 export class ProfileComponent implements OnInit {
 
   profileForm = new FormGroup({  
-    prenom : new FormControl(''),
-    nom : new FormControl(''),
+    firstname : new FormControl(''),
+    name : new FormControl(''),
     email : new FormControl(''),
     password: new FormControl(''),
     passwordcheck: new FormControl(''),
@@ -45,8 +45,8 @@ export class ProfileComponent implements OnInit {
   initForm(): void {
     this.profileForm = this.formBuilder.group({
       photo: [],
-      prenom: [this.profile.prenom, [Validators.pattern('^[a-zA-Z]+$')]],
-      nom: [this.profile.nom, [Validators.pattern('^[a-zA-Z]+$')]],
+      firstname: [this.profile.firstname, [Validators.pattern('^[a-zA-Z]+$')]],
+      name: [this.profile.name, [Validators.pattern('^[a-zA-Z]+$')]],
       email: [this.profile.email, [Validators.required, Validators.email]],
       password: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
       passwordcheck: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
@@ -67,8 +67,8 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     const photo = this.profileForm.get('photo')!.value;
-    const prenom = this.profileForm.get('prenom')!.value;
-    const nom = this.profileForm.get('nom')!.value;
+    const firstname = this.profileForm.get('firstname')!.value;
+    const name = this.profileForm.get('name')!.value;
     const email = this.profileForm.get('email')!.value;
     const password = this.profileForm.get('password')!.value;
     const bio = this.profileForm.get('bio')!.value;

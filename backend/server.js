@@ -28,7 +28,7 @@ db.sequelize.sync({ force: true }).then(() => { // {force: true} juste pour le d
 
 /* Cross Origin Resource Sharing (CORS) */
 app.use((req, res, next) => {   //applies to all roads
-    res.setHeader('Access-Control-Allow-Origin', `http://${process.env.APP_HOST}:${process.env.APP_PORT}`);  //origin of access
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');  //origin of access
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');    //authorized headers
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');    //authorized methods
     next();

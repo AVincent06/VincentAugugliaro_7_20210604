@@ -1,5 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { Observable, of, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +14,21 @@ export class AuthService {
   private profileId: number;
   private isAdmin: boolean;
 
-  constructor() {
+  constructor(
+    private http: HttpClient
+  ) {
     this.profileId = -1;
     this.isAdmin = false;
     this.isLoggedIn = false;
     this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
   }
 
-  createNewUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
-    console.log('signup+login');  // TEST
-
-    if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
-      this.isLoggedIn = true;
-      this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
-      return of(this.isLoggedIn);
-    }
+  createNewUser(email: string, password: string): Observable<object> {
+    return this.http.post<Object>(
+      'http://localhost:8080/api/users', 
+      { email: email, password: password }, 
+      { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
+    );
   }
 
   getIsAdmin(): boolean {
@@ -37,8 +40,6 @@ export class AuthService {
   }
 
   signInUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
-    console.log('login');  // TEST
-
     if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
       this.isLoggedIn = true;
       this.profileId = 2; // POUR TEST EN ATTENDANT LA REPONSE SERVEUR
