@@ -65,8 +65,9 @@ exports.identify = (req, res) => {
                 .then((valid) => {
                     if(!valid) return res.status(401).json({ error : 'mot de passe incorrect !'});
                     res.status(200).json({
-                        userId : data.id,
-                        token : jwt.sign(
+                        userId: data.id,
+                        isAdmin: data.is_admin, 
+                        token: jwt.sign(
                             { userId : data.id },
                             process.env.TOKEN_KEY,
                             { expiresIn : process.env.TOKEN_DURATION }
