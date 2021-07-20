@@ -8,7 +8,7 @@ module.exports = app => {
     router.post("/", users.create);
 
     // identifier un utilisateur existant
-    router.get("/identify", users.identify);
+    router.post("/identify", users.identify);
 
     // récupérer tous les utilisateurs
     router.get("/", auth, users.findAll);

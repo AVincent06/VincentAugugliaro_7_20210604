@@ -9,18 +9,10 @@ import { catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private isLoggedIn: boolean;
   isLog$: Subject<boolean> = new Subject<boolean>();  // code pour l'observable de la session
-  private profileId: number;
-  private isAdmin: boolean;
 
-  constructor(
-    private http: HttpClient
-  ) {
-    this.profileId = -1;
-    this.isAdmin = false;
-    this.isLoggedIn = false;
-    this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
+  constructor( private http: HttpClient ) {
+    this.isLog$.next(false);
   }
 
   createNewUser(email: string, password: string): Observable<object> {
@@ -28,36 +20,45 @@ export class AuthService {
       'http://localhost:8080/api/users', 
       { email: email, password: password }, 
       { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
-    );
+    );  
+  }  
+    
+  isUserLoggedIn(): Observable<boolean> { 
+    return this.isLog$;                   
   }
-
-  getIsAdmin(): boolean {
-    return this.isAdmin;
-  }
+  
+    getIsAdmin(): boolean {
+    return localStorage.getItem('isAdmin') === '1';
+  }  
 
   getProfileId(): number {
-    return this.profileId;
-  }
+    return parseInt(localStorage.getItem('userId')!, 10);
+  }  
 
-  signInUser(email: string, password: string): Observable<boolean> {  // code pour l'observable de la session
-    if (true) { // ACCES A LA BDD POUR VERIFIER L'ACCES
-      this.isLoggedIn = true;
-      this.profileId = 2; // POUR TEST EN ATTENDANT LA REPONSE SERVEUR
-      this.isAdmin = true;// POUR TEST EN ATTENDANT LA REPONSE SERVEUR
-      this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
-      return of(this.isLoggedIn);
-    }
-  }
+  getToken(): string {
+    return localStorage.getItem('token')!;
+  }  
 
-  isUserLoggedIn(): Observable<boolean> { // code pour l'observable de la session
-    return this.isLog$;                   // code pour l'observable de la session
-  }
+  signInUser(email: string, password: string): Observable<object> {
+    return this.http.post<Object>(
+      'http://localhost:8080/api/users/identify', 
+      { email: email, password: password }, 
+      { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
+    );  
+  }  
+
+  setSession(signInResult: any): void {
+    localStorage.setItem('userId', signInResult.userId);
+    localStorage.setItem('isAdmin', signInResult.isAdmin);
+    localStorage.setItem('token', signInResult.token);
+    this.isLog$.next(true);
+  }  
 
   signOutUser(): void {
-    console.log('Logout');  // TEST
-    this.profileId = -1;  // en attendant de trouver mieux
-    this.isLoggedIn = false;
-    this.isLog$.next(this.isLoggedIn);  // code pour l'observable de la session
+    localStorage.removeItem('userId');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('token');
+    this.isLog$.next(false); 
   }
 
 }
