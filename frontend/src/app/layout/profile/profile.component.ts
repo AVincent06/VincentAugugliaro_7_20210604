@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Profile } from 'src/app/models/profile.model';
+import { Profile, Profile_private } from 'src/app/models/profile.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 
@@ -16,8 +16,8 @@ export class ProfileComponent implements OnInit {
     firstname : new FormControl(''),
     name : new FormControl(''),
     email : new FormControl(''),
-    password: new FormControl(''),
-    passwordcheck: new FormControl(''),
+    oldpassword: new FormControl(''),
+    newpassword: new FormControl(''),
     bio : new FormControl('')
   });
   profile!: Profile;
@@ -34,48 +34,47 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.getSingleProfile(this.authService.getProfileId()).subscribe(data => {
       this.profile = data;
+      this.initForm();
     });
-    this.initForm();
   }
 
   initForm(): void {
     this.profileForm = this.formBuilder.group({
       photo: [],
-      firstname: [this.profile.firstname, [Validators.pattern('^[a-zA-Z]+$')]],
-      name: [this.profile.name, [Validators.pattern('^[a-zA-Z]+$')]],
+      firstname: [this.profile.firstname, [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      name: [this.profile.name, [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       email: [this.profile.email, [Validators.required, Validators.email]],
-      password: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
-      passwordcheck: ['', [Validators.pattern('[0-9a-zA-Z]{12,}')]],
+      oldpassword: [{value: '', disabled: true}, [Validators.pattern('[0-9a-zA-Z]{12,}')]], // fonctionnalité en attente
+      newpassword: [{value: '', disabled: true}, [Validators.pattern('[0-9a-zA-Z]{12,}')]], // fonctionnalité en attente
       bio: [this.profile.bio]
-    })
+    });
     this.selectedFile = this.profile.photo;
   }
 
-  onChange(event: any) {
+  onChange(event: Event) {
     var reader = new FileReader();
-    
-    this.selectedFile = <File>event.target.files[0];
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = (_event) => { 
-      this.selectedFile = reader.result; 
+    let file;
+    if((event.target as HTMLInputElement).files != null) {
+      file = (event.target as HTMLInputElement).files![0];
+      this.profileForm.get('photo')!.setValue(file);
+      this.profileForm.updateValueAndValidity();
+      reader.onload = (_event) => { 
+        this.selectedFile = reader.result; 
+      }
+      reader.readAsDataURL(file);
     }
   }
 
   onSubmit() {
-    const photo = this.profileForm.get('photo')!.value;
-    const firstname = this.profileForm.get('firstname')!.value;
-    const name = this.profileForm.get('name')!.value;
-    const email = this.profileForm.get('email')!.value;
-    const password = this.profileForm.get('password')!.value;
-    const bio = this.profileForm.get('bio')!.value;
-    
-    // this.authService.createNewUser(email, password).subscribe(data =>{
-    //   if(data) {
-    //     this.router.navigate(['news']);
-    //   } else {
-    //     this.router.navigate(['signin']);
-    //     this.errorMessage = "Erreur";
-    //   }
-    // });
+    this.profileService.setSingleProfile(this.authService.getProfileId(), {
+      firstname: this.profileForm.get('firstname')!.value,
+      name: this.profileForm.get('name')!.value,
+      email: this.profileForm.get('email')!.value,
+      bio: this.profileForm.get('bio')!.value,
+      photo: this.profile.photo,
+      file: this.profileForm.get('photo')!.value
+    }).subscribe(() => {
+      console.log('update ok?'); 
+    });
   }
 }
