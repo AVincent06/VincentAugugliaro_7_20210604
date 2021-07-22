@@ -1,6 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { Profile } from '../models/profile.model';
+import { Profile, Profile_public } from '../models/profile.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class ProfileService {
   profile!: Profile;
   profileSubject = new Subject<Profile>();
 
-  constructor() { }
+  constructor( private http: HttpClient, private authService: AuthService ) { }
 
   emitProfiles(): void {
     this.profilesSubject.next(this.profiles); // en attendant le back avec le retour de l api
@@ -27,59 +29,28 @@ export class ProfileService {
     // sauvegarde de this.profiles dans la BDD via l'API
   }
 
-  getProfiles(): void {
-    // chargement des données dans this.profiles via l'API
-    this.profiles = [
-      {
-        id: 1,
-        email: 'test@test.com',
-        password : 'test',
-        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        name: 'defamille',
-        firstname: 'toto',
-        bio: 'toute ma vie en quelques lignes',
-        is_admin: false
-      },
-      {
-        id: 2,
-        email: 'test1@test.com',
-        password : 'test1',
-        photo : '../../assets/images/profile.png',
-        name: 'defamille1',
-        firstname: 'toto1',
-        bio: 'toute ma vie en quelques lignes1',
-        is_admin: true
-      },
-      {
-        id: 3,
-        email: 'test2@test.com',
-        password : 'test2',
-        photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        name: 'defamille2',
-        firstname: 'toto2',
-        bio: 'toute ma vie en quelques lignes2',
-        is_admin: false
+  getProfiles(): Observable<Profile_public[]> {
+    return this.http.get<Profile_public[]>(
+      'http://localhost:8080/api/users',  
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }) 
       }
-    ];
-
-    this.emitProfiles();
+    );
   }
 
   getSingleProfile(id: number): Observable<Profile> {
-    // chargement des données du profile ciblé via l'API
-    this.profile = 
-      {
-        id: 2,
-        email: 'test1@test.com',
-        password : 'test1',
-        photo : '../../assets/images/profile.png',
-        name: 'defamille1',
-        firstname: 'toto1',
-        bio: 'toute ma vie en quelques lignes1',
-        is_admin: true
-      };
-
-    return of(this.profile);
+    return this.http.get<Profile>(
+      'http://localhost:8080/api/users/'+id,  
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }) 
+      }
+    );
   }
 
   createNewProfile(newProfile: Profile) {

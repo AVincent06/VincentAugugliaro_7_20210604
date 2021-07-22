@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Profile } from 'src/app/models/profile.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
@@ -20,25 +21,20 @@ export class ProfileComponent implements OnInit {
     bio : new FormControl('')
   });
   profile!: Profile;
-  profileSubscription = new Subscription();
   selectedFile: File | any;
   hide: boolean = true;
   hide2: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.profileSubscription = this.profileService.profileSubject.subscribe(
-      (profile: Profile) => {
-        this.profile = profile;
-      }
-    );
-    this.profileService.getSingleProfile(2);
-    this.profileService.emitSingleProfile();
-
+    this.profileService.getSingleProfile(this.authService.getProfileId()).subscribe(data => {
+      this.profile = data;
+    });
     this.initForm();
   }
 
