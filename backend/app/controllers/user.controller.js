@@ -38,7 +38,8 @@ exports.create = (req, res) => {
                     name: req.body.name,
                     email: req.body.email,
                     password: hash,
-                    is_admin: req.body.is_admin ? req.body.is_admin : false
+                    is_admin: req.body.is_admin ? req.body.is_admin : false,
+                    photo: 'aucune'
                 }
                 // Sauvegarde de l'utilisateur dans la BDD
                 User.create(user)
@@ -112,15 +113,15 @@ exports.findOne = (req, res) => {
 };
 
 // mettre à jour un utilisateur par id
-exports.update = (req, res) => {
+exports.update = (req, res) => { 
     const id = req.params.id;
     const user = {
         firstname: req.body.firstname,
         name: req.body.name,
-        //email: req.body.email,
-        //password: req.body.password,
-        photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo,
+        email: req.body.email,
         bio: req.body.bio,
+        photo: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.photo,
+        //password: req.body.password,
         //is_admin: req.body.is_admin
     }
     
