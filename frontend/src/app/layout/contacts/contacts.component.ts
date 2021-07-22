@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Profile } from 'src/app/models/profile.model';
+// import { Subscription } from 'rxjs';
+import { Profile, Profile_public } from 'src/app/models/profile.model';
 import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
@@ -11,19 +11,14 @@ import { ProfileService } from 'src/app/services/profile.service';
 })
 export class ContactsComponent implements OnInit {
 
-  profiles: Profile[] = [];
-  profilesSubscription = new Subscription();
+  profiles: Profile_public[] = [];
 
   constructor(private profilesService: ProfileService, private router: Router) { }
 
   ngOnInit(): void {
-    this.profilesSubscription = this.profilesService.profilesSubject.subscribe(
-      (profiles: Profile[]) => {
-        this.profiles = profiles;
-      }
-    );
-    this.profilesService.getProfiles();
-    this.profilesService.emitProfiles();
+    this.profilesService.getProfiles().subscribe((data) => {
+      this.profiles = data;
+    });
   }
 
   onViewProfile(id: number) {

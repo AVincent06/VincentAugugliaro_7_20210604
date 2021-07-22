@@ -15,10 +15,10 @@ export class AuthService {
     this.isLog$.next(false);
   }
 
-  createNewUser(email: string, password: string): Observable<object> {
+  createNewUser(firstname: string, name: string, email: string, password: string): Observable<object> {
     return this.http.post<Object>(
       'http://localhost:8080/api/users', 
-      { email: email, password: password }, 
+      { firstname: firstname, name: name, email: email, password: password }, 
       { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
     );  
   }  
@@ -47,11 +47,12 @@ export class AuthService {
     );  
   }  
 
-  setSession(signInResult: any): void {
+  setSession(signInResult: any, _callback: Function) {
     localStorage.setItem('userId', signInResult.userId);
     localStorage.setItem('isAdmin', signInResult.isAdmin);
     localStorage.setItem('token', signInResult.token);
     this.isLog$.next(true);
+    _callback();
   }  
 
   signOutUser(): void {

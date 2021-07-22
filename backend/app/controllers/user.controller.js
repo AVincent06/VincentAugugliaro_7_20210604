@@ -34,6 +34,8 @@ exports.create = (req, res) => {
             .then((hash) => {
                 // Création d'un utilisateur
                 const user = {
+                    firstname: req.body.firstname,
+                    name: req.body.name,
                     email: req.body.email,
                     password: hash,
                     is_admin: req.body.is_admin ? req.body.is_admin : false
@@ -81,15 +83,17 @@ exports.identify = (req, res) => {
 
 // récupérer tous les utilisateurs
 exports.findAll = (req, res) => {
-    User.findAll()
+    User.findAll({
+        attributes: ['id', 'photo', 'name', 'firstname', 'bio']
+      })
         .then(data => {
-            res.status(200).send(data);     //CHERCHER UN MOYEN DE NE PAS ENVOYER LES PASSWORDS
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message: err.message || "erreur pendant la récupération des utilisateurs!"
             });
-        });
+        }); 
 };
 
 // récupérer un utilisateur par id
@@ -98,7 +102,7 @@ exports.findOne = (req, res) => {
 
     User.findByPk(id)
         .then(data => {
-            res.status(200).send(data); //CHERCHER UN MOYEN DE NE PAS ENVOYER LE PASSWORD
+            res.status(200).send(data);
         })
         .catch(err => {
             res.status(500).send({
