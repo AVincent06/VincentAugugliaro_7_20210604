@@ -49,8 +49,8 @@ export class ProfileService {
     );
   }
 
-  setSingleProfile(id: number, profile: Profile_public2): Observable<Object> {
-    return this.http.put<object>(
+  setSingleProfile(id: number, profile: Profile_public2): Observable<any> {
+    return this.http.put(
       'http://localhost:8080/api/users/'+id,
       profile,
       { 
