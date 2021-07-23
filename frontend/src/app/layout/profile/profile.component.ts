@@ -52,17 +52,14 @@ export class ProfileComponent implements OnInit {
   }
 
   onChange(event: Event) {
-    var reader = new FileReader();
-    let file;
-    if((event.target as HTMLInputElement).files != null) {
-      file = (event.target as HTMLInputElement).files![0];
-      this.profileForm.get('photo')!.setValue(file);
-      this.profileForm.updateValueAndValidity();
-      reader.onload = (_event) => { 
-        this.selectedFile = reader.result; 
-      }
-      reader.readAsDataURL(file);
-    }
+    const file = (event.target as HTMLInputElement).files![0];
+    this.profileForm.get('photo')!.setValue(file, {emitModelToViewChange: false});
+    this.profileForm.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedFile = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 
   onSubmit() {
