@@ -17,3 +17,9 @@ export class Message {
         public profile_photo: string
     ) {}
 }
+
+export interface Message_post {
+    file?: File;
+    article?: string;
+    user_id: number;
+}
