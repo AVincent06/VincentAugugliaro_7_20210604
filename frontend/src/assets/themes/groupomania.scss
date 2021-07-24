@@ -4,7 +4,7 @@
 @include mat.strong-focus-indicators();
 
 //These four hues represent, in order: the "default" hue, a "lighter" hue, a "darker" hue, and a "text" hue
-$my-primary: mat.define-palette(mat.$red-palette, 500);  
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);  
 $my-accent: mat.define-palette(mat.$red-palette, A200, A100, A400);
 
 $my-theme: mat.define-light-theme((

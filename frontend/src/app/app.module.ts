@@ -37,6 +37,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -45,6 +46,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ConfirmationComponent } from './layout/shared/dialog/confirmation/confirmation.component';
 
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuardService] },
@@ -77,6 +79,7 @@ const appRoutes: Routes = [
     SignoutComponent,
     SignupComponent,
     SubmitComponent,
+    ConfirmationComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -87,6 +90,7 @@ const appRoutes: Routes = [
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,

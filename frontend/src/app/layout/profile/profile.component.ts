@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Profile, Profile_private } from 'src/app/models/profile.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
+import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +32,8 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private profileService: ProfileService,
     private authService: AuthService,
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +65,28 @@ export class ProfileComponent implements OnInit {
       this.selectedFile = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  onDelete(): void {
+    const dialogRef = this.dialog.open(ConfirmationComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir supprimer votre profil?',
+        buttonText: {
+          ok: 'Supprimer',
+          cancel: 'Annuler'
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Effacer le profil après confirmation
+        this.profileService.delSingleProfile(this.authService.getProfileId()).subscribe(() => {
+        console.log("Le profil a été supprimé!");
+        this.authService.signOutUser();
+        this.router.navigate(['signout']);
+        });
+      }
+    });
   }
 
   onSubmit() {
