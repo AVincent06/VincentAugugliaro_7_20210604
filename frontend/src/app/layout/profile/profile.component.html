@@ -83,21 +83,30 @@
                         <input type="text" matInput formControlName="bio">
                     </mat-form-field>
                 </p>
-                <div class="submit">
-                    <button 
-                        mat-stroked-button 
+                <div class="bottom">
+                    <button
                         type="button"
-                        (click)="initForm()"
-                        color="primary">
-                        Réinitialisez
+                        color="accent"
+                        mat-mini-fab
+                        (click)="onDelete()">
+                        <mat-icon aria-label="Delete profile forever">dangerous</mat-icon>
                     </button>
-                    <button 
-                        mat-raised-button 
-                        type="submit" 
-                        [disabled]="profileForm.invalid"
-                        color="primary">
-                        Mettre à jour
-                    </button>
+                    <div class="submit">
+                        <button 
+                            mat-stroked-button 
+                            type="button"
+                            (click)="initForm()"
+                            color="primary">
+                            Réinitialisez
+                        </button>
+                        <button 
+                            mat-raised-button 
+                            type="submit" 
+                            [disabled]="profileForm.invalid"
+                            color="primary">
+                            Mettre à jour
+                        </button>
+                    </div>
                 </div>
             </form>
         </mat-card-content>

@@ -62,16 +62,15 @@ export class ProfileService {
     );
   }
 
-  removeProfile(profile: Profile): void {
-    const profileIndexToRemove = this.profiles.findIndex(
-      (profileElement) => {
-        if(profileElement === profile) {
-          return true;
-        }
-        return false;
+  delSingleProfile(id: number): Observable<any> {
+    return this.http.delete(
+      'http://localhost:8080/api/users/'+id,  
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken()
+        }) 
       }
     );
-    this.profiles.splice(profileIndexToRemove, 1);
-    this.emitProfiles();
   }
 }
