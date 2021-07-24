@@ -1,6 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { Message } from '../models/message.model';
+import { Message, Message_post } from '../models/message.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class MessageService {
   messages: Message[] = [];
   messagesSubject = new Subject<Message[]>();
 
-  constructor() { 
+  constructor( private http: HttpClient, private authService: AuthService ) { 
     this.messages = [
       {
         id: 0, 
@@ -88,29 +90,6 @@ export class MessageService {
     return of(this.messages[id]);
   }
 
-  createNewMessage(mySubmit: string) {
-    this.messages.push( // POUR TESTER
-      {
-        id: 3, 
-        profile_id: 2,
-        picture: '',
-        text: mySubmit,
-        usersLiked: [],
-        usersDisliked: [],
-        likes: 0,
-        dislikes: 0,
-        comments: 0,
-        create: '26-06-2021',
-        update: '',
-        profile_photo : 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-        profile_nom: 'defamille2',
-        profile_prenom: 'toto2'
-      }
-    );
-    this.saveMessages();
-    this.emitMessages();
-  }
-
   removeMessage(message: Message): void {
     const messageIndexToRemove = this.messages.findIndex(
       (messageElement) => {
@@ -124,5 +103,17 @@ export class MessageService {
     this.saveMessages();
     this.emitMessages();
   }
-
+  /*---------------------- En accord avec le backend à partir de là ---------------------------*/
+  postMessage(message: Message_post): Observable<any> {
+    return this.http.post(
+      'http://localhost:8080/api/messages/',
+      message,
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken() 
+        }) 
+      }
+    );
+  }
 }

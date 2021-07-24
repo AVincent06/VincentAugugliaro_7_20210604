@@ -15,7 +15,8 @@ import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmatio
 })
 export class ProfileComponent implements OnInit {
 
-  profileForm = new FormGroup({  
+  profileForm = new FormGroup({
+    photo : new FormControl(''),  // RAJOUTER LE 24 07 2021
     firstname : new FormControl(''),
     name : new FormControl(''),
     email : new FormControl(''),
