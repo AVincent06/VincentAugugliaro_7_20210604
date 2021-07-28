@@ -7,6 +7,9 @@ module.exports = app => {
     // créer un nouveau message
     router.post("/", auth, multer, messages.create);
 
+    // récupérer les nb dernières news
+    router.get("/amount/:nb/news", auth, messages.findNewsByAmount);
+
     // récupérer les nb derniers messages
     router.get("/amount/:nb", auth, messages.findAllByAmount);
 
