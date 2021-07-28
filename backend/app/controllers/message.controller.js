@@ -1,5 +1,6 @@
 const db = require("../models");
 const Message = db.messages;
+const User = db.users;
 const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
 const fs = require('fs');
@@ -32,6 +33,92 @@ exports.create = (req, res) => {
             });
         });
 };
+
+//  // récupérer les nb dernières news
+//  exports.findNewsByAmount = async (req, res) => {
+//      const nb = parseInt(req.params.nb, 10);
+//      let receptacles = [];
+
+//      // étape 1 : récupération de la partie "Messages" des News
+//      await Message.findAll({
+//          order: Sequelize.literal('createdAt DESC'),
+//          limit: nb
+//      })
+//          .then(async (partOne) => { 
+//              partOne = partOne.map((element) => {
+//                  return element.dataValues;
+//              });
+//              // étape 2 : récupération de la partie "Users" des news
+//              receptacles = partOne.map(async (receptacle) => {
+//                  await User.findByPk(receptacle.UserId)
+//                      .then(partTwo => {
+//                          partTwo = partTwo.dataValues;
+//                          return {
+//                              ...receptacle, 
+//                              firstname: partTwo.firstname,
+//                              name: partTwo.name,
+//                              photo: partTwo.photo
+//                          };
+//                      })
+//                      .catch(err => {
+//                          res.status(500).send({
+//                              message: "erreur pendant la récupération de l'utilisateur"
+//                          });
+//                      });
+//              });
+//              console.log(receptacles);
+//              res.status(200).send(receptacles);
+//          })
+//          .catch(err => {
+//              res.status(500).send({
+//                  message: err.message || "erreur pendant la récupération des messages!"
+//              });
+//          });
+//  };
+
+// récupérer les nb dernières news
+exports.findNewsByAmount = async (req, res) => {
+    const nb = parseInt(req.params.nb, 10);
+    let receptacles = [];
+
+    // étape 1 : récupération de la partie "Messages" des News
+    await Message.findAll({
+        order: Sequelize.literal('createdAt DESC'),
+        limit: nb
+    })
+        .then(async (partOne) => { 
+            receptacles = partOne.map((element) => {
+                return element.dataValues;
+            });
+            // étape 2 : récupération de la partie "Users" des news
+            for (let i = 0; i < receptacles.length; i++) {
+                await User.findByPk(receptacles[i].UserId)
+                    .then(partTwo => {
+                        partTwo = partTwo.dataValues;
+                        const pieceOfpartTwo = {
+                            firstname: partTwo.firstname,
+                            name: partTwo.name,
+                            photo: partTwo.photo
+                        };
+                        console.log(pieceOfpartTwo);
+                        receptacles[i] = Object.assign({}, receptacles[i], pieceOfpartTwo);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: "erreur pendant la récupération de l'utilisateur"
+                        });
+                    });
+            }
+            console.log(receptacles);
+            res.status(200).send(receptacles);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "erreur pendant la récupération des messages!"
+            });
+        });
+};
+
 
 // récupérer les nb derniers messages
 exports.findAllByAmount = (req, res) => {
