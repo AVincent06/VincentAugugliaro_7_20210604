@@ -5,10 +5,10 @@ const LIKE = 1;
 const DISLIKE = 2;
 
 // ajouter un like sur le message par id
-exports.addLike = (req, res) => {
+exports.addLike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.findOrCreate({
+    await Feeling.findOrCreate({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
@@ -43,10 +43,10 @@ exports.addLike = (req, res) => {
 };
 
 // ajouter un dislike sur le message par id
-exports.addDislike = (req, res) => {
+exports.addDislike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.findOrCreate({
+    await Feeling.findOrCreate({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
@@ -81,10 +81,10 @@ exports.addDislike = (req, res) => {
 };
 
 // récupérer tous les like pour le message par id
-exports.findAllLike = (req, res) => {
+exports.findAllLike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.findAll({
+    await Feeling.findAll({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
@@ -103,10 +103,10 @@ exports.findAllLike = (req, res) => {
 };
 
 // récupérer tous les dislike pour le message par id
-exports.findAllDislike = (req, res) => {
+exports.findAllDislike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.findAll({
+    await Feeling.findAll({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
@@ -125,10 +125,10 @@ exports.findAllDislike = (req, res) => {
 };
 
 // effacer un like sur le message par id
-exports.delLike = (req, res) => {
+exports.delLike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.destroy({
+    await Feeling.destroy({
         where: {
             [Op.and]: [
                 { MessageId: id }, 
@@ -156,10 +156,10 @@ exports.delLike = (req, res) => {
 };
 
 // effacer un dislike sur le message par id
-exports.delDislike = (req, res) => {
+exports.delDislike = async (req, res) => {
     const id = req.params.id;
 
-    Feeling.destroy({
+    await Feeling.destroy({
         where: {
             [Op.and]: [
                 { MessageId: id }, 

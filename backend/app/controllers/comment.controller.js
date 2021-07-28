@@ -3,7 +3,7 @@ const Comment = db.comments;
 const Op = db.Sequelize.Op;
 
 // créer un nouveau commentaire
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validation de la requète
     if(!req.body.feedback) {
         res.status(400).send({ 
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     }
 
     // Sauvegarde du commentaire dans la BDD
-    Comment.create(comment)
+    await Comment.create(comment)
         .then(data => {
             res.status(201).send(data);
         })
@@ -32,10 +32,10 @@ exports.create = (req, res) => {
 };
 
 // récupérer tous les commentaires du message par messageId
-exports.findAllByMessage = (req, res) => {
+exports.findAllByMessage = async (req, res) => {
     const messageId = req.params.messageId;
 
-    Comment.findAll({
+    await Comment.findAll({
         where: {
             MessageId: {
                 [Op.eq]: messageId
@@ -53,10 +53,10 @@ exports.findAllByMessage = (req, res) => {
 };
 
 // récupérer un commentaire par id
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
     const id = req.params.id;
 
-    Comment.findByPk(id)
+    await Comment.findByPk(id)
         .then(data => {
             res.status(200).send(data);
         })
@@ -68,10 +68,10 @@ exports.findOne = (req, res) => {
 };
 
 // mettre à jour un commentaire par id
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     const id = req.params.id;
 
-    Comment.update(req.body, {
+    await Comment.update(req.body, {
         where: {id: id}
     })
         .then( isUpdated => {
@@ -93,10 +93,10 @@ exports.update = (req, res) => {
 };
 
 // effacer un commentaire par id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
     const id = req.params.id;
 
-    Comment.destroy({
+    await Comment.destroy({
         where: {id: id }
     })
         .then( isDeleted => {
