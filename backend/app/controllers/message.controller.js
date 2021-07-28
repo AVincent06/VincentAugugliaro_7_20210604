@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
 const fs = require('fs');
 
 // créer un nouveau message
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validation de la requète
     if(!req.body.picture && !req.body.article) {
         res.status(400).send({ 
@@ -23,7 +23,7 @@ exports.create = (req, res) => {
     }
 
     // Sauvegarde du message dans la BDD
-    Message.create(message)
+    await Message.create(message)
         .then(data => {
             res.status(201).send(data);
         })
@@ -121,10 +121,10 @@ exports.findNewsByAmount = async (req, res) => {
 
 
 // récupérer les nb derniers messages
-exports.findAllByAmount = (req, res) => {
+exports.findAllByAmount = async (req, res) => {
     const nb = parseInt(req.params.nb, 10);
 
-    Message.findAll({
+    await Message.findAll({
         order: Sequelize.literal('createdAt DESC'),
         limit: nb
     })
@@ -139,10 +139,10 @@ exports.findAllByAmount = (req, res) => {
 };
 
 // récupérer les messages jusqu'à date
-exports.findAllByDate = (req, res) => {
+exports.findAllByDate = async (req, res) => {
     const date = req.params.date;
 
-    Message.findAll({
+    await Message.findAll({
         where: {
             createdAt: {
                 [Op.lte]: date
@@ -160,10 +160,10 @@ exports.findAllByDate = (req, res) => {
 };
 
 // récupérer tous les message par userId
-exports.findAllByUser = (req, res) => {
+exports.findAllByUser = async (req, res) => {
     const userId = req.params.userId;
 
-    Message.findAll({
+    await Message.findAll({
         where: {
             UserId: {
                 [Op.eq]: userId
@@ -181,10 +181,10 @@ exports.findAllByUser = (req, res) => {
 };
 
 // récupérer un message par id
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
     const id = req.params.id;
 
-    Message.findByPk(id)
+    await Message.findByPk(id)
         .then(data => {
             res.status(200).send(data);
         })
@@ -196,7 +196,7 @@ exports.findOne = (req, res) => {
 };
 
 // mettre à jour un message par id
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
     const id = req.params.id;
     const message = {
         picture: req.file ? `${req.protocol}://${req.get('host')}/app/images/${req.file.filename}` : req.body.picture,
@@ -212,7 +212,7 @@ exports.update = (req, res) => {
         });
     }
 
-    Message.update(message, {
+    await Message.update(message, {
         where: {id: id}
     })
         .then( isUpdated => {
@@ -234,12 +234,12 @@ exports.update = (req, res) => {
 };
 
 // effacer un message par id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
     const id = req.params.id;
     let fileToDelete;
 
     // Processus de recherche de l'image du message pour la suppression ultérieur
-    Message.findByPk(id)
+    await Message.findByPk(id)
         .then(data => {
             fileToDelete = data.picture;
         })
@@ -249,7 +249,7 @@ exports.delete = (req, res) => {
             });
         });
 
-    Message.destroy({
+    await Message.destroy({
         where: {id: id }
     })
         .then( isDeleted => {

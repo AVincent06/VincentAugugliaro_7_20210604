@@ -31,7 +31,7 @@ exports.create = (req, res) => {
 
     if(emailValidated && passwordValidated) { 
         bcrypt.hash(req.body.password, 10)
-            .then((hash) => {
+            .then(async (hash) => {
                 // Création d'un utilisateur
                 const user = {
                     firstname: req.body.firstname,
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
                     photo: 'aucune'
                 }
                 // Sauvegarde de l'utilisateur dans la BDD
-                User.create(user)
+                await User.create(user)
                     .then(data => {
                         res.status(201).send(data);
                     })
@@ -59,8 +59,8 @@ exports.create = (req, res) => {
 }; 
 
 // identifier un utilisateur existant
-exports.identify = (req, res) => {
-    User.findOne({
+exports.identify = async (req, res) => {
+    await User.findOne({
         where: {email : req.body.email}
     })
         .then((data) => {
@@ -83,8 +83,8 @@ exports.identify = (req, res) => {
 };
 
 // récupérer tous les utilisateurs
-exports.findAll = (req, res) => {
-    User.findAll({
+exports.findAll = async (req, res) => {
+    await User.findAll({
         attributes: ['id', 'photo', 'name', 'firstname', 'bio']
       })
         .then(data => {
@@ -98,10 +98,10 @@ exports.findAll = (req, res) => {
 };
 
 // récupérer un utilisateur par id
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id)
+    await User.findByPk(id)
         .then(data => {
             res.status(200).send(data);
         })
@@ -113,7 +113,7 @@ exports.findOne = (req, res) => {
 };
 
 // mettre à jour un utilisateur par id
-exports.update = (req, res) => { 
+exports.update = async (req, res) => { 
     const id = req.params.id;
     const user = {
         firstname: req.body.firstname,
@@ -134,7 +134,7 @@ exports.update = (req, res) => {
         });
     }
 
-    User.update(user, {
+    await User.update(user, {
         where: {id: id}
     })
         .then( isUpdated => {
@@ -156,12 +156,12 @@ exports.update = (req, res) => {
 };
 
 // effacer un utilisateur par id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
     const id = req.params.id;
     let fileToDelete;
 
     // Processus de recherche de l'image de profil pour la suppression ultérieur
-    User.findByPk(id)
+    await User.findByPk(id)
         .then(data => {
             fileToDelete = data.photo; 
         })
@@ -171,7 +171,7 @@ exports.delete = (req, res) => {
             });
         });
 
-    User.destroy({
+    await User.destroy({
         where: {id: id }
     })
         .then( isDeleted => {
@@ -200,4 +200,4 @@ exports.delete = (req, res) => {
                 message: `erreur pendant la suppression de l'utilisateur n° ${id}`
             });
         });
-};
+}; 
