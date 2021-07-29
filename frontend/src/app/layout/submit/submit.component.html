@@ -7,7 +7,7 @@
     </p>
 
     <div>
-        <img *ngIf="this.selectedFile" src="{{this.selectedFile}}" alt="Image choisi pour le message">
+        <img *ngIf="selectedFile" src="{{selectedFile}}" alt="Image choisi pour le message">
         <input type="file" accept="image/*" #photoFile formControlName="picture" (change)="onChange($event)">
         <button type="button" color="primary" (click)="photoFile.click()">Choisir son image</button>
     </div>

@@ -32,12 +32,16 @@ export class MessageService {
 
   /*---------------------- En accord avec le backend à partir de là ---------------------------*/
   postMessage(message: Message_post): Observable<any> {
+    let formData = new FormData();
+    formData.append('file', message.file as File);          // PREVOIR LE CAS OU IL N Y A PAS DE TEXTE OU D IMAGE
+    formData.append('article', message.article as string);
+    formData.append('user_id', message.user_id.toString());
     return this.http.post(
       'http://localhost:8080/api/messages/',
-      message,
+      formData,
       { 
         headers: new HttpHeaders({
-          'Content-Type':  'application/json',
+          //'Content-Type':  'application/json',
           'Authorization': 'Bearer ' + this.authService.getToken() 
         }) 
       }
