@@ -16,6 +16,7 @@ export class SubmitComponent implements OnInit {
     editor : new FormControl('')
   });
   selectedFile: File | any;
+  myFile: File | any;
 
   constructor(private formBuilder: FormBuilder,
               private messagesService: MessageService,
@@ -35,6 +36,7 @@ export class SubmitComponent implements OnInit {
 
   onChange(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
+    this.myFile = file;
     this.editorForm.get('picture')!.setValue(file, {emitModelToViewChange: false});
     this.editorForm.updateValueAndValidity();
     const reader = new FileReader();
@@ -46,7 +48,7 @@ export class SubmitComponent implements OnInit {
 
   onSubmit() {
     this.messagesService.postMessage({
-      file: this.editorForm.get('picture')!.value,
+      file: this.myFile,                            //this.editorForm.get('picture')!.value,
       article: this.editorForm.get('editor')!.value,
       user_id: this.authService.getProfileId()
     }).subscribe(() => {

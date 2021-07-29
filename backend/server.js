@@ -10,7 +10,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());    // extracts the JSON object from the request
-app.use('/app/images', express.static(path.join(__dirname, 'images')));
+app.use('/app/images', express.static(path.join(__dirname, 'images')));         // FAIRE DES RECHERCHES
 
 /* Connexion à la base de données */
 const db = require("./app/models");
