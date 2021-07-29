@@ -5,7 +5,7 @@
 
             <div class="option">
               <button 
-                *ngIf="(message.profile_id === profileId) || isAdmin"
+                *ngIf="(message.UserId === profileId) || isAdmin"
                 mat-icon-button 
                 [matMenuTriggerFor]="option" 
                 aria-label="Options">
@@ -13,27 +13,36 @@
               </button>
               <mat-menu #option="matMenu">
                 <button mat-menu-item (click)="onDelete(message.id)">
-                  <mat-icon>delete</mat-icon>
+                  <mat-icon color="accent">delete</mat-icon>
                   <span>effacer</span>
                 </button>
               </mat-menu>
             </div>
 
             <mat-card-header>
-              <div 
+              <div *ngIf="message.photo!=='aucune'; else elseBlock" 
                   mat-card-avatar 
                   [ngStyle]="{
-                      'background-image': 'url(' + message.profile_photo + ')',
+                      'background-image': 'url(' + message.photo + ')',
                       'background-size': 'cover'
                   }">
               </div>
-              <mat-card-title>{{ message.profile_prenom }} {{ message.profile_nom }}</mat-card-title>
-              <mat-card-subtitle>{{ message.create }}</mat-card-subtitle>
+              <ng-template #elseBlock>
+                <div 
+                    mat-card-avatar 
+                    [ngStyle]="{
+                        'background-image': 'url(../../assets/images/avatar.png)',
+                        'background-size': 'cover'
+                    }">
+                </div>
+              </ng-template>
+              <mat-card-title>{{ message.firstname }} {{ message.name }}</mat-card-title>
+              <mat-card-subtitle>{{ message.createdAt }}</mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image [src]="message.picture"/>
+            <img *ngIf="message.picture !== 'aucune'" mat-card-image [src]="message.picture"/>
             <mat-card-content>
               <p>
-                {{message.text}}
+                {{message.article}}
               </p>
             </mat-card-content>
             <mat-card-actions>
@@ -42,7 +51,7 @@
                   mat-icon-button 
                   type="button" 
                   (click)="onShow(i)">
-                  {{ message.comments }}
+                  {{ message.nbComments }}
                   <mat-icon color="primary">
                     chat_bubble_outline
                   </mat-icon>

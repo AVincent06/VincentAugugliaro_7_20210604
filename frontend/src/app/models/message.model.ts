@@ -18,6 +18,26 @@ export class Message {
     ) {}
 }
 
+export interface Message_news {
+    id: number;
+    picture?: string;
+    article?: string;
+    createdAt: string;
+    updatedAt: string;
+
+    userId: number;
+    firstname: string;
+    name: string;
+    photo: string;
+
+    nbComments: number;
+    
+    usersLiked: number[];
+    usersDisliked: number[];
+    likes: number;
+    dislikes: number;
+}
+
 export interface Message_post {
     file?: File;
     article?: string;

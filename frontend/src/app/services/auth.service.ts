@@ -27,7 +27,7 @@ export class AuthService {
     return this.isLog$;                   
   }
   
-    getIsAdmin(): boolean {
+  getIsAdmin(): boolean {
     return localStorage.getItem('isAdmin') === '1';
   }  
 

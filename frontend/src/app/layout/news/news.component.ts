@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Message } from 'src/app/models/message.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService } from 'src/app/services/message.service';
+import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-news',
@@ -14,11 +14,12 @@ export class NewsComponent implements OnInit {
 
   profileId!: number;
   isAdmin!: boolean;
-  messages: Message[] = [];
-  messagesSubscription = new Subscription();
+  messages: any[] = [];
+  nbNews: number = 5; // nombre par défaut
 
   constructor(
     private authService : AuthService,
+    private dialog: MatDialog,
     private messagesService: MessageService, 
     private router: Router
   ) { }
@@ -26,13 +27,10 @@ export class NewsComponent implements OnInit {
   ngOnInit(): void {
     this.profileId = this.authService.getProfileId();
     this.isAdmin = this.authService.getIsAdmin();
-    this.messagesSubscription = this.messagesService.messagesSubject.subscribe(
-      (messages: Message[]) => {
-        this.messages = messages;
-      }
-    );
-    this.messagesService.getMessages();
-    this.messagesService.emitMessages();
+
+    this.messagesService.getNewsByAmount(this.nbNews).subscribe((data: any) => {
+      this.messages = data;
+    });
   }
 
   /* utiliser comme isLikedBy ou isDislikedBy */
@@ -41,10 +39,6 @@ export class NewsComponent implements OnInit {
     return false;
   }
 
-  onDelete(id: number): void {
-    this.messagesService.removeMessage(this.messages[id]);
-  }
-  
   onDislike(index: number) {
     if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
       this.messages[index].usersDisliked?.splice(index, 1);                  // Si le dislike est déjà coché, on le décoche
@@ -54,7 +48,6 @@ export class NewsComponent implements OnInit {
     this.messages[index].dislikes = this.messages[index].usersDisliked?.length; // Correction du total des likes
     
     this.messagesService.saveSingleMessage(this.messages[index].id);
-    this.messagesService.emitMessages();
   }
   
   onLike(index: number) {
@@ -64,11 +57,10 @@ export class NewsComponent implements OnInit {
       this.messages[index].usersLiked?.push(this.profileId);              // Si le like n'est pas coché, on le coche
     }
     this.messages[index].likes = this.messages[index].usersLiked?.length; // Correction du total des likes
-
+    
     this.messagesService.saveSingleMessage(this.messages[index].id);
-    this.messagesService.emitMessages();
   }
-
+  
   onShow(index: number) {
     let myElement = document.getElementById("comments-" + index);
     if(myElement!.style.display === "none") {
@@ -77,13 +69,40 @@ export class NewsComponent implements OnInit {
       myElement!.style.display = "none";
     }
   }
-
+  
   onViewMessage(id: number) {
     // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
   }
-
+  
   updateMessageComments(index: number) {
-    this.messages[index].comments!++; // POUR TEST, FAUX POUR LES SUPPRESSIONS, RENVOI UN NOMBRE VERIFIE EN BDD
+    //this.messages[index].comments!++; // POUR TEST, FAUX POUR LES SUPPRESSIONS, RENVOI UN NOMBRE VERIFIE EN BDD
   }
+  
+  /* -----------------en accord avec le BACK à partir d'ici ----------------------------*/
 
+  onDelete(id: number): void {
+    const dialogRef = this.dialog.open(ConfirmationComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir supprimer ce message?',
+        buttonText: {
+          ok: 'Supprimer',
+          cancel: 'Annuler'
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Effacer le message après confirmation
+        this.messagesService.delMessage(id).subscribe(() => {
+          console.log("Le message a été supprimé!");
+
+          // Raffraichissement des news après suppression
+          this.messagesService.getNewsByAmount(this.nbNews).subscribe((data: any) => {
+            this.messages = data;
+          });
+        });
+      }
+    });  
+  }
+  
 }
