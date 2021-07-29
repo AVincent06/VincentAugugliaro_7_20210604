@@ -1,6 +1,10 @@
 const db = require("../models");
 const Message = db.messages;
 const User = db.users;
+const Comment = db.comments;
+const Feeling = db.feelings;
+const LIKE = 1;
+const DISLIKE = 2;
 const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
 const fs = require('fs');
@@ -34,48 +38,6 @@ exports.create = async (req, res) => {
         });
 };
 
-//  // récupérer les nb dernières news
-//  exports.findNewsByAmount = async (req, res) => {
-//      const nb = parseInt(req.params.nb, 10);
-//      let receptacles = [];
-
-//      // étape 1 : récupération de la partie "Messages" des News
-//      await Message.findAll({
-//          order: Sequelize.literal('createdAt DESC'),
-//          limit: nb
-//      })
-//          .then(async (partOne) => { 
-//              partOne = partOne.map((element) => {
-//                  return element.dataValues;
-//              });
-//              // étape 2 : récupération de la partie "Users" des news
-//              receptacles = partOne.map(async (receptacle) => {
-//                  await User.findByPk(receptacle.UserId)
-//                      .then(partTwo => {
-//                          partTwo = partTwo.dataValues;
-//                          return {
-//                              ...receptacle, 
-//                              firstname: partTwo.firstname,
-//                              name: partTwo.name,
-//                              photo: partTwo.photo
-//                          };
-//                      })
-//                      .catch(err => {
-//                          res.status(500).send({
-//                              message: "erreur pendant la récupération de l'utilisateur"
-//                          });
-//                      });
-//              });
-//              console.log(receptacles);
-//              res.status(200).send(receptacles);
-//          })
-//          .catch(err => {
-//              res.status(500).send({
-//                  message: err.message || "erreur pendant la récupération des messages!"
-//              });
-//          });
-//  };
-
 // récupérer les nb dernières news
 exports.findNewsByAmount = async (req, res) => {
     const nb = parseInt(req.params.nb, 10);
@@ -90,6 +52,7 @@ exports.findNewsByAmount = async (req, res) => {
             receptacles = partOne.map((element) => {
                 return element.dataValues;
             });
+
             // étape 2 : récupération de la partie "Users" des news
             for (let i = 0; i < receptacles.length; i++) {
                 await User.findByPk(receptacles[i].UserId)
@@ -100,7 +63,6 @@ exports.findNewsByAmount = async (req, res) => {
                             name: partTwo.name,
                             photo: partTwo.photo
                         };
-                        console.log(pieceOfpartTwo);
                         receptacles[i] = Object.assign({}, receptacles[i], pieceOfpartTwo);
                     })
                     .catch(err => {
@@ -108,8 +70,70 @@ exports.findNewsByAmount = async (req, res) => {
                             message: "erreur pendant la récupération de l'utilisateur"
                         });
                     });
+
+                // étape 3 : récupération de la partie "Comments" des news
+                const partThree = await Comment.count({
+                    where: {
+                        MessageId: {
+                            [Op.eq]: receptacles[i].id
+                        }
+                    }
+                });
+                const pieceOfpartThree = {
+                    nbComments: partThree
+                };
+                receptacles[i] = Object.assign({}, receptacles[i], pieceOfpartThree);
+
+                // étape 4 : récupération de la partie "Feelings" des news
+                await Feeling.findAll({
+                    attributes: ['UserId'],
+                    where: {
+                        [Op.and]: [
+                            { MessageId: receptacles[i].id }, 
+                            { CategoryId: LIKE }
+                        ]
+                    }
+                })
+                    .then(data => {
+                        data = data.map((element) => {
+                            return element.dataValues.UserId;
+                        });
+                        const partFourL = {
+                            usersLiked: data,
+                            likes: data.length
+                        };
+                        receptacles[i] = Object.assign({}, receptacles[i], partFourL);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: err.message || "erreur pendant la récupération des likes!"
+                        });
+                    });
+                await Feeling.findAll({
+                    attributes: ['UserId'],
+                    where: {
+                        [Op.and]: [
+                            { MessageId: receptacles[i].id }, 
+                            { CategoryId: DISLIKE }
+                        ]
+                    }
+                })
+                    .then(data => {
+                        data = data.map((element) => {
+                            return element.dataValues.UserId;
+                        });
+                        const partFourD = {
+                            usersDisliked: data,
+                            dislikes: data.length
+                        };
+                        receptacles[i] = Object.assign({}, receptacles[i], partFourD);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: err.message || "erreur pendant la récupération des likes!"
+                        });
+                    });
             }
-            console.log(receptacles);
             res.status(200).send(receptacles);
         })
         .catch(err => {
