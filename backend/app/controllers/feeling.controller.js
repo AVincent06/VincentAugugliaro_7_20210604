@@ -12,13 +12,13 @@ exports.addLike = async (req, res) => {
         where: {
             [Op.and]: [
                 { MessageId: id }, 
-                { UserId: req.body.user_id },
+                { UserId: req.body.userId },
                 { CategoryId: LIKE }
             ]
         },
         defaults: {
             MessageId: id,
-            UserId: req.body.user_id,
+            UserId: req.body.userId,
             CategoryId: LIKE
         }
     })

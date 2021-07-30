@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { FeelingService } from 'src/app/services/feeling.service';
 import { MessageService } from 'src/app/services/message.service';
 import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmation.component';
 
@@ -20,6 +21,7 @@ export class NewsComponent implements OnInit {
   constructor(
     private authService : AuthService,
     private dialog: MatDialog,
+    private feelingService : FeelingService,
     private messagesService: MessageService, 
     private router: Router
   ) { }
@@ -33,12 +35,7 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  /* utiliser comme isLikedBy ou isDislikedBy */
-  isOneOfThem(list?: number[]): boolean {
-    if( list?.find(id => id === this.profileId) ) return true;
-    return false;
-  }
-
+  
   onDislike(index: number) {
     if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
       this.messages[index].usersDisliked?.splice(index, 1);                  // Si le dislike est déjà coché, on le décoche
@@ -50,16 +47,6 @@ export class NewsComponent implements OnInit {
     this.messagesService.saveSingleMessage(this.messages[index].id);
   }
   
-  onLike(index: number) {
-    if( this.isOneOfThem(this.messages[index].usersLiked) ) {
-      this.messages[index].usersLiked?.splice(index, 1);                  // Si le like est déjà coché, on le décoche
-    } else {
-      this.messages[index].usersLiked?.push(this.profileId);              // Si le like n'est pas coché, on le coche
-    }
-    this.messages[index].likes = this.messages[index].usersLiked?.length; // Correction du total des likes
-    
-    this.messagesService.saveSingleMessage(this.messages[index].id);
-  }
   
   onShow(index: number) {
     let myElement = document.getElementById("comments-" + index);
@@ -79,7 +66,7 @@ export class NewsComponent implements OnInit {
   }
   
   /* -----------------en accord avec le BACK à partir d'ici ----------------------------*/
-
+  
   onDelete(id: number): void {
     const dialogRef = this.dialog.open(ConfirmationComponent,{
       data:{
@@ -95,7 +82,7 @@ export class NewsComponent implements OnInit {
         // Effacer le message après confirmation
         this.messagesService.delMessage(id).subscribe(() => {
           console.log("Le message a été supprimé!");
-
+          
           // Raffraichissement des news après suppression
           this.messagesService.getNewsByAmount(this.nbNews).subscribe((data: any) => {
             this.messages = data;
@@ -103,6 +90,36 @@ export class NewsComponent implements OnInit {
         });
       }
     });  
+  }
+  
+  /* utiliser comme isLikedBy ou isDislikedBy */
+  isOneOfThem(list?: number[]): boolean {
+    if( list?.find(id => id === this.profileId) ) return true;
+    return false;
+  }
+
+  onLike(index: number) {
+    if( this.isOneOfThem(this.messages[index].usersLiked) ) {
+
+      // Si le like est déjà coché, on le décoche
+      this.messages[index].usersLiked?.splice(index, 1);
+
+    } else {
+
+      // Si le like n'est pas coché, on le coche
+      this.feelingService.addLike(this.messages[index].id, this.profileId).subscribe(() => {
+        //this.messages[index].usersLiked?.push(this.profileId);
+        const element = document.getElementById("likes-"+index);
+        element!.innerHTML = (parseInt(element!.innerHTML, 10) + 1).toString() ; // on ajoute 1
+        document.getElementById("up-"+index)!.innerHTML = 'thumb_up_alt'; // mise à jour de l'icone
+      });
+
+    }
+
+    // Correction du total des likes
+    this.messages[index].likes = this.messages[index].usersLiked?.length;
+    
+    this.messagesService.saveSingleMessage(this.messages[index].id);
   }
   
 }

@@ -58,8 +58,8 @@
                 </button>
                 <span>
                   <button mat-icon-button type="button" (click)="onLike(i)">
-                    {{ message.likes }}
-                    <mat-icon  color="primary">
+                    <span id="likes-{{i}}">{{ message.likes }}</span>
+                    <mat-icon id="up-{{i}}"  color="primary">
                       {{isOneOfThem(message.usersLiked) ? 'thumb_up_alt' : 'thumb_up_off_alt'}}
                     </mat-icon>
                   </button>
