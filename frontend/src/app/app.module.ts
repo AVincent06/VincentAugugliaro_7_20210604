@@ -28,6 +28,8 @@ import { SubmitComponent } from './layout/submit/submit.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CommentService } from './services/comment.service';
+import { FeelingService } from './services/feeling.service';
+import { MessageService } from './services/message.service';
 import { NotifService } from './services/notif.service';
 import { ProfileService } from './services/profile.service';
 
@@ -36,7 +38,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -105,6 +107,8 @@ const appRoutes: Routes = [
     AuthGuardService,
     AuthService,
     CommentService,
+    FeelingService,
+    MessageService,
     NotifService,
     ProfileService,
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', floatLabel: 'always'}}
