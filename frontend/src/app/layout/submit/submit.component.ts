@@ -9,6 +9,7 @@ import { MessageService } from 'src/app/services/message.service';
   templateUrl: './submit.component.html',
   styleUrls: ['./submit.component.scss']
 })
+
 export class SubmitComponent implements OnInit {
 
   editorForm = new FormGroup({  

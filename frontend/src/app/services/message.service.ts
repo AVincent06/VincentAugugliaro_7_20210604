@@ -32,10 +32,13 @@ export class MessageService {
 
   /*---------------------- En accord avec le backend à partir de là ---------------------------*/
   postMessage(message: Message_post): Observable<any> {
+
+    // Adoption d'un FormData pour résoudre un problème d'upload de fichier
     let formData = new FormData();
-    formData.append('file', message.file as File);          // PREVOIR LE CAS OU IL N Y A PAS DE TEXTE OU D IMAGE
+    formData.append('file', message.file as File);
     formData.append('article', message.article as string);
     formData.append('user_id', message.user_id.toString());
+
     return this.http.post(
       'http://localhost:8080/api/messages/',
       formData,
