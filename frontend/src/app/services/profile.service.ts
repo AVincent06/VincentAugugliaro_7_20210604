@@ -50,12 +50,22 @@ export class ProfileService {
   }
 
   setSingleProfile(id: number, profile: Profile_public2): Observable<any> {
+
+    // Adoption d'un FormData pour résoudre un problème d'upload de fichier
+    let formData = new FormData();
+    formData.append('firstname', profile.firstname as string);
+    formData.append('name', profile.name as string);
+    formData.append('email', profile.email as string);
+    formData.append('bio', profile.bio as string);
+    formData.append('photo', profile.photo as string);
+    formData.append('file', profile.file as File);
+
     return this.http.put(
       'http://localhost:8080/api/users/'+id,
-      profile,
+      formData,
       { 
         headers: new HttpHeaders({
-          'Content-Type':  'application/json',
+          //'Content-Type':  'application/json',
           'Authorization': 'Bearer ' + this.authService.getToken() 
         }) 
       }

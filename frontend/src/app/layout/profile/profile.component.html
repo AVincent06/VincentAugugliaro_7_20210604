@@ -6,10 +6,10 @@
         <mat-card-content>
             <form *ngIf="profile != null" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
                 <div class="aside">
-                    <div *ngIf="this.selectedFile!=='aucune' && this.selectedFile!==null; else elseBlock"
+                    <div *ngIf="selectedFile!=='aucune' && selectedFile!==null; else elseBlock"
                         mat-card-avatar 
                         [ngStyle]="{
-                            'background-image': 'url('+ this.selectedFile +')',
+                            'background-image': 'url('+ selectedFile +')',
                             'background-size': 'cover',
                             'height': '100px',
                             'width': '100px'

@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   selectedFile: File | any;
   hide: boolean = true;
   hide2: boolean = true;
+  myFile: File | any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,6 +60,7 @@ export class ProfileComponent implements OnInit {
 
   onChange(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
+    this.myFile = file;
     this.profileForm.get('photo')!.setValue(file, {emitModelToViewChange: false});
     this.profileForm.updateValueAndValidity();
     const reader = new FileReader();
@@ -97,9 +99,9 @@ export class ProfileComponent implements OnInit {
       email: this.profileForm.get('email')!.value,
       bio: this.profileForm.get('bio')!.value,
       photo: this.profile.photo,
-      file: this.profileForm.get('photo')!.value
+      file: this.myFile
     }).subscribe(() => {
-      console.log('update ok?'); 
+      console.log('update effectué'); 
     });
   }
 }

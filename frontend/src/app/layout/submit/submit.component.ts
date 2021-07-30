@@ -49,7 +49,7 @@ export class SubmitComponent implements OnInit {
 
   onSubmit() {
     this.messagesService.postMessage({
-      file: this.myFile,                            //this.editorForm.get('picture')!.value,
+      file: this.myFile,
       article: this.editorForm.get('editor')!.value,
       user_id: this.authService.getProfileId()
     }).subscribe(() => {
