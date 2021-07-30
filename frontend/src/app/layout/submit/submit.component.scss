@@ -1,3 +1,25 @@
 input[type="file"] {
     display: none;
 }
+
+.card {
+    margin: 10px;
+    width: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

@@ -12,12 +12,12 @@ const fs = require('fs');
 // créer un nouveau message
 exports.create = async (req, res) => {
     // Validation de la requète
-    if(!req.body.picture && !req.body.article) {
-        res.status(400).send({ 
-            message: "Ce message n'a ni texte, ni image!" 
-        });
-        return;
-    }
+    // if(!req.body.picture && !req.body.article) {
+    //     res.status(400).send({ 
+    //         message: "Ce message n'a ni texte, ni image!" 
+    //     });
+    //     return;
+    // }
 
     // Création d'un message
     const message = {
