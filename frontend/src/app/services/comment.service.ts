@@ -1,6 +1,8 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CommentRes } from '../models/comment.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class CommentService {
   comments: CommentRes[] = [];
   commentsSubject = new Subject<CommentRes[]>();
 
-  constructor() { 
+  constructor( private http: HttpClient, private authService: AuthService ) { 
     this.comments = [
       {
         id: 0,
@@ -48,23 +50,6 @@ export class CommentService {
     return of(this.comments[id]);
   }
 
-  createNewComment(mySubmit: string, myMessage: number) {
-    this.comments.push( // POUR TESTER
-      {
-        id: 1,
-        message_id: myMessage,
-        date: Date.now(),
-        text: mySubmit,
-        profile_id: 2,
-        profile_firstname: 'toto1',
-        profile_name: 'defamille1',
-        profile_photo: '../../assets/images/profile.png'
-      }
-    );
-    this.saveComments();
-    this.emitComments();
-  }
-
   removeComment(comment: CommentRes): void {
     const commentIndexToRemove = this.comments.findIndex(
       (commentElement) => {
@@ -77,6 +62,24 @@ export class CommentService {
     this.comments.splice(commentIndexToRemove, 1);
     this.saveComments();
     this.emitComments();
+  }
+
+  /*---------------------- En accord avec le backend à partir de là ---------------------------*/
+
+  createNewComment(feedback: string, messageId: number): Observable<any> {
+    return this.http.post(
+      'http://localhost:8080/api/comments',
+      {
+        feedback: feedback,
+        messageId: messageId
+      },
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken() 
+        }) 
+      }
+    );
   }
 
 }

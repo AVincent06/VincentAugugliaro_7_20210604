@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+const jwt = require('jsonwebtoken');
 const db = require("../models");
 const Comment = db.comments;
 const Op = db.Sequelize.Op;
@@ -12,17 +15,23 @@ exports.create = async (req, res) => {
         return;
     }
 
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+    const userId = decodedToken.userId;
+
     // Création d'un commentaire
     const comment = {
         feedback: req.body.feedback,
-        MessageId: req.body.MessageId,
-        UserId: req.body.UserId
+        MessageId: req.body.messageId,
+        UserId: userId
     }
 
     // Sauvegarde du commentaire dans la BDD
     await Comment.create(comment)
-        .then(data => {
-            res.status(201).send(data);
+        .then(() => {
+            res.status(201).send({
+                message: "Commentaire créé!"
+            });
         })
         .catch(err => {
             res.status(500).send({

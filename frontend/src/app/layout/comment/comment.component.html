@@ -4,14 +4,14 @@
     <mat-form-field>
         <mat-label>Laissez un commentaire</mat-label>
         <input matInput #input formControlName="comment" maxlength="255" placeholder="Mon commentaire ici...">
-        <mat-hint align="end">{{input.value?.length || 0}}/255</mat-hint>
+        <mat-hint align="end">{{input.value.length || 0}}/255</mat-hint>
     </mat-form-field>
     <button 
         [disabled]="input.value.length === 0"
         mat-raised-button 
         type="submit" 
         color="primary">
-        Commentez
+        Commenter
     </button>
 </form>
 
