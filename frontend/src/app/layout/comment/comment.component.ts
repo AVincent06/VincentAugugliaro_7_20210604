@@ -55,9 +55,11 @@ export class CommentComponent implements OnInit {
 
   onSubmit() {
     const comment = this.commentForm.get('comment')!.value;
-    this.commentService.createNewComment(comment, this.messageId);
-    this.updateNbComments.emit(this.messageId);
-    this.commentForm.reset();
+    
+    this.commentService.createNewComment(comment, this.messageId).subscribe(() => {
+      this.updateNbComments.emit(this.messageId);
+      this.commentForm.reset();
+    });
   }
 
 }
