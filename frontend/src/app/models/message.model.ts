@@ -22,8 +22,8 @@ export interface Message_news {
     id: number;
     picture?: string;
     article?: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 
     userId: number;
     firstname: string;

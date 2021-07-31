@@ -35,19 +35,6 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  
-  onDislike(index: number) {
-    if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
-      this.messages[index].usersDisliked?.splice(index, 1);                  // Si le dislike est déjà coché, on le décoche
-    } else {
-      this.messages[index].usersDisliked?.push(this.profileId);              // Si le dislike n'est pas coché, on le coche
-    }
-    this.messages[index].dislikes = this.messages[index].usersDisliked?.length; // Correction du total des likes
-    
-    this.messagesService.saveSingleMessage(this.messages[index].id);
-  }
-  
-  
   onShow(index: number) {
     let myElement = document.getElementById("comments-" + index);
     if(myElement!.style.display === "none") {
@@ -93,33 +80,80 @@ export class NewsComponent implements OnInit {
   }
   
   /* utiliser comme isLikedBy ou isDislikedBy */
-  isOneOfThem(list?: number[]): boolean {
-    if( list?.find(id => id === this.profileId) ) return true;
+  isOneOfThem(list: number[]): boolean {
+    if( list.find(id => id == this.profileId) ) return true;
     return false;
   }
 
   onLike(index: number) {
+    const element = document.getElementById("likes-"+index);
+
     if( this.isOneOfThem(this.messages[index].usersLiked) ) {
 
       // Si le like est déjà coché, on le décoche
-      this.messages[index].usersLiked?.splice(index, 1);
+      this.feelingService.delLike(this.messages[index].id).subscribe(() => {
+        for(let i = 0; i < this.messages[index].usersLiked.length; i++){
+          if(this.messages[index].usersLiked[i] == this.profileId) {
+            this.messages[index].usersLiked.splice(i, 1);
+            break;
+          }
+        }
+        document.getElementById("up-"+index)!.innerHTML = 'thumb_up_off_alt'; // mise à jour de l'icone
+
+        // Correction du total des likes
+        this.messages[index].likes = this.messages[index].usersLiked.length;
+        element!.innerHTML = this.messages[index].usersLiked.length;
+      });
 
     } else {
 
       // Si le like n'est pas coché, on le coche
-      this.feelingService.addLike(this.messages[index].id, this.profileId).subscribe(() => {
-        //this.messages[index].usersLiked?.push(this.profileId);
-        const element = document.getElementById("likes-"+index);
-        element!.innerHTML = (parseInt(element!.innerHTML, 10) + 1).toString() ; // on ajoute 1
+      this.feelingService.addLike(this.messages[index].id).subscribe(() => {
+        this.messages[index].usersLiked.push(this.profileId);
         document.getElementById("up-"+index)!.innerHTML = 'thumb_up_alt'; // mise à jour de l'icone
+
+        // Correction du total des likes
+        this.messages[index].likes = this.messages[index].usersLiked.length;
+        element!.innerHTML = this.messages[index].usersLiked.length;
       });
 
     }
-
-    // Correction du total des likes
-    this.messages[index].likes = this.messages[index].usersLiked?.length;
-    
-    this.messagesService.saveSingleMessage(this.messages[index].id);
   }
+
+  onDislike(index: number) {
+    const element = document.getElementById("dislikes-"+index);
+
+    if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
+
+      // Si le dislike est déjà coché, on le décoche
+      this.feelingService.delDislike(this.messages[index].id).subscribe(() => {
+        for(let i = 0; i < this.messages[index].usersDisliked.length; i++){
+          if(this.messages[index].usersDisliked[i] == this.profileId) {
+            this.messages[index].usersDisliked.splice(i, 1);
+            break;
+          }
+        }
+        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_off_alt'; // mise à jour de l'icone
+
+        // Correction du total des dislikes
+        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
+        element!.innerHTML = this.messages[index].usersDisliked.length;
+      });
+
+    } else {
+
+      // Si le dislike n'est pas coché, on le coche
+      this.feelingService.addDislike(this.messages[index].id).subscribe(() => {
+        this.messages[index].usersDisliked.push(this.profileId);
+        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_alt'; // mise à jour de l'icone
+
+        // Correction du total des dislikes
+        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
+        element!.innerHTML = this.messages[index].usersDisliked.length;
+      });
+
+    }
+  }
+
   
 }
