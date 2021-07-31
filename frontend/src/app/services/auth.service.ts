@@ -28,7 +28,7 @@ export class AuthService {
   }
   
   getIsAdmin(): boolean {
-    return localStorage.getItem('isAdmin') === '1';
+    return localStorage.getItem('isAdmin') === 'true';
   }  
 
   getProfileId(): number {

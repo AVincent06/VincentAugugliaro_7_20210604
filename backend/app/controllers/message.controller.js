@@ -11,13 +11,6 @@ const fs = require('fs');
 
 // créer un nouveau message
 exports.create = async (req, res) => {
-    // Validation de la requète
-    // if(!req.body.picture && !req.body.article) {
-    //     res.status(400).send({ 
-    //         message: "Ce message n'a ni texte, ni image!" 
-    //     });
-    //     return;
-    // }
 
     // Création d'un message
     const message = {
@@ -99,8 +92,8 @@ exports.findNewsByAmount = async (req, res) => {
                             return element.dataValues.UserId;
                         });
                         const partFourL = {
-                            usersLiked: data,
-                            likes: data.length
+                            usersLiked: data ? data : [],
+                            likes: data.length ? data.length : 0
                         };
                         receptacles[i] = Object.assign({}, receptacles[i], partFourL);
                     })
@@ -123,8 +116,8 @@ exports.findNewsByAmount = async (req, res) => {
                             return element.dataValues.UserId;
                         });
                         const partFourD = {
-                            usersDisliked: data,
-                            dislikes: data.length
+                            usersDisliked: data ? data : [],
+                            dislikes: data.length ? data.length : 0
                         };
                         receptacles[i] = Object.assign({}, receptacles[i], partFourD);
                     })

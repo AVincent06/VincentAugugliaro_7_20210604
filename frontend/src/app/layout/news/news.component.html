@@ -37,7 +37,7 @@
                 </div>
               </ng-template>
               <mat-card-title>{{ message.firstname }} {{ message.name }}</mat-card-title>
-              <mat-card-subtitle>{{ message.createdAt }}</mat-card-subtitle>
+              <mat-card-subtitle>{{ message.createdAt | date: 'short'}}</mat-card-subtitle>
             </mat-card-header>
             <img *ngIf="message.picture !== 'aucune'" mat-card-image [src]="message.picture"/>
             <mat-card-content>
@@ -57,18 +57,23 @@
                   </mat-icon>
                 </button>
                 <span>
-                  <button mat-icon-button type="button" (click)="onLike(i)">
+
+                  <!--Bouton Like-->
+                  <button mat-icon-button type="button" (click)="onLike(i)" [disabled]="isOneOfThem(message.usersDisliked) === true">
                     <span id="likes-{{i}}">{{ message.likes }}</span>
                     <mat-icon id="up-{{i}}"  color="primary">
                       {{isOneOfThem(message.usersLiked) ? 'thumb_up_alt' : 'thumb_up_off_alt'}}
                     </mat-icon>
                   </button>
-                  <button mat-icon-button type="button" (click)="onDislike(i)">
-                    <mat-icon  color="primary">
+
+                  <!--Bouton Dislike-->
+                  <button mat-icon-button type="button" (click)="onDislike(i)" [disabled]="isOneOfThem(message.usersLiked) === true">
+                    <mat-icon id="down-{{i}}"  color="primary">
                       {{isOneOfThem(message.usersDisliked) ? 'thumb_down_alt' : 'thumb_down_off_alt'}}
                     </mat-icon>
-                    {{ message.dislikes }}
+                    <span id="dislikes-{{i}}">{{ message.dislikes }}</span>
                   </button>
+
                 </span>
             </div>
             
