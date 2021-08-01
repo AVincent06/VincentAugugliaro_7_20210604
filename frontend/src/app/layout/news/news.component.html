@@ -78,9 +78,11 @@
             </div>
             
             <app-comment 
-              id="comments-{{i}}" 
+              id="comments-{{i}}"
+              [index]="i"
               [messageId]="message.id"
-              (updateNbComments)="updateMessageComments($event)">
+              (incNbComments)="incMessageComments($event)"
+              (decNbComments)="decMessageComments($event)">
             </app-comment>
 
             </mat-card-actions>

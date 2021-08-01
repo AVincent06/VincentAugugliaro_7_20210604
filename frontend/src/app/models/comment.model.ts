@@ -1,10 +1,13 @@
-export interface CommentRes {
+export interface Comment_get {
     id: number;
-    message_id: number;
-    date: number;
-    text: string;
-    profile_id: number;
-    profile_firstname: string;
-    profile_name: string;
-    profile_photo: string;
+    feedback: string;
+    createdAt: Date;
+    updatedAt: Date;
+
+    messageId: number;
+
+    UserId: number;
+    firstname: string;
+    name: string;
+    photo: string;
 }

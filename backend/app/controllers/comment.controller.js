@@ -3,6 +3,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const db = require("../models");
 const Comment = db.comments;
+const User = db.users;
 const Op = db.Sequelize.Op;
 
 // créer un nouveau commentaire
@@ -43,7 +44,9 @@ exports.create = async (req, res) => {
 // récupérer tous les commentaires du message par messageId
 exports.findAllByMessage = async (req, res) => {
     const messageId = req.params.messageId;
+    let receptacles = [];
 
+    // étape 1 : récupération de la partie "Comments" des commentaires
     await Comment.findAll({
         where: {
             MessageId: {
@@ -51,8 +54,30 @@ exports.findAllByMessage = async (req, res) => {
             }
         }
     })
-        .then(data => {
-            res.status(200).send(data);
+        .then(async (partOne) => {
+            receptacles = partOne.map((element) => {
+                return element.dataValues;
+            });
+
+            // étape 2 : récupération de la partie "Users" des commentaires
+            for (let i = 0; i < receptacles.length; i++) {
+                await User.findByPk(receptacles[i].UserId)
+                    .then(partTwo => {
+                        partTwo = partTwo.dataValues; 
+                        const pieceOfpartTwo = {
+                            firstname: partTwo.firstname,
+                            name: partTwo.name,
+                            photo: partTwo.photo
+                        };
+                        receptacles[i] = Object.assign({}, receptacles[i], pieceOfpartTwo);
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: "erreur pendant la récupération de l'utilisateur"
+                        });
+                    });
+            }
+            res.status(200).send(receptacles);
         })
         .catch(err => {
             res.status(500).send({

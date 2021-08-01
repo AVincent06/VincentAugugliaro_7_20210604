@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { CommentRes } from 'src/app/models/comment.model';
+import { MatDialog } from '@angular/material/dialog';
+import { Comment_get } from 'src/app/models/comment.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CommentService } from 'src/app/services/comment.service';
+import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-comment',
@@ -12,12 +13,14 @@ import { CommentService } from 'src/app/services/comment.service';
 })
 export class CommentComponent implements OnInit {
 
+  @Input() index!: number;
   @Input() messageId!: number;
-  @Output() updateNbComments = new EventEmitter<number>();
+  @Output() incNbComments = new EventEmitter<number>();
+  @Output() decNbComments = new EventEmitter<number>();
+
   profileId!: number;
   isAdmin!: boolean;
-  comments: CommentRes[] = [];
-  commentsSubscription = new Subscription();
+  comments: Comment_get[] = [];
   commentForm = new FormGroup({  
     comment : new FormControl('')
   });
@@ -25,21 +28,19 @@ export class CommentComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService : AuthService,
+    private dialog: MatDialog,
     private commentService: CommentService
   ) { }
 
   ngOnInit(): void {
     this.profileId = this.authService.getProfileId();
     this.isAdmin = this.authService.getIsAdmin();
-    this.commentsSubscription = this.commentService.commentsSubject.subscribe(
-      (comments: CommentRes[]) => {
-        this.comments = comments;
-      }
-    );
+
+    this.commentService.getCommentsByMessage(this.messageId).subscribe((data) => {
+      this.comments = data;
+    });
 
     this.initForm();
-
-    this.commentService.getComments(this.messageId);
   }
 
   initForm(): void {
@@ -49,16 +50,37 @@ export class CommentComponent implements OnInit {
   }
 
   onDelete(id: number): void {
-    this.commentService.removeComment(this.comments[id]);
-    this.updateNbComments.emit(this.messageId);
+    const dialogRef = this.dialog.open(ConfirmationComponent,{
+      data:{
+        message: 'Etes-vous sûr de vouloir supprimer ce commentaire?',
+        buttonText: {
+          ok: 'Supprimer',
+          cancel: 'Annuler'
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Effacer le commentaire après confirmation
+        this.commentService.removeComment(id).subscribe(async () => {
+          await this.commentService.getCommentsByMessage(this.messageId).subscribe((data) => {
+            this.comments = data;
+            this.decNbComments.emit(this.index);
+          });
+        });
+      }
+    });  
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const comment = this.commentForm.get('comment')!.value;
     
-    this.commentService.createNewComment(comment, this.messageId).subscribe(() => {
-      this.updateNbComments.emit(this.messageId);
-      this.commentForm.reset();
+    this.commentService.createNewComment(comment, this.messageId).subscribe(async () => {
+      await this.commentService.getCommentsByMessage(this.messageId).subscribe((data) => {
+        this.comments = data;
+        this.incNbComments.emit(this.index);
+        this.commentForm.reset();
+      });
     });
   }
 

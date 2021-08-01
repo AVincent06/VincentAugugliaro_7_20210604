@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
-import { CommentRes } from '../models/comment.model';
+import { Comment_get } from '../models/comment.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -9,26 +9,11 @@ import { AuthService } from './auth.service';
 })
 export class CommentService {
 
-  comments: CommentRes[] = [];
-  commentsSubject = new Subject<CommentRes[]>();
+  comments: Comment_get[] = [];
+  
 
   constructor( private http: HttpClient, private authService: AuthService ) { 
-    this.comments = [
-      {
-        id: 0,
-        message_id: 0,
-        date: Date.now(),
-        text: 'mon premier super commentaire.',
-        profile_id: 2,
-        profile_firstname: 'toto1',
-        profile_name: 'defamille1',
-        profile_photo: '../../assets/images/profile.png'
-      }
-    ];
-   }
-
-  emitComments(): void {
-    this.commentsSubject.next(this.comments);
+    this.comments = [];
   }
 
   saveComments(): void {
@@ -39,33 +24,15 @@ export class CommentService {
     // sauvegarde de this.comments[commentId] dans la BDD via l'API
   }
 
-  getComments(messageId: number): void {
-    // GET à l'API avec messageId en paramètre
-    // SELECT * FROM Comments WHERE Comments.message = message_id;
-    this.emitComments();
-  }
-
-  getSingleComment(id: number): Observable<CommentRes> {
+  
+  getSingleComment(id: number): Observable<Comment_get> {
     // chargement des données du commentaire ciblé via l'API
     return of(this.comments[id]);
   }
-
-  removeComment(comment: CommentRes): void {
-    const commentIndexToRemove = this.comments.findIndex(
-      (commentElement) => {
-        if(commentElement === comment) {
-          return true;
-        }
-        return false;
-      }
-    );
-    this.comments.splice(commentIndexToRemove, 1);
-    this.saveComments();
-    this.emitComments();
-  }
-
+  
+  
   /*---------------------- En accord avec le backend à partir de là ---------------------------*/
-
+    
   createNewComment(feedback: string, messageId: number): Observable<any> {
     return this.http.post(
       'http://localhost:8080/api/comments',
@@ -81,5 +48,30 @@ export class CommentService {
       }
     );
   }
+    
+  getCommentsByMessage(messageId: number): Observable<Comment_get[]> {
+    return this.http.get<Comment_get[]>(
+      `http://localhost:8080/api/comments/message/${messageId}`,
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken() 
+        }) 
+      }
+    );
+  }
+      
+  removeComment(id: number): Observable<any> {
+    return this.http.delete(
+      `http://localhost:8080/api/comments/${id}`,
+      { 
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': 'Bearer ' + this.authService.getToken() 
+        }) 
+      }
+    );
+  }
 
 }
+    

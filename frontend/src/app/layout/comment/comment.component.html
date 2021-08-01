@@ -22,7 +22,7 @@
 
         <div class="option">
             <button 
-                *ngIf="(comment.profile_id === profileId) || isAdmin" 
+                *ngIf="(comment.UserId === profileId) || isAdmin" 
                 mat-icon-button 
                 [matMenuTriggerFor]="option" 
                 aria-label="Options">
@@ -30,7 +30,7 @@
             </button>
             <mat-menu #option="matMenu">
                 <button mat-menu-item (click)="onDelete(comment.id)">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon color="accent">delete</mat-icon>
                     <span>effacer</span>
                 </button>
             </mat-menu>
@@ -39,14 +39,14 @@
         <div 
             mat-card-avatar 
             [ngStyle]="{
-                'background-image': 'url(' + comment.profile_photo + ')',
+                'background-image': 'url(' + comment.photo + ')',
                 'background-size': 'cover'
             }">
         </div>
         <p>
-            <span class="user">{{comment.profile_firstname}} {{comment.profile_name}}</span>
-            <span class="date">&nbsp;-&nbsp;{{comment.date | date:'dd-MM-yy HH:mm'}}</span><br>
-            <span class="text">{{comment.text}}</span>
+            <span class="user">{{comment.firstname}} {{comment.name}}</span>
+            <span class="date">&nbsp;&nbsp;{{comment.createdAt | date:'dd-MM-yy HH:mm'}}</span><br>
+            <span class="text">{{comment.feedback}}</span>
         </p>
     </div>
 </div>
