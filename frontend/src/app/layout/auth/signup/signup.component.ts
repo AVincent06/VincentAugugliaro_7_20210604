@@ -39,17 +39,17 @@ export class SignupComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+  async onSubmit() {
     const firstname = this.signUpForm.get('firstname')!.value;
     const name = this.signUpForm.get('name')!.value;
     const email = this.signUpForm.get('email')!.value;
     const password = this.signUpForm.get('password')!.value;
     
-    this.authService.createNewUser(firstname, name, email, password).subscribe(() => {
-      this.authService.signInUser(email, password).subscribe(data => {
+    await this.authService.createNewUser(firstname, name, email, password).subscribe(async () => {
+      await this.authService.signInUser(email, password).subscribe(async (data) => {
         if(data) {
-          this.authService.setSession(data, () => {
-            this.router.navigate(['news']);
+          await this.authService.setSession(data, async () => {
+            await this.router.navigate(['news']);
           });
         } else {
           this.router.navigate(['signin']);

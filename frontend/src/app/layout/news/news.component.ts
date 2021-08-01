@@ -48,8 +48,12 @@ export class NewsComponent implements OnInit {
     // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
   }
   
-  updateMessageComments(index: number) {
-    //this.messages[index].comments!++; // POUR TEST, FAUX POUR LES SUPPRESSIONS, RENVOI UN NOMBRE VERIFIE EN BDD
+  incMessageComments(index: number) {
+    this.messages[index].nbComments++;
+  }
+
+  decMessageComments(index: number) {
+    this.messages[index].nbComments--;
   }
   
   /* -----------------en accord avec le BACK à partir d'ici ----------------------------*/
