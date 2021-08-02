@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
 
   createNewUser(firstname: string, name: string, email: string, password: string): Observable<object> {
     return this.http.post<Object>(
-      'http://localhost:8080/api/users', 
+      `${environment.URL_BACKEND}/api/users`, 
       { firstname: firstname, name: name, email: email, password: password }, 
       { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
     );  
@@ -49,7 +50,7 @@ export class AuthService {
 
   signInUser(email: string, password: string): Observable<object> {
     return this.http.post<Object>(
-      'http://localhost:8080/api/users/identify', 
+      `${environment.URL_BACKEND}/api/users/identify`, 
       { email: email, password: password }, 
       { headers: new HttpHeaders({'Content-Type':  'application/json'}) }
     );  

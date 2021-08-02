@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Comment_get } from '../models/comment.model';
 import { AuthService } from './auth.service';
 
@@ -35,7 +36,7 @@ export class CommentService {
     
   createNewComment(feedback: string, messageId: number): Observable<any> {
     return this.http.post(
-      'http://localhost:8080/api/comments',
+      `${environment.URL_BACKEND}/api/comments`,
       {
         feedback: feedback,
         messageId: messageId
@@ -51,7 +52,7 @@ export class CommentService {
     
   getCommentsByMessage(messageId: number): Observable<Comment_get[]> {
     return this.http.get<Comment_get[]>(
-      `http://localhost:8080/api/comments/message/${messageId}`,
+      `${environment.URL_BACKEND}/api/comments/message/${messageId}`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -63,7 +64,7 @@ export class CommentService {
       
   removeComment(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8080/api/comments/${id}`,
+      `${environment.URL_BACKEND}/api/comments/${id}`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',

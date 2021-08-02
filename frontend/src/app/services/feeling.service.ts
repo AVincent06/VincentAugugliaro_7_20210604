@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class FeelingService {
 
   addLike(messageId: number): Observable<any> {
     return this.http.post(
-      'http://localhost:8080/api/feelings/like',
+      `${environment.URL_BACKEND}/api/feelings/like`,
       {messageId: messageId},
       { 
         headers: new HttpHeaders({
@@ -25,7 +26,7 @@ export class FeelingService {
 
   addDislike(messageId: number): Observable<any> {
     return this.http.post(
-      'http://localhost:8080/api/feelings/dislike',
+      `${environment.URL_BACKEND}/api/feelings/dislike`,
       {messageId: messageId},
       { 
         headers: new HttpHeaders({
@@ -38,7 +39,7 @@ export class FeelingService {
 
   delLike(messageId: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8080/api/feelings/like/${messageId}`,
+      `${environment.URL_BACKEND}/api/feelings/like/${messageId}`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -50,7 +51,7 @@ export class FeelingService {
 
   delDislike(messageId: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8080/api/feelings/dislike/${messageId}`,
+      `${environment.URL_BACKEND}/api/feelings/dislike/${messageId}`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
