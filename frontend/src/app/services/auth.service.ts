@@ -23,8 +23,16 @@ export class AuthService {
     );  
   }  
     
-  isUserLoggedIn(): Observable<boolean> { 
+  isUserLoggedIn(): Observable<boolean> { // pour le menu réactif
     return this.isLog$;                   
+  }
+
+  isConnected(): boolean {
+    if(localStorage.getItem('token') !== null) {
+      this.isLog$.next(true);
+      return true;
+    }
+    return false;
   }
   
   getIsAdmin(): boolean {
