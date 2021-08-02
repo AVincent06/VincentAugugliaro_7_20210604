@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Profile, Profile_private, Profile_public, Profile_public2 } from '../models/profile.model';
 import { AuthService } from './auth.service';
 
@@ -27,7 +28,7 @@ export class ProfileService {
 
   getProfiles(): Observable<Profile_public[]> {
     return this.http.get<Profile_public[]>(
-      'http://localhost:8080/api/users',  
+      `${environment.URL_BACKEND}/api/users`,  
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -39,7 +40,7 @@ export class ProfileService {
 
   getSingleProfile(id: number): Observable<Profile_private> {
     return this.http.get<Profile_private>(
-      'http://localhost:8080/api/users/'+id,  
+      `${environment.URL_BACKEND}/api/users/${id}`,  
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -61,7 +62,7 @@ export class ProfileService {
     formData.append('file', profile.file as File);
 
     return this.http.put(
-      'http://localhost:8080/api/users/'+id,
+      `${environment.URL_BACKEND}/api/users/${id}`,
       formData,
       { 
         headers: new HttpHeaders({
@@ -74,7 +75,7 @@ export class ProfileService {
 
   delSingleProfile(id: number): Observable<any> {
     return this.http.delete(
-      'http://localhost:8080/api/users/'+id,  
+      `${environment.URL_BACKEND}/api/users/${id}`,  
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',

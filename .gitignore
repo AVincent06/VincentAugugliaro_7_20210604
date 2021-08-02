@@ -46,6 +46,10 @@
 /frontend/.DS_Store
 /frontend/Thumbs.db
 
+# Angular Environments
+/frontend/src/environments/environment.ts
+/frontend/src/environments/environment.prod.ts
+
 # ## BACKEND ## #
 
 # compiled output

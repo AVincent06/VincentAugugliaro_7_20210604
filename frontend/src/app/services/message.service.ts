@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of} from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Message, Message_news, Message_post } from '../models/message.model';
 import { AuthService } from './auth.service';
 
@@ -40,7 +41,7 @@ export class MessageService {
     formData.append('user_id', message.user_id.toString());
 
     return this.http.post(
-      'http://localhost:8080/api/messages/',
+      `${environment.URL_BACKEND}/api/messages/`,
       formData,
       { 
         headers: new HttpHeaders({
@@ -53,7 +54,7 @@ export class MessageService {
     
   getNewsByAmount(nb: number): Observable<Message_news> {
     return this.http.get<Message_news>(
-      `http://localhost:8080/api/messages/amount/${nb}/news`,
+      `${environment.URL_BACKEND}/api/messages/amount/${nb}/news`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -65,7 +66,7 @@ export class MessageService {
   
   delMessage(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8080/api/messages/${id}`,
+      `${environment.URL_BACKEND}/api/messages/${id}`,
       { 
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
