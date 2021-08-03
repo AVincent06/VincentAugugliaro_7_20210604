@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { Profile, Profile_private } from 'src/app/models/profile.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
+import { AlertComponent } from '../shared/dialog/alert/alert.component';
 import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmation.component';
 
 @Component({
@@ -101,7 +101,17 @@ export class ProfileComponent implements OnInit {
       photo: this.profile.photo,
       file: this.myFile
     }).subscribe(() => {
-      console.log('update effectué'); 
+      const dialogRef = this.dialog.open(
+        AlertComponent, {
+          data: {
+            message: 'Mise à jour prise en compte',
+            buttonText: {
+              cancel: 'Fermer'
+            }
+          }
+        }
+      );
+      console.log('Mise à jour effectuée'); 
     });
   }
 }

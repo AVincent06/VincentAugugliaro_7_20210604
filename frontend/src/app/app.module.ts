@@ -51,6 +51,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ConfirmationComponent } from './layout/shared/dialog/confirmation/confirmation.component';
+import { AlertComponent } from './layout/shared/dialog/alert/alert.component';
 
 const appRoutes: Routes = [
   { path: 'contacts', component: ContactsComponent, canActivate: [AuthGuardService] },
@@ -84,6 +85,7 @@ const appRoutes: Routes = [
     SignupComponent,
     SubmitComponent,
     ConfirmationComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserAnimationsModule,
