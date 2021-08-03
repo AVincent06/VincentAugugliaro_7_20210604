@@ -31,11 +31,11 @@ export class SignupComponent implements OnInit {
 
   initForm(): void {
     this.signUpForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      firstname: [''],  // [Validators.required, Validators.pattern('^[a-zA-Z]+$')]
+      name: [''], // [Validators.required, Validators.pattern('^[a-zA-Z]+$')]
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]{12,}')]],
-      passwordcheck: ['', [Validators.required, Validators.pattern('[0-9a-zA-Z]{12,}')]]
+      password: ['',[Validators.required, Validators.minLength(12)]],
+      passwordcheck: ['',[Validators.required, Validators.minLength(12)]]
     })
   }
 
