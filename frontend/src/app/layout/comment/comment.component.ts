@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Comment_get } from 'src/app/models/comment.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -45,7 +45,7 @@ export class CommentComponent implements OnInit {
 
   initForm(): void {
     this.commentForm = this.formBuilder.group({
-      comment: ['']
+      comment: ['',[Validators.required, Validators.maxLength(255)]]
     })
   }
 
