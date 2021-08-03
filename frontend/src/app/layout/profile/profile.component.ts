@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Profile, Profile_private } from 'src/app/models/profile.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -35,8 +36,10 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
-  ) { }
+    private router: Router,
+    private titleService: Title) {
+      this.titleService.setTitle('Groupomania - Votre profil');
+    }
 
   ngOnInit(): void {
     this.profileService.getSingleProfile(this.authService.getProfileId()).subscribe(data => {
@@ -105,9 +108,7 @@ export class ProfileComponent implements OnInit {
         AlertComponent, {
           data: {
             message: 'Mise à jour prise en compte',
-            buttonText: {
-              cancel: 'Fermer'
-            }
+            buttonText: { cancel: 'Fermer' }
           }
         }
       );

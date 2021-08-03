@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -22,8 +23,10 @@ export class SubmitComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private messagesService: MessageService,
               private router: Router, 
-              private authService: AuthService) { }
-
+              private authService: AuthService,
+              private titleService: Title) {
+    this.titleService.setTitle('Groupomania - Publiez votre message!');
+  }
   ngOnInit(): void {
     this.initForm();
   }

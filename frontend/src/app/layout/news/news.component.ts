@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { FeelingService } from 'src/app/services/feeling.service';
@@ -23,8 +24,10 @@ export class NewsComponent implements OnInit {
     private dialog: MatDialog,
     private feelingService : FeelingService,
     private messagesService: MessageService, 
-    private router: Router
-  ) { }
+    private router: Router,
+    private titleService: Title) {
+    this.titleService.setTitle('Groupomania - Actualités');
+  }
 
   ngOnInit(): void {
     this.profileId = this.authService.getProfileId();
