@@ -38,6 +38,11 @@ exports.findNewsByAmount = async (req, res) => {
 
     // étape 1 : récupération de la partie "Messages" des News
     await Message.findAll({
+        where: {
+            UserId: {
+                [Op.not]: null  // Pour éviter une erreur serveur si l'auteur a supprimé son compte
+            }
+        },
         order: Sequelize.literal('createdAt DESC'),
         limit: nb
     })
@@ -69,6 +74,9 @@ exports.findNewsByAmount = async (req, res) => {
                     where: {
                         MessageId: {
                             [Op.eq]: receptacles[i].id
+                        },
+                        UserId: {
+                            [Op.not]: null  // Pour éviter de compter le commentaire si l'auteur a supprimé son compte
                         }
                     }
                 });
@@ -84,7 +92,10 @@ exports.findNewsByAmount = async (req, res) => {
                         [Op.and]: [
                             { MessageId: receptacles[i].id }, 
                             { CategoryId: LIKE }
-                        ]
+                        ],
+                        UserId: {
+                            [Op.not]: null  // Pour éviter de compter le commentaire si l'auteur a supprimé son compte
+                        }
                     }
                 })
                     .then(data => {
@@ -108,7 +119,10 @@ exports.findNewsByAmount = async (req, res) => {
                         [Op.and]: [
                             { MessageId: receptacles[i].id }, 
                             { CategoryId: DISLIKE }
-                        ]
+                        ],
+                        UserId: {
+                            [Op.not]: null  // Pour éviter de compter le commentaire si l'auteur a supprimé son compte
+                        }
                     }
                 })
                     .then(data => {

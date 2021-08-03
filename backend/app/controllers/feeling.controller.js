@@ -100,7 +100,10 @@ exports.findAllLike = async (req, res) => {
             [Op.and]: [
                 { MessageId: id }, 
                 { CategoryId: LIKE }
-            ]
+            ],
+            UserId: {
+                [Op.not]: null  // Pour éviter de compter les likes dont l'auteur a supprimé son compte
+            }
         }
     })
         .then(data => {
@@ -122,7 +125,10 @@ exports.findAllDislike = async (req, res) => {
             [Op.and]: [
                 { MessageId: id }, 
                 { CategoryId: DISLIKE }
-            ]
+            ],
+            UserId: {
+                [Op.not]: null  // Pour éviter de compter les likes dont l'auteur a supprimé son compte
+            }
         }
     })
         .then(data => {

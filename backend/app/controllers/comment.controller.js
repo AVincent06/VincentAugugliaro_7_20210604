@@ -51,6 +51,9 @@ exports.findAllByMessage = async (req, res) => {
         where: {
             MessageId: {
                 [Op.eq]: messageId
+            },
+            UserId: {
+                [Op.not]: null  // Pour éviter les commentaires dont l'auteur a supprimé son compte
             }
         }
     })
