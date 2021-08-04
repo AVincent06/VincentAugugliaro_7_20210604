@@ -28,7 +28,7 @@
                     </ng-template>
                     <div>
                         <input type="file" accept="image/*" #photoFile formControlName="photo" (change)="onChange($event)">
-                        <button type="button" color="primary" (click)="photoFile.click()">Modifier ma photo</button>
+                        <button mat-stroked-button type="button" color="primary" (click)="photoFile.click()">Modifier ma photo</button>
                     </div>
                 </div>
                 <p>
