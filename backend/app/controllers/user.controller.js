@@ -85,7 +85,11 @@ exports.identify = async (req, res) => {
 // récupérer tous les utilisateurs
 exports.findAll = async (req, res) => {
     await User.findAll({
-        attributes: ['id', 'photo', 'name', 'firstname', 'bio']
+        attributes: ['id', 'photo', 'name', 'firstname', 'bio'],
+        order: [
+            ['firstname','ASC'],
+            ['name','ASC']
+        ]
       })
         .then(data => {
             res.status(200).send(data);
