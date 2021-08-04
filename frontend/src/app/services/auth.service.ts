@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   isConnected(): boolean {
-    if(localStorage.getItem('token') !== null) {
+    if(sessionStorage.getItem('token') !== null) {
       this.isLog$.next(true);
       return true;
     }
@@ -37,15 +37,15 @@ export class AuthService {
   }
   
   getIsAdmin(): boolean {
-    return localStorage.getItem('isAdmin') === 'true';
+    return sessionStorage.getItem('isAdmin') === 'true';
   }  
 
   getProfileId(): number {
-    return parseInt(localStorage.getItem('userId')!, 10);
+    return parseInt(sessionStorage.getItem('userId')!, 10);
   }  
 
   getToken(): string {
-    return localStorage.getItem('token')!;
+    return sessionStorage.getItem('token')!;
   }  
 
   signInUser(email: string, password: string): Observable<object> {
@@ -57,17 +57,17 @@ export class AuthService {
   }  
 
   setSession(signInResult: any, _callback: Function) {
-    localStorage.setItem('userId', signInResult.userId);
-    localStorage.setItem('isAdmin', signInResult.isAdmin);
-    localStorage.setItem('token', signInResult.token);
+    sessionStorage.setItem('userId', signInResult.userId);
+    sessionStorage.setItem('isAdmin', signInResult.isAdmin);
+    sessionStorage.setItem('token', signInResult.token);
     this.isLog$.next(true);
     _callback();
   }  
 
   signOutUser(): void {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('token');
     this.isLog$.next(false); 
   }
 
