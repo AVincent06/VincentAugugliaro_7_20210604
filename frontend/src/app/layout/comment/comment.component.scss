@@ -7,6 +7,15 @@
     font-weight: lighter;
 }
 
+#form {
+    display: flex;
+    justify-content: flex-end
+}
+
+mat-form-field {
+    width: 100%;
+}
+
 .option {
     position: absolute;
     right: 0px;
