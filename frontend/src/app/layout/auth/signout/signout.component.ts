@@ -12,7 +12,6 @@ export class SignoutComponent implements OnInit {
     this.titleService.setTitle('Groupomania - A bientôt !');
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

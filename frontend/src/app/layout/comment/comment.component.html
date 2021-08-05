@@ -44,16 +44,16 @@
                       'background-image': 'url(' + comment.photo + ')',
                       'background-size': 'cover'
                   }">
-              </div>
-              <ng-template #elseBlock>
-                <div 
-                    mat-card-avatar 
-                    [ngStyle]="{
-                        'background-image': 'url(../../assets/images/avatar.png)',
-                        'background-size': 'cover'
-                    }">
-                </div>
-              </ng-template>
+        </div>
+        <ng-template #elseBlock>
+            <div 
+                mat-card-avatar 
+                [ngStyle]="{
+                    'background-image': 'url(../../assets/images/avatar.png)',
+                    'background-size': 'cover'
+                }">
+            </div>
+        </ng-template>
         <p>
             <span class="user">{{comment.firstname}} {{comment.name}}</span>
             <span class="date">&nbsp;&nbsp;{{comment.createdAt | date:'dd-MM-yy HH:mm'}}</span><br>

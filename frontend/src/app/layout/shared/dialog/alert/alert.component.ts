@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })
+
 export class AlertComponent implements OnInit {
 
   message: string = '';
@@ -27,6 +28,11 @@ export class AlertComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Manages closure.
+  */
   onConfirm(): void {
     this.dialogRef.close(true);
   }

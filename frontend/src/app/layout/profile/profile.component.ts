@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Profile, Profile_private } from 'src/app/models/profile.model';
+import { Profile } from 'src/app/models/profile.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AlertComponent } from '../shared/dialog/alert/alert.component';
@@ -14,6 +14,7 @@ import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmatio
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
+
 export class ProfileComponent implements OnInit {
 
   profileForm = new FormGroup({
@@ -48,6 +49,11 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Initialization of the form.
+  */
   initForm(): void {
     this.profileForm = this.formBuilder.group({
       photo: [],
@@ -61,7 +67,14 @@ export class ProfileComponent implements OnInit {
     this.selectedFile = this.profile.photo;
   }
 
-  onChange(event: Event) {
+  /** 
+  * Very important small function that allows the preview of the selected image file 
+  * but also prepares the upload to the backend server. (Adapted from project 6 with 
+  * some modifications for compatibility with Angular 12).
+  * @summary Manages the selection of the image file.
+  * @param {Event} event - Get the event from the frontend.
+  */
+  onChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files![0];
     this.myFile = file;
     this.profileForm.get('photo')!.setValue(file, {emitModelToViewChange: false});
@@ -73,6 +86,9 @@ export class ProfileComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  /** 
+  * Deleting the present user with a confirmation window.
+  */  
   onDelete(): void {
     const dialogRef = this.dialog.open(ConfirmationComponent,{
       data:{
@@ -95,7 +111,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  /** 
+  * Validation of the form.
+  */
+  onSubmit(): void {
     this.profileService.setSingleProfile(this.authService.getProfileId(), {
       firstname: this.profileForm.get('firstname')!.value,
       name: this.profileForm.get('name')!.value,
@@ -115,4 +134,5 @@ export class ProfileComponent implements OnInit {
       console.log('Mise à jour effectuée'); 
     });
   }
+  
 }

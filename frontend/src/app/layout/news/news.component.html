@@ -1,6 +1,8 @@
 <h2>Dernières actualités</h2>
 <div *ngFor="let message of messages; let i = index" (click)="onViewMessage(i)">
   <mat-card class="card">
+
+    <!-- Option édition et d'effacement du message, sous condition -->
     <div class="option">
       <button 
         *ngIf="(message.UserId === profileId) || isAdmin"
@@ -34,15 +36,20 @@
             }">
         </div>
       </ng-template>
+
       <mat-card-title>{{ message.firstname }} {{ message.name }}</mat-card-title>
       <mat-card-subtitle>{{ message.createdAt | date: 'short'}}</mat-card-subtitle>
+
     </mat-card-header>
+
     <img *ngIf="message.picture !== 'aucune'" mat-card-image [src]="message.picture"/>
+
     <mat-card-content>
       <p>
         {{message.article}}
       </p>
     </mat-card-content>
+
     <mat-card-actions>
       <div class="spacer">
         <button 
@@ -73,15 +80,15 @@
           </button>
 
         </span>
-    </div>
+      </div>
     
-    <app-comment 
-      id="comments-{{i}}"
-      [index]="i"
-      [messageId]="message.id"
-      (incNbComments)="incMessageComments($event)"
-      (decNbComments)="decMessageComments($event)">
-    </app-comment>
+      <app-comment 
+        id="comments-{{i}}"
+        [index]="i"
+        [messageId]="message.id"
+        (incNbComments)="incMessageComments($event)"
+        (decNbComments)="decMessageComments($event)">
+      </app-comment>
 
     </mat-card-actions>
   </mat-card>

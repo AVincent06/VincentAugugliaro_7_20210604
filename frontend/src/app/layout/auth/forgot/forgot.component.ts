@@ -12,7 +12,6 @@ export class ForgotComponent implements OnInit {
     this.titleService.setTitle('Groupomania - Problème de mot de passe ?');
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

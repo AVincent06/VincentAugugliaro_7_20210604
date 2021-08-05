@@ -38,12 +38,10 @@ mat-toolbar {
   z-index: 1;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
-.sidenav-container {
-  height: 100%;
+#logo {
+  margin-top: 10px;
+  max-height: 120px;
+  width: 50%;
 }
 
 .sidenav {
@@ -54,6 +52,14 @@ mat-toolbar {
   background: inherit;
 }
 
+.sidenav-container {
+  height: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 .sticky-top {
   position: -webkit-sticky;
   position: sticky;
@@ -61,8 +67,3 @@ mat-toolbar {
   z-index: 100;
 }
 
-#logo {
-  margin-top: 10px;
-  max-height: 120px;
-  width: 50%;
-}

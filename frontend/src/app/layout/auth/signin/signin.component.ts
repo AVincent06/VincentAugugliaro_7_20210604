@@ -30,6 +30,11 @@ export class SigninComponent implements OnInit {
     this.initForm();
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Initialization of the form.
+  */
   initForm(): void {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -37,7 +42,10 @@ export class SigninComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+  /** 
+  * Validation of the form.
+  */
+  onSubmit(): void {
     const email = this.signInForm.get('email')!.value;
     const password = this.signInForm.get('password')!.value;
     

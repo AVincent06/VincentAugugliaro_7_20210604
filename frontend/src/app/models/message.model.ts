@@ -1,4 +1,4 @@
-export class Message {
+export class Message {  // en sursis avant effacement
     picture?: string;
     text?: string;
     update?: string;
