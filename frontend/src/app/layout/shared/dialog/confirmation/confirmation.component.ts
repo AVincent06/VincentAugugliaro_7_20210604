@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss']
 })
+
 export class ConfirmationComponent implements OnInit {
   message: string = "Etes-vous sûr ?";
   confirmButtonText = "Oui";
@@ -23,10 +24,15 @@ export class ConfirmationComponent implements OnInit {
       }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Manages closure.
+  */
   onConfirm(): void {
     this.dialogRef.close(true);
   }
+  
 }

@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
+
 export class SignupComponent implements OnInit {
 
   signUpForm = new FormGroup({  
@@ -33,6 +34,11 @@ export class SignupComponent implements OnInit {
     this.initForm();
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Initialization of the form.
+  */
   initForm(): void {
     this.signUpForm = this.formBuilder.group({
       firstname: [''],  // [Validators.required, Validators.pattern('^[a-zA-Z]+$')]
@@ -43,7 +49,11 @@ export class SignupComponent implements OnInit {
     })
   }
 
-  async onSubmit() {
+  /** 
+  * Validation of the form.
+  * @return {Promise} Consequence of async to respect the order of the function calling process.
+  */
+  async onSubmit(): Promise<void> {
     const firstname = this.signUpForm.get('firstname')!.value;
     const name = this.signUpForm.get('name')!.value;
     const email = this.signUpForm.get('email')!.value;

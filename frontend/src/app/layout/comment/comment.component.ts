@@ -11,6 +11,7 @@ import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmatio
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
+
 export class CommentComponent implements OnInit {
 
   @Input() index!: number;
@@ -43,12 +44,21 @@ export class CommentComponent implements OnInit {
     this.initForm();
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Initialization of the form.
+  */
   initForm(): void {
     this.commentForm = this.formBuilder.group({
       comment: ['',[Validators.required, Validators.maxLength(255)]]
     })
   }
 
+  /** 
+  * Deleting the targeted comment with a confirmation window.
+  * @param {number} id - Primary key of the comment in the Comments table.
+  */
   onDelete(id: number): void {
     const dialogRef = this.dialog.open(ConfirmationComponent,{
       data:{
@@ -72,6 +82,9 @@ export class CommentComponent implements OnInit {
     });  
   }
 
+  /** 
+  * Validation of the form.
+  */
   onSubmit(): void {
     const comment = this.commentForm.get('comment')!.value;
     

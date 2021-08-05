@@ -2,6 +2,7 @@
     <mat-card-header>
         <mat-card-title>Mon profil</mat-card-title>
     </mat-card-header>
+    
     <mat-card-content>
         <form *ngIf="profile != null" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
             <div class="aside">
@@ -110,6 +111,7 @@
         </form>
     </mat-card-content>
 </mat-card>
+
 <div class="footer">
     <app-footer></app-footer>
 </div>

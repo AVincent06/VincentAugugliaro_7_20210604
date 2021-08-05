@@ -5,10 +5,19 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthGuardService implements CanActivate {
 
   constructor(private router: Router, private authService: AuthService) { }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Protects roads from unauthorised access.
+  * @param {ActivatedRouteSnapshot} route - Angular module parameters.
+  * @param {RouterStateSnapshot} state - Angular module parameters.
+  * @return {boolean} Returns true if the user is authenticated.
+  */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     
     // Controle de l'acces

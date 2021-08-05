@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-// import { Subscription } from 'rxjs';
-import { Profile, Profile_public } from 'src/app/models/profile.model';
+import { Profile_public } from 'src/app/models/profile.model';
 import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
@@ -10,6 +9,7 @@ import { ProfileService } from 'src/app/services/profile.service';
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
+
 export class ContactsComponent implements OnInit {
 
   profiles: Profile_public[] = [];
@@ -26,7 +26,13 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  onViewProfile(id: number) {
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * (function to come, pending) Will redirect to a dedicated profile page or to a sub-component.
+  * @param {number} id - Identifies the position of the contact in the display loop.
+  */
+  onViewProfile(id: number): void {
     // this.router.navigate(['/profile', 'view', id]) créer le component de vue unique ou rediriger vers profile?
   }
 

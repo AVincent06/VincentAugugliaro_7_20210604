@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of} from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Message, Message_news, Message_post } from '../models/message.model';
+import { Message_news, Message_post } from '../models/message.model';
 import { AuthService } from './auth.service';
 
 @Injectable({

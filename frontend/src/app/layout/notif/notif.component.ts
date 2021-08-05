@@ -5,11 +5,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './notif.component.html',
   styleUrls: ['./notif.component.scss']
 })
+
 export class NotifComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
+
+  /*--------------------------------------------------------------------*/
 
 }

@@ -27,10 +27,16 @@ export class SubmitComponent implements OnInit {
               private titleService: Title) {
     this.titleService.setTitle('Groupomania - Publiez votre message!');
   }
+
   ngOnInit(): void {
     this.initForm();
   }
 
+  /*--------------------------------------------------------------------*/
+
+  /** 
+  * Initialization of the form.
+  */
   initForm(): void {
     this.editorForm = this.formBuilder.group({
       editor: [''],
@@ -38,6 +44,13 @@ export class SubmitComponent implements OnInit {
     })
   }
 
+  /** 
+  * Very important small function that allows the preview of the selected image file 
+  * but also prepares the upload to the backend server. (Adapted from project 6 with 
+  * some modifications for compatibility with Angular 12).
+  * @summary Manages the selection of the image file.
+  * @param {Event} event - Get the event from the frontend.
+  */
   onChange(event: Event) {
     const file = (event.target as HTMLInputElement).files![0];
     this.myFile = file;
@@ -50,7 +63,10 @@ export class SubmitComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onSubmit() {
+  /** 
+  * Validation of the form.
+  */
+  onSubmit(): void {
     this.messagesService.postMessage({
       file: this.myFile,
       article: this.editorForm.get('editor')!.value,

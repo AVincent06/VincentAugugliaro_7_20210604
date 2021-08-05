@@ -11,6 +11,7 @@
                 formats acceptés : .gif .jpg .jpeg .png .webp
             </mat-card-subtitle>
         </mat-card-header>
+        
         <div class="image">
             <img mat-card-image *ngIf="selectedFile" src="{{selectedFile}}" alt="Image choisi pour le message">
             <input type="file" accept="image/*" #photoFile formControlName="picture" (change)="onChange($event)">

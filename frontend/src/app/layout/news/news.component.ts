@@ -12,6 +12,7 @@ import { ConfirmationComponent } from '../shared/dialog/confirmation/confirmatio
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })
+
 export class NewsComponent implements OnInit {
 
   profileId!: number;
@@ -37,30 +38,40 @@ export class NewsComponent implements OnInit {
       this.messages = data;
     });
   }
-
-  onShow(index: number) {
-    let myElement = document.getElementById("comments-" + index);
-    if(myElement!.style.display === "none") {
-      myElement!.style.display = "block";
-    } else {
-      myElement!.style.display = "none";
-    }
-  }
   
-  onViewMessage(id: number) {
-    // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
-  }
-  
-  incMessageComments(index: number) {
-    this.messages[index].nbComments++;
-  }
+  /*--------------------------------------------------------------------*/
 
-  decMessageComments(index: number) {
+  /** 
+  * Decrements the counter, triggered by an event in the child element of news.
+  * @param {number} index - Indicates the position of the message in the local "messages" array.
+  */
+  decMessageComments(index: number): void {
     this.messages[index].nbComments--;
   }
   
-  /* -----------------en accord avec le BACK à partir d'ici ----------------------------*/
-  
+  /** 
+  * Increments the counter, triggered by an event in the child element of news.
+  * @param {number} index - Indicates the position of the message in the local "messages" array.
+  */
+   incMessageComments(index: number): void {
+    this.messages[index].nbComments++;
+  }
+
+  /** 
+  * Allows to quickly know if the connected user has already "liked" or "disliked" a message.
+  * (replaces the isLikedBy and isDislikedBy functions)
+  * @param {number[]} list - Table of all users who have "like" or all those who have "dislike.
+  * @return {boolean} Returns true if the user is in the array, otherwise returns false.
+  */
+  isOneOfThem(list: number[]): boolean {
+    if( list.find(id => id == this.profileId) ) return true;
+    return false;
+  }
+
+  /** 
+  * Deleting the targeted message with a confirmation window.
+  * @param {number} id - Primary key of the message in the Messages table.
+  */
   onDelete(id: number): void {
     const dialogRef = this.dialog.open(ConfirmationComponent,{
       data:{
@@ -85,14 +96,51 @@ export class NewsComponent implements OnInit {
       }
     });  
   }
-  
-  /* utiliser comme isLikedBy ou isDislikedBy */
-  isOneOfThem(list: number[]): boolean {
-    if( list.find(id => id == this.profileId) ) return true;
-    return false;
-  }
 
-  onLike(index: number) {
+  /** 
+  * Manages the use of the "dislike" button at both UI/UX and database level.
+  * @param {number} index - Represents the display position of the message in the loop.
+  */  
+  onDislike(index: number): void {
+    const element = document.getElementById("dislikes-"+index);
+
+    if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
+
+      // Si le dislike est déjà coché, on le décoche
+      this.feelingService.delDislike(this.messages[index].id).subscribe(() => {
+        for(let i = 0; i < this.messages[index].usersDisliked.length; i++){
+          if(this.messages[index].usersDisliked[i] == this.profileId) {
+            this.messages[index].usersDisliked.splice(i, 1);
+            break;
+          }
+        }
+        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_off_alt'; // mise à jour de l'icone
+
+        // Correction du total des dislikes
+        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
+        element!.innerHTML = this.messages[index].usersDisliked.length;
+      });
+
+    } else {
+
+      // Si le dislike n'est pas coché, on le coche
+      this.feelingService.addDislike(this.messages[index].id).subscribe(() => {
+        this.messages[index].usersDisliked.push(this.profileId);
+        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_alt'; // mise à jour de l'icone
+
+        // Correction du total des dislikes
+        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
+        element!.innerHTML = this.messages[index].usersDisliked.length;
+      });
+
+    }
+  }
+  
+  /** 
+  * Manages the use of the "like" button at both UI/UX and database level.
+  * @param {number} index - Represents the display position of the message in the loop.
+  */ 
+  onLike(index: number): void {
     const element = document.getElementById("likes-"+index);
 
     if( this.isOneOfThem(this.messages[index].usersLiked) ) {
@@ -127,40 +175,25 @@ export class NewsComponent implements OnInit {
     }
   }
 
-  onDislike(index: number) {
-    const element = document.getElementById("dislikes-"+index);
-
-    if( this.isOneOfThem(this.messages[index].usersDisliked) ) {
-
-      // Si le dislike est déjà coché, on le décoche
-      this.feelingService.delDislike(this.messages[index].id).subscribe(() => {
-        for(let i = 0; i < this.messages[index].usersDisliked.length; i++){
-          if(this.messages[index].usersDisliked[i] == this.profileId) {
-            this.messages[index].usersDisliked.splice(i, 1);
-            break;
-          }
-        }
-        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_off_alt'; // mise à jour de l'icone
-
-        // Correction du total des dislikes
-        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
-        element!.innerHTML = this.messages[index].usersDisliked.length;
-      });
-
+  /** 
+  * Manages the condition for displaying the comment block below the relevant message.
+  * @param {number} index - Represents the display position of the comments in the loop.
+  */  
+  onShow(index: number): void {
+    let myElement = document.getElementById("comments-" + index);
+    if(myElement!.style.display === "none") {
+      myElement!.style.display = "block";
     } else {
-
-      // Si le dislike n'est pas coché, on le coche
-      this.feelingService.addDislike(this.messages[index].id).subscribe(() => {
-        this.messages[index].usersDisliked.push(this.profileId);
-        document.getElementById("down-"+index)!.innerHTML = 'thumb_down_alt'; // mise à jour de l'icone
-
-        // Correction du total des dislikes
-        this.messages[index].dislikes = this.messages[index].usersDisliked.length;
-        element!.innerHTML = this.messages[index].usersDisliked.length;
-      });
-
+      myElement!.style.display = "none";
     }
   }
 
-  
+  /** 
+  * (function to come, pending) Will redirect to a dedicated message page or to a sub-component.
+  * @param {number} id - Identifies the position of the message in the display loop.
+  */
+  onViewMessage(id: number) {
+    // this.router.navigate(['/message', 'view', id]) créer le component de vue unique ou rediriger vers message?
+  }
+
 }
