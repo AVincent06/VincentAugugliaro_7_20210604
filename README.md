@@ -1,6 +1,6 @@
-# Project Title
+# VincentAugugliaro_7_20210604
 
-One Paragraph of project description goes here
+Repository for project 7 of the web developer path at OpenClassrooms.
 
 ## Getting Started
 
@@ -8,80 +8,92 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+This project is fullstack oriented, to make it work properly you will need at least :
+- An [Angular CLI: 12.0.3](https://www.npmjs.com/package/@angular/cli/v/12.0.3) server for the frontend.
+- A [Node: 14.16.1](https://nodejs.org/fr/download/releases/) server for the backend
+- A [MySQL Community Server version: 8.0.24](https://dev.mysql.com/downloads/mysql/) - GPL
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+#### Frontend
 
-Say what the step will be
-
+From the root of the "frontend" folder that you have cloned on your machine, do :
 ```
-Give the example
+npm install
 ```
-
-And repeat
-
+Create your own ``environment.ts`` file from the ``environment.ts.example`` file found at ``.\src\environments\``
 ```
-until finished
+export const environment = {
+  production: false,
+  URL_BACKEND: 'yourURLwithPortNumber'
+};
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+Then start the frontend server :
 ```
-Give an example
+ng serve -o
 ```
 
-### And coding style tests
+#### Backend
 
-Explain what these tests test and why
-
+From the root of the "backend" folder that you have cloned on your machine, do :
 ```
-Give an example
+npm install
 ```
+Create your own ``.env`` file from the ``.env.example`` file ,from the root of the "backend" folder, to set up your environment variables. Follow the template on the right :
+```
+# App
+APP_HOST=yourServerAdressHere
+APP_PORT=yourPortNumberHere
+APP_FORCE=trueORfalse
 
-## Deployment
+# DB
+DB_HOST=yourServerAdressHere
+DB_NAME=yourDataBaseNameHere
+DB_USER=yourUserNameHere
+DB_PASSWORD=yourPasswordHere
 
-Add additional notes about how to deploy this on a live system
+# Token
+TOKEN_KEY=yourSecretKey
+TOKEN_DURATION=yourTokenTimeLife
+
+# Admin
+ADMIN_FIRSTNAME=yourFirstname
+ADMIN_NAME=yourName
+ADMIN_EMAIL=yourEmail
+ADMIN_PASSWORD=yourPassword
+
+# Frontend
+FRONT_HOST=yourFrontendServerAdressHere
+FRONT_PORT=yourFrontendPortNumberHere
+```
+**Please note**: ``ADMIN_PASSWORD`` must be at least 12 characters long, 1 lower case, 1 upper case and 1 number. ``ADMIN_EMAIL`` must be an email with a valid format.
+
+Then start the backend server :
+```
+node server.js
+```
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+* [Angular](https://angular.io/) - The modern web developer's platform
+* [Angular Material](https://material.angular.io/) - Material Design components for Angular
+* [NodeJS](https://nodejs.org/en/) - a JavaScript runtime
+* [Express](https://www.npmjs.com/package/express) - a minimal and flexible Node.js web application framework
+* [Sequelize](https://sequelize.org/) - a promise-based Node.js ORM
+* [MySQL](https://dev.mysql.com/downloads/mysql/) - a relational database management system
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+I use [GitHub](https://github.com/) for versioning. For the versions available, see my [repository](https://github.com/AVincent06/VincentAugugliaro_7_20210604). 
 
-## Authors
+## Author
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Vincent Augugliaro** - *Initial work* - [My GitHub Profile](https://github.com/AVincent06)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GPL-3.0 License - see the [LICENSE](https://github.com/AVincent06/VincentAugugliaro_7_20210604/blob/main/LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Thanks to my mentor Guillaume Gasperi for his support.

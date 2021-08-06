@@ -97,5 +97,4 @@
 /backend/Thumbs.db
 
 # Confidential
-/backend/app/images
 /backend/.env

@@ -12,26 +12,6 @@ export class MessageService {
 
   constructor( private http: HttpClient, private authService: AuthService ) {}
 
-  saveMessages(): void {
-    // sauvegarde de this.Messages dans la BDD via l'API
-  }
-
-  saveSingleMessage(messageId: number): void {
-    // sauvegarde de this.messages[messageId] dans la BDD via l'API
-  }
-
-  getMessages(): void {
-    // chargement des données dans this.messages via l'API
-    // SELECT Message.*, Profile.firstname, Profile.name, Profile.photo 
-    // FROM Message INNER JOIN Profile ON Message.profile_id = Profile.id
-    // WHERE Message.create IN(dans les 10 derniers);
-  }
-
-  getSingleMessage(id: number){
-    // chargement des données du message ciblé via l'API
-  }
-
-  /*---------------------- En accord avec le backend à partir de là ---------------------------*/
   postMessage(message: Message_post): Observable<any> {
 
     // Adoption d'un FormData pour résoudre un problème d'upload de fichier
