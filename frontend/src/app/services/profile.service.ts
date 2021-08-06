@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Profile, Profile_private, Profile_public, Profile_public2 } from '../models/profile.model';
+import { Profile_private, Profile_public, Profile_public2 } from '../models/profile.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,21 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class ProfileService {
 
-  profiles: Profile[] = [];
-  profilesSubject = new Subject<Profile[]>();
-
-  profile!: Profile;
-  profileSubject = new Subject<Profile>();
-
   constructor( private http: HttpClient, private authService: AuthService ) { }
-
-  emitProfiles(): void {
-    this.profilesSubject.next(this.profiles); // en attendant le back avec le retour de l api
-  }
-
-  emitSingleProfile(): void {
-    this.profileSubject.next(this.profile); // en attendant le back avec le retour de l api
-  }
 
   getProfiles(): Observable<Profile_public[]> {
     return this.http.get<Profile_public[]>(
